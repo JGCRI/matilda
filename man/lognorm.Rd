@@ -12,7 +12,7 @@ lognorm(m, sd)
 \item{sd}{standard deviation}
 }
 \value{
-mean and standard deviation of normal distribution
+mean and standard deviation parameters that can be used for appropriate calculation of a log normal distribution for random draws.
 }
 \description{
 Log norm calc

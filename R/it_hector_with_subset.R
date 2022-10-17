@@ -1,10 +1,9 @@
-# Log norm function will be need to calc true log norm for Q10
 #' Log norm calc
 #'
 #' @param m mean
 #' @param sd standard deviation
 #'
-#' @return mean and standard deviation of normal distribution
+#' @return Mean and standard deviation parameters that can be used for appropriate calculation of a log normal distribution for random draws.
 #' @export
 #'
 #' @examples
@@ -12,6 +11,22 @@ lognorm <- function(m, sd){
   mn <- log(m^2 / sqrt(sd^2 + m^2))
   stdev <- sqrt(log(1 + (sd^2 / m^2)))
   v <- c(mn, stdev)
+}
+
+#' Metric calc from single Hector Run
+#'
+#' @param df_1run A data frame result from a single Hector run.
+#' @param op An operation to apply to data (e.g. mean, median, max, min, etc.).
+#' @param var A variable name.
+#' @param years A year range.
+#'
+#' @return A numeric value calculated from the operation for each variable in the year range.
+#' @export
+#'
+#' @examples
+metric_calc_1run <- function(df_1run, op, var, years){
+  df_1run <- subset(df_1run, variable == var & year %in% years)
+  op(df_1run$value)
 }
 
 
