@@ -62,19 +62,19 @@ results <- iterative_hector(ssp245,
 # View results 
 head(results)
 #>              scenario year   variable     value units      beta      q10
-#> 1 Unnamed Hector core 2000 global_tas 0.6889700  degC 0.4877002 1.271634
-#> 2 Unnamed Hector core 2001 global_tas 0.7184215  degC 0.4877002 1.271634
-#> 3 Unnamed Hector core 2002 global_tas 0.7415424  degC 0.4877002 1.271634
-#> 4 Unnamed Hector core 2003 global_tas 0.7600808  degC 0.4877002 1.271634
-#> 5 Unnamed Hector core 2004 global_tas 0.7806401  degC 0.4877002 1.271634
-#> 6 Unnamed Hector core 2005 global_tas 0.7977245  degC 0.4877002 1.271634
-#>   npp_flux aero_scale   metric run_number
-#> 1 57.73158  0.6627465 1.675901          1
-#> 2 57.73158  0.6627465 1.675901          1
-#> 3 57.73158  0.6627465 1.675901          1
-#> 4 57.73158  0.6627465 1.675901          1
-#> 5 57.73158  0.6627465 1.675901          1
-#> 6 57.73158  0.6627465 1.675901          1
+#> 1 Unnamed Hector core 2000 global_tas 0.4067987  degC 0.6459486 1.476804
+#> 2 Unnamed Hector core 2001 global_tas 0.4387894  degC 0.6459486 1.476804
+#> 3 Unnamed Hector core 2002 global_tas 0.4606619  degC 0.6459486 1.476804
+#> 4 Unnamed Hector core 2003 global_tas 0.4767116  degC 0.6459486 1.476804
+#> 5 Unnamed Hector core 2004 global_tas 0.4953987  degC 0.6459486 1.476804
+#> 6 Unnamed Hector core 2005 global_tas 0.5099142  degC 0.6459486 1.476804
+#>   npp_flux aero_scale  metric run_number
+#> 1 41.91971   1.081534 1.46416          1
+#> 2 41.91971   1.081534 1.46416          1
+#> 3 41.91971   1.081534 1.46416          1
+#> 4 41.91971   1.081534 1.46416          1
+#> 5 41.91971   1.081534 1.46416          1
+#> 6 41.91971   1.081534 1.46416          1
 ```
 
 The result of `iterative_hector` is a data frame filtered to only
