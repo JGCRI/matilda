@@ -16,8 +16,9 @@ metric_calc_1run(df_1run, op, var, years)
 \item{years}{A year range.}
 }
 \value{
-A numeric value calculated from the operation for each variable in the year range.
+A numeric value calculated from the operation for each variable in the
+year range.
 }
 \description{
-Metric calc from single Hector Run
+Function for calculating a variable metric from Hector output data.
 }

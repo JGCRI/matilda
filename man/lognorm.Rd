@@ -2,7 +2,7 @@
 % Please edit documentation in R/it_hector_with_subset.R
 \name{lognorm}
 \alias{lognorm}
-\title{Log norm calc}
+\title{Log normal parameterization}
 \usage{
 lognorm(m, sd)
 }
@@ -12,8 +12,11 @@ lognorm(m, sd)
 \item{sd}{standard deviation}
 }
 \value{
-mean and standard deviation parameters that can be used for appropriate calculation of a log normal distribution for random draws.
+Mean and standard deviation parameters that can be used for appropriate
+calculation of a log normal distribution for random draws.
 }
 \description{
-Log norm calc
+Function used to supply proper values to rlnorm() in order to produce
+a log-normal distribution when arithmetic mean and standard deviation of a parameter are
+supplied.
 }

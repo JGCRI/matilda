@@ -1,54 +1,67 @@
-#' Log norm calc
+#' Log normal parameterization
+#'
+#' @description Function used to supply proper values to rlnorm() in order to produce
+#' a log-normal distribution when arithmetic mean and standard deviation of a parameter are
+#' supplied.
 #'
 #' @param m mean
 #' @param sd standard deviation
 #'
-#' @return Mean and standard deviation parameters that can be used for appropriate calculation of a log normal distribution for random draws.
+#' @return Mean and standard deviation parameters that can be used for appropriate
+#' calculation of a log normal distribution for random draws.
 #' @export
 #'
 #' @examples
+
 lognorm <- function(m, sd){
+  # re-parameterization of supplied mean value
   mn <- log(m^2 / sqrt(sd^2 + m^2))
+  # re-parameterization of supplied sd value
   stdev <- sqrt(log(1 + (sd^2 / m^2)))
+  # stores new value in lst - when pushed to rlnorm(), will provide normal distribution
+  # of arithmetic mean (m) and standard deviation (sd)
   v <- c(mn, stdev)
 }
 
 #' Metric calc from single Hector Run
+#'
+#' @description Function for calculating a variable metric from Hector output data.
 #'
 #' @param df_1run A data frame result from a single Hector run.
 #' @param op An operation to apply to data (e.g. mean, median, max, min, etc.).
 #' @param var A variable name.
 #' @param years A year range.
 #'
-#' @return A numeric value calculated from the operation for each variable in the year range.
+#' @return A numeric value calculated from the operation for each variable in the
+#' year range.
 #' @export
 #'
 #' @examples
+
 metric_calc_1run <- function(df_1run, op, var, years){
+  # subsets single hector run to only include variables and years of interest
   df_1run <- subset(df_1run, variable == var & year %in% years)
+  # applies operation to the variable values in the Hector data frame
   op(df_1run$value)
 }
 
-
-#### Building function that will run hector for user defined run iterations ####
-
-# The idea is to include this function in the run_ensemble() function which will accept list of scenarios
-
-# Function produces runs for Hector with some param uncertainty when user provides a core(s) to initialize the model.
-#
-# This function is an update to previous version and includes the ability to specify metrics, vars, and years of
-# interest for the user - previous version can be viewed in testing_functionality_hector_data_piecewise.R
-#
-# Updates to this function version uses metric_calc_1run() to subset the resulting df to include only the information of most interest to the user.
-# The benefit of this is the preservation of memory by reducing the output (example, reducing from ~24k records to ~2k)
-#
-# Finally, the function gives the user the following capabilities:
-# 1) freedom to indicate how many hector runs they want to complete.
-# 2) will combine a list of runs into one df (useful for use with many scenarios).
-# 3) will add run numbers column to the final df.
-# Having run_numbers will make the result compatible with the metric_calc_bin() function without extra steps outside the function.
-
-it_hector_with_subset <- function(core, op, var, years, runs = 20) {
+#' Iterative Hector Runs
+#'
+#' @description Runs Hector in an iterative process with parameter uncertainty.
+#'
+#' @param core A core object to initiate Hector runs.
+#' @param op An operation to be applied to Hector data (e.g. mean, median, max, min).
+#' @param var A variable name.
+#' @param years A year range.
+#' @param runs A numeric value indicating the number of Hector runs to complete.
+#'
+#' @return A data frame with added columns indicating parameter values used for
+#' each Hector run, metric value for each Hector run, and a run_number from one
+#' to the total number of Hector runs completed.
+#' @export
+#'
+#' @examples
+iterative_hector <- function(core, op, var, years, runs = 20) {
 
   # where store results?
   result_list <- list()
@@ -84,11 +97,11 @@ it_hector_with_subset <- function(core, op, var, years, runs = 20) {
     # add columns for new information:
     # calculated metric values
     # param values for model
-    dat$metric <- metric # Adds col name for the metric calculated
     dat$beta <- beta # Adds col name to the results for each param
     dat$q10 <- q10
     dat$npp_flux <- npp_flux0
     dat$aero_scale <- aero_scale
+    dat$metric <- metric # Adds col name for the metric calculated
 
     # stores resulting dfs (dat) from each run in result_list()
     result_list[[i]] <- dat
