@@ -11,7 +11,6 @@ ssp245 <- hector::newcore(ini_file)
 
 # Run iterative_hector
 result <- iterative_hector(ssp245,
-                           op = median,
                            var = "global_tas",
                            years = 2000:2100,
                            runs = 10)

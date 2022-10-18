@@ -50,7 +50,6 @@ metric_calc_1run <- function(df_1run, op, var, years){
 #' @description Runs Hector in an iterative process with parameter uncertainty.
 #'
 #' @param core A core object to initiate Hector runs.
-#' @param op An operation to be applied to Hector data (e.g. mean, median, max, min).
 #' @param var A variable name.
 #' @param years A year range.
 #' @param runs A numeric value indicating the number of Hector runs to complete.
@@ -61,9 +60,9 @@ metric_calc_1run <- function(df_1run, op, var, years){
 #' @export
 #'
 #' @examples
-iterative_hector <- function(core, op, var, years, runs = 20) {
+iterative_hector <- function(core, var, years, runs = 20) {
 
-  # where store results?
+  # store results
   result_list <- list()
 
   # set number of model iterations
@@ -91,9 +90,6 @@ iterative_hector <- function(core, op, var, years, runs = 20) {
     # Stores in object 'dat'
     dat <- fetchvars(core = core, dates = years, vars = var)
 
-    # subset model results based on function arguments provided by user
-    metric <- metric_calc_1run(dat, op, var, years)
-
     # add columns for new information:
     # calculated metric values
     # param values for model
@@ -101,7 +97,6 @@ iterative_hector <- function(core, op, var, years, runs = 20) {
     dat$q10 <- q10
     dat$npp_flux <- npp_flux0
     dat$aero_scale <- aero_scale
-    dat$metric <- metric # Adds col name for the metric calculated
 
     # stores resulting dfs (dat) from each run in result_list()
     result_list[[i]] <- dat
