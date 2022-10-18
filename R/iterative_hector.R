@@ -9,7 +9,7 @@
 #'
 #' @return Mean and standard deviation parameters that can be used for appropriate
 #' calculation of a log normal distribution for random draws.
-#' @export
+#'
 #'
 #' @examples
 
@@ -54,7 +54,7 @@ metric_calc_1run <- function(df_1run, op, var, years){
 #' @param var A variable name.
 #' @param years A year range.
 #' @param runs A numeric value indicating the number of Hector runs to complete.
-#'
+#' @import hector
 #' @return A data frame with added columns indicating parameter values used for
 #' each Hector run, metric value for each Hector run, and a run_number from one
 #' to the total number of Hector runs completed.
