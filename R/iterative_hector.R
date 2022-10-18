@@ -111,6 +111,6 @@ iterative_hector <- function(core, var, years, runs = 20) {
   # adds run number column (will be needed for probabilistic functions)
   df$run_number <- run_number
 
-  # what return?
+  # what to return?
   return(df)
 }

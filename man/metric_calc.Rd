@@ -4,20 +4,21 @@
 \alias{metric_calc}
 \title{Metric Calculation}
 \usage{
-metric_calc(result, op, var, years)
+metric_calc(x, op, var, years)
 }
 \arguments{
-\item{result}{A data frame object from `iterative_hector` output}
+\item{x}{A data frame object from iterative_hector() output.}
 
 \item{op}{An operation to be applied to the climatic variable values (e.g.,
-mean, median, max, min)}
+mean, median, max, min).}
 
-\item{var}{A character string of the variable name to apply the operation.}
+\item{var}{A character string indicating which variable to apply the operation.}
 
 \item{years}{A year range.}
 }
 \value{
-A table with a metric calculation for each Hector run.
+A data frame with columns for run_number, variable, and a metric
+calculation for each Hector run.
 }
 \description{
 A function that accepts a data frame result from an iterative Hector
