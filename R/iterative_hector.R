@@ -20,7 +20,7 @@ lognorm <- function(m, sd){
   stdev <- sqrt(log(1 + (sd^2 / m^2)))
   # stores new value in lst - when pushed to rlnorm(), will provide normal distribution
   # of arithmetic mean (m) and standard deviation (sd)
-  v <- c(mn, stdev)
+  c(mn, stdev)
 }
 
 #' Metric calc from single Hector Run
