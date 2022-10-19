@@ -40,14 +40,12 @@ metric_calc <- function(x, op, var, years) {
 
   # producing run numbers and variable names
   run_number <- rep(c(1:nrow(df)))
-  variable <- rep(c(var), each = nrow(df))
 
-  # Adding cols for run_number and variable
-  df$variable <- variable
+  # Adding cols for run_number
   df$run_number <- run_number
 
   # Ordering columns
-  df <- df[,c(3, 2, 1)]
+  df <- df[,c(2, 1)]
 
   # output
   return(df)
