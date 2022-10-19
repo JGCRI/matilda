@@ -54,9 +54,5 @@ metric_calc <- function(x, op, var, years) {
 
 
 ## Note
-## I have no idea if the code to produce variable names for the variable column
-## will work if the user attempts to run multiple this code on multiple variables
-## from the iterative_hector output.
-##
-## This will be something I can check on a little later. But will probably be important.
-## It is also probably easy enough to fix.
+## All previous code that addressed adding a column for varible names has been moved to a different 
+## dev branch. The metric_calc version in this branch works only for a single variable.
