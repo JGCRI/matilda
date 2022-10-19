@@ -38,8 +38,9 @@ metric_calc <- function(x, op, var, years) {
   # result as a data frame
   df <- as.data.frame(metric_result)
 
-  # producing run numbers and variable names
-  run_number <- rep(c(1:nrow(df)))
+  # producing run numbers
+  runs <- max(x$run_number)
+  run_number <- rep(c(1:runs))
 
   # Adding cols for run_number
   df$run_number <- run_number
