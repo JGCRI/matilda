@@ -41,9 +41,11 @@ metric_calc <- function(x, op, var, years) {
   # producing run numbers
   runs <- max(x$run_number)
   run_number <- rep(c(1:runs))
+  var_names <- rep(var)
 
   # Adding cols for run_number
   df$run_number <- run_number
+  df$variable <- var_names
 
   # Ordering columns
   df <- df[,c(2, 1)]
@@ -54,5 +56,5 @@ metric_calc <- function(x, op, var, years) {
 
 
 ## Note
-## All previous code that addressed adding a column for varible names has been moved to a different 
+## All previous code that addressed adding a column for varible names has been moved to a different
 ## dev branch. The metric_calc version in this branch works only for a single variable.
