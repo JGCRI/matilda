@@ -48,7 +48,7 @@ metric_calc <- function(x, op, var, years) {
   df$variable <- var_names
 
   # Ordering columns
-  df <- df[,c(2, 1)]
+  df <- df[,c(2, 3, 1)]
 
   # output
   return(df)
