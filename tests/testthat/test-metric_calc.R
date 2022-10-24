@@ -16,6 +16,16 @@ test_that("metric_calc result is df", {
 
 })
 
+test_that("metric_calc results has three columns", {
+  r <- metric_calc(x,
+                   mean,
+                   "global_tas",
+                   2000:2100)
+
+  # output has three columns
+  expect_equal(ncol(r), 3)
+})
+
 test_that("metric_calc result has correct data structure", {
   r <- metric_calc(x,
                    mean,
