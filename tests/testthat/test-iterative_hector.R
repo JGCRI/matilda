@@ -1,3 +1,4 @@
+# lognorm tests
 test_that("lognorm returns two numeric values", {
   x <- lognorm(1, 0.1)
 
@@ -13,6 +14,7 @@ r <- iterative_hector(ssp245,
                       2000:2100,
                       10)
 
+# metric_calc_1run tests
 test_that("metric_calc_1run returns a single numeric value", {
   x <- metric_calc_1run(r,
                         mean,
@@ -26,4 +28,3 @@ test_that("metric_calc_1run returns a single numeric value", {
   expect_true(is.numeric(x))
 
 })
-
