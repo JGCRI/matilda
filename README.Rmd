@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 # hectorpractice
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/ecolo-joe/hectorpractice/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ecolo-joe/hectorpractice/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The `hectorpractice` package can be used to run Hector in an interative process with the capability of computing probabilistic outcomes of climatic variables in provided year ranges for different climate impact scenarios. 
@@ -48,7 +49,7 @@ ssp245 <- hector::newcore(ini_file)
 
 Once a core is constructed it can be passed to the `iterative_hector` function. The user will also need to supply other required arguments.
 
-```{r}
+```{r, eval=FALSE}
 # Identify climatic variables and years of interest
 variable <- c("global_tas")
 year_range <- 2000:2100
