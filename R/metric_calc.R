@@ -15,7 +15,7 @@
 #' @description A function that accepts a data frame result from an iterative Hector
 #' run and calculates a specified metric for each run.
 #'
-#' @param x A data frame object from iterative_hector() output.
+#' @param x A data frame object from \code{\link{iterative_hector}} output.
 #' @param op An operation to be applied to the climatic variable values (e.g.,
 #' mean, median, max, min).
 #' @param var A character string indicating which variable to apply the operation.
