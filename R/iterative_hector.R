@@ -11,7 +11,6 @@
 #' calculation of a log normal distribution for random draws.
 #'
 #'
-#' @examples
 
 lognorm <- function(m, sd){
   # re-parameterization of supplied mean value
@@ -36,11 +35,10 @@ lognorm <- function(m, sd){
 #' year range.
 #' @export
 #'
-#' @examples
 
 metric_calc_1run <- function(df_1run, op, var, years){
   # subsets single hector run to only include variables and years of interest
-  df_1run <- subset(df_1run, variable == var & year %in% years)
+  df_1run <- subset(df_1run, df_1run$variable == var & df_1run$year %in% years)
   # applies operation to the variable values in the Hector data frame
   op(df_1run$value)
 }
@@ -55,12 +53,13 @@ metric_calc_1run <- function(df_1run, op, var, years){
 #' @param years A year range.
 #' @param runs A numeric value indicating the number of Hector runs to complete.
 #' @import hector
+#' @importFrom stats rnorm rlnorm
 #' @return A data frame with added columns indicating parameter values used for
 #' each Hector run, metric value for each Hector run, and a run_number from one
 #' to the total number of Hector runs completed.
 #' @export
 #'
-#' @examples
+
 iterative_hector <- function(core, op, var, years, runs = 20) {
 
   # where store results?
