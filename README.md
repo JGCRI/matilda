@@ -26,9 +26,9 @@ devtools::install_github("ecolo-joe/hectorpractice")
 ## More information
 
 Eventually will build this section of the readme to include detailed
-information about the package. I think it would be cool to include
-somethings like a table of functions, their capabilities, and whether
-they are user facing or not.
+information about the package. I think it would be cool to include some
+things like a table of function names, function capabilities, and
+whether they are user-facing or not.
 
 It might also be cool to have a figure example of a final results
 similar to what is presented in the Hector readme.
