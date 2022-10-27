@@ -3,13 +3,6 @@
 # split it (by run number), then combine results for output with one metric value
 # for each run completed in iterative_hector.
 
-## See issue from Ben in github repo for suggestions.
-## based on description - look at code for metric_calc_bin to apply split and
-## sapply
-
-## Run ex_iterative_hector.R to get a data output to help with viewing metric_calc
-## functionality.
-
 #' Metric Calculation
 #'
 #' @description A function that accepts a data frame result from an iterative Hector
@@ -27,7 +20,17 @@
 #' @export
 #'
 #' @examples
+
 metric_calc <- function(x, op, var, years) {
+
+  # error code if x is empty
+  if( nrow(x) == 0) stop('x has no data')
+
+  # error code if year arg exceeds years in x
+  if( any(years > max(x$year)) ) stop('year range exceeds years in x')
+
+  # error code if variable arg is not in x
+  if( any(var != x$variable)) stop('variable is not present in x')
 
   # Splitting x (df of hector output) by run number
   result_split <- split(x, x$run_number)
@@ -39,22 +42,15 @@ metric_calc <- function(x, op, var, years) {
   df <- as.data.frame(metric_result)
 
   # producing run numbers
-  runs <- max(x$run_number)
-  run_number <- rep(c(1:runs))
-  var_names <- rep(var)
+  run_number <- 1:nrow(df)
 
   # Adding cols for run_number
   df$run_number <- run_number
-  df$variable <- var_names
 
   # Ordering columns
-  df <- df[,c(2, 3, 1)]
+  df <- df[,c(2, 1)]
 
   # output
   return(df)
 }
 
-
-## Note
-## All previous code that addressed adding a column for varible names has been moved to a different
-## dev branch. The metric_calc version in this branch works only for a single variable.
