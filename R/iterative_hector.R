@@ -14,20 +14,24 @@
 #' @examples
 
 lognorm <- function(m, sd){
+
   # re-parameterization of supplied mean value
   mn <- log(m^2 / sqrt(sd^2 + m^2))
+
   # re-parameterization of supplied sd value
   stdev <- sqrt(log(1 + (sd^2 / m^2)))
-  # stores new value in lst - when pushed to rlnorm(), will provide normal distribution
+
+  # stores new value in list - when pushed to rlnorm(), will provide normal distribution
   # of arithmetic mean (m) and standard deviation (sd)
   c(mn, stdev)
+
 }
 
 #' Metric calc from single Hector Run
 #'
 #' @description Function for calculating a variable metric from Hector output data.
 #'
-#' @param df_1run A data frame result from a single Hector run.
+#' @param x A data frame result from a single Hector run.
 #' @param op An operation to apply to data (e.g. mean, median, max, min, etc.).
 #' @param var A variable name.
 #' @param years A year range.
@@ -38,11 +42,19 @@ lognorm <- function(m, sd){
 #'
 #' @examples
 
-metric_calc_1run <- function(df_1run, op, var, years){
+metric_calc_1run <- function(x, op, var, years){
+
+  if(any (years > max(x$year))) stop('year range must be subset of years in x')
+
   # subsets single hector run to only include variables and years of interest
-  df_1run <- subset(df_1run, variable == var & year %in% years)
+  x <- subset(x, variable == var & year %in% years)
+
   # applies operation to the variable values in the Hector data frame
-  op(df_1run$value)
+  # if the returned value is NA return error
+  # else return metric_value
+  if ( is.na(op(x$value))) stop('variable not present in x, metric_value == NA')
+  else (op(x$value))
+
 }
 
 #' Iterative Hector Runs
