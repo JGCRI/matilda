@@ -3,3 +3,5 @@
 export(iterative_hector)
 export(metric_calc_1run)
 import(hector)
+importFrom(stats,rlnorm)
+importFrom(stats,rnorm)

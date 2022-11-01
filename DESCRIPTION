@@ -1,6 +1,6 @@
 Package: hectorpractice
 Type: Package
-Title: Provides probabilistic framework for hector
+Title: A probabilistic framework for the Hector simple climate model
 Version: 0.1.0
 Author: Joe Brown
 Maintainer: The package maintainer <yourself@somewhere.net>
@@ -9,8 +9,10 @@ Description: More about what it does (maybe more than one line)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: hector
-RoxygenNote: 7.2.1
+Depends: hector
 Suggests: 
     testthat (>= 3.0.0)
+Remotes:
+    github::JGCRI/hector@v3_dev
+RoxygenNote: 7.2.1
 Config/testthat/edition: 3
