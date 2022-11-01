@@ -36,7 +36,6 @@ gen_param <- function(draws){
   # Building list of runs and random parameter draws based on run number
   params <- list(
 
-    "run_number" = 1:draws,
     "BETA" = rnorm(draws, mean = 0.54, sd = 0.1),
     "Q10_RH" = rlnorm(draws,lognorm(2, 1.0) [1], lognorm(2, 1.0) [2]),
     "NPP_FLUX0" = rnorm(draws, mean = 56.2, sd = 14.3),

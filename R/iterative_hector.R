@@ -82,7 +82,7 @@ iterative_hector <- function(core, var, years, params) {
   for(i in colnames(params)) {
 
     # set var
-    setvar(core, NA, do.call(i, list()), params[i][[1]], unit = param_units)
+    setvar(core, NA, do.call(i, list()), params[i][[1]], unit = param_units[i])
 
     # resets model after each run
     reset(core, date = 0)

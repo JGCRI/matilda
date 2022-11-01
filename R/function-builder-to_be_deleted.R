@@ -1,19 +1,15 @@
 ## goal: write a loop that will use values from the generate_params df for
 ## running each of the hector runs.
-## Take a look at Leeyas code -- though I'm not very clear on how it is working.
+## Take a look at Leeyas code. "common_date.R" and "01_generate_data.Rmd"
 ##
-## I think that run_number and all other parameter values should be able to come
-## from the df - but we will fin out
 
-
-# I don't know the purpose of this code - From Leeyas 'common_data.R':
 
 param_name <- c("BETA" = BETA(),
                 "Q_10" = Q10_RH(),
                 "NPP_FLUX0" = NPP_FLUX0(),
                 "AERO_SCALE" = AERO_SCALE())
 
-param_units <- c("BETA" = "(unitless",
+param_units <- c("BETA" = "(unitless)",
                  "Q_10" = "(unitless)",
                  "NPP_FLUX0" = "PgC/yr",
                  "AERO_SCALE" = "(unitless)")
