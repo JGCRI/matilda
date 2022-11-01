@@ -74,15 +74,12 @@ metric_calc_1run <- function(x, op, var, years){
 #' @examples
 iterative_hector <- function(core, var, years, params) {
 
-  # store results
-  result_list <- list()
-
   # set number of model iterations
 
-  for(i in colnames(params)) {
+  for(p in colnames(params)) {
 
     # set var
-    setvar(core, NA, do.call(i, list()), params[i][[1]], unit = param_units[i])
+    setvar(core, NA, do.call(p, list()), params[p][[1]], unit = param_units[p])
 
     # resets model after each run
     reset(core, date = 0)
@@ -93,6 +90,9 @@ iterative_hector <- function(core, var, years, params) {
     # fetch model results based on function arguments provided by the user
     # Stores in object 'dat'
     dat <- fetchvars(core = core, dates = years, vars = var)
+
+    # store results
+    result_list <- list()
 
     # stores resulting dfs (dat) from each run in result_list()
     result_list[[i]] <- dat
