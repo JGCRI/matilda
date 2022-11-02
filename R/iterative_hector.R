@@ -72,7 +72,7 @@ metric_calc_1run <- function(x, op, var, years){
 #' @export
 #'
 #' @examples
-iterative_hector <- function(core, var, years, params) {
+iterative_hector <- function(core, var, years, runs = 20) {
 
   # set number of model iterations
   for(i in 1:runs) {
