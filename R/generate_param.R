@@ -2,7 +2,7 @@
 # of the model and store in a table that can be passed into iterative hector.
 #
 # Why: still trying to figure this out conceptually - But it saves a fraction of
-# time and will not require `interative_hector` to run through the param random draw
+# time and will not require `iterative_hector` to run through the param random draw
 # process.
 # Removing the random draw step from `iterative_hector` will make the function
 # more simple, with its only responsibility being to run hector through an iterative
@@ -31,7 +31,7 @@
 #' @export
 #'
 #' @examples
-gen_param <- function(draws){
+generate_param <- function(draws){
 
   # Building list of runs and random parameter draws based on run number
   params <- list(
