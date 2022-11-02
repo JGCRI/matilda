@@ -4,16 +4,20 @@ ini <- system.file("input/hector_ssp245.ini", package = "hector")
 core <- newcore(ini)
 
 par <- generate_param(10)
-
+param_values <- unlist(par [1,])
 
 # looping hector using generated param values
+## Function and test - test error and are vars set correctly for core
+stopifnot(is.numeric(param_values))
+for (i in seq_along(param_values)) {
+print(i)
+  fn_name <- names(param_values)[i]
+  var <- do.call(fn_name, list())
+  var_units <- getunits(var)
+  message("setting ", var, " to ", param_values[i])
+  setvar(core, NA, var = var, values = param_values[i], unit = var_units)
+}
 
-for (i in colnames(par)) {
-
-  setvar(core, NA, list(i), par[i] [[1]], unit = c( "BETA" = "(unitless)",
-                                                         "Q10_RH" = "(unitless)",
-                                                         "NPP_FLUX0" = "PgC/yr",
-                                                         "AERO_SCALE" = "(unitless)")[i])
   reset(core)
 
   run(core)
