@@ -29,7 +29,7 @@
 #' @export
 #'
 #' @examples
-generate_param <- function(draws){
+generate_params <- function(draws){
 
   # Building list of runs and random parameter draws based on run number
   params <- list(

@@ -23,7 +23,7 @@ set_params <- function(core, param_values) {
     return()
   }
 
-  if (!is.numeric(param_values)) stop("not numeric")
+  if( !is.numeric(param_values)) stop("not numeric")
 
   if( is.null(names(param_values))) stop("no names")
 
