@@ -72,22 +72,19 @@ metric_calc_1run <- function(x, op, var, years){
 #' @export
 #'
 #' @examples
-iterative_hector <- function(core, var, years, runs = 20) {
+iterative_hector <- function(core, var, years, params) {
+
+  # store results
+  result_list <- list()
 
   # set number of model iterations
-  for(i in 1:runs) {
+  for(i in seq_len(nrow(params))) {
 
-    # produces a normal distribution and sampling 1 value randomly for each run
-    beta = rnorm(1, mean = 0.54, sd = 0.1)
-    q10 = rlnorm(1,lognorm(2, 1.0) [1], lognorm(2, 1.0) [2])
-    npp_flux0 = rnorm(1, mean = 56.2, sd = 14.3)
-    aero_scale = rnorm(1, mean = 1.01, sd = 0.23)
+    # convert params to numeric - or should this happen externally?
+    params_i <- unlist(params [i, ])
 
-    # set variable using value randomly sampled from distribution
-    setvar(core, NA, BETA(), beta, unit = "(unitless)")
-    setvar(core, NA, Q10_RH(), q10, unit = "(unitless)")
-    setvar(core, NA, NPP_FLUX0(), npp_flux0, unit = "Pg C/yr")
-    setvar(core, NA, AERO_SCALE(), aero_scale, unit = "(unitless)")
+    # set variable values -- needs core and numeric param values
+    set_params(core, params_i)
 
     # resets model after each run
     reset(core, date = 0)
@@ -99,16 +96,8 @@ iterative_hector <- function(core, var, years, runs = 20) {
     # Stores in object 'dat'
     dat <- fetchvars(core = core, dates = years, vars = var)
 
-    # add columns for new information:
-    # calculated metric values
-    # param values for model
-    dat$beta <- beta # Adds col name to the results for each param
-    dat$q10 <- q10
-    dat$npp_flux <- npp_flux0
-    dat$aero_scale <- aero_scale
-
-    # store results
-    result_list <- list()
+    # adding run_number column
+    dat$run_number <- i
 
     # stores resulting dfs (dat) from each run in result_list()
     result_list[[i]] <- dat
