@@ -20,6 +20,9 @@ set_params <- function(core, param_values) {
 # If parameters values are not numeric - stop and send error
 stopifnot(is.numeric(param_values))
 
+# Warning if any parameter set to 0
+if ( any(param_values == 0)) warning("one or more parameters set to 0")
+
 # for each parameter along the sequence of parameters in param_values
 # do the thing
 for (i in seq_along(param_values)) {
