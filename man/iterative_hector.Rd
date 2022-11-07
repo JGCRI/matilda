@@ -13,7 +13,7 @@ iterative_hector(core, var, years, params)
 
 \item{years}{A year range.}
 
-\item{runs}{A numeric value indicating the number of Hector runs to complete.}
+\item{params}{A data frame object containing parameter values.}
 }
 \value{
 A data frame with added columns indicating parameter values used for

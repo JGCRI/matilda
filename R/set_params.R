@@ -14,7 +14,7 @@
 #' @return Message indicating the values set to each parameter variable.
 #' @export
 #'
-#' @examples
+
 set_params <- function(core, param_values) {
 
   # If parameters values are not numeric - stop and send error

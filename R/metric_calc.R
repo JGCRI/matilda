@@ -18,8 +18,6 @@
 #' calculation for each Hector run.
 #'
 #' @export
-#'
-#' @examples
 
 metric_calc <- function(x, op, var, years) {
 

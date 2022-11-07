@@ -10,8 +10,6 @@
 #' @return Mean and standard deviation parameters that can be used for appropriate
 #' calculation of a log normal distribution for random draws.
 #'
-#'
-#' @examples
 
 lognorm <- function(m, sd){
 
@@ -39,8 +37,6 @@ lognorm <- function(m, sd){
 #' @return A numeric value calculated from the operation for each variable in the
 #' year range.
 #' @export
-#'
-#' @examples
 
 metric_calc_1run <- function(x, op, var, years){
 
@@ -64,14 +60,13 @@ metric_calc_1run <- function(x, op, var, years){
 #' @param core A core object to initiate Hector runs.
 #' @param var A variable name.
 #' @param years A year range.
-#' @param runs A numeric value indicating the number of Hector runs to complete.
+#' @param params A data frame object containing parameter values.
 #' @import hector
 #' @return A data frame with added columns indicating parameter values used for
 #' each Hector run, metric value for each Hector run, and a run_number from one
 #' to the total number of Hector runs completed.
 #' @export
-#'
-#' @examples
+
 iterative_hector <- function(core, var, years, params) {
 
   # store results
