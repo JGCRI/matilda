@@ -4,18 +4,16 @@
 \alias{iterative_hector}
 \title{Iterative Hector Runs}
 \usage{
-iterative_hector(core, op, var, years, runs = 20)
+iterative_hector(core, var, years, params)
 }
 \arguments{
 \item{core}{A core object to initiate Hector runs.}
-
-\item{op}{An operation to be applied to Hector data (e.g. mean, median, max, min).}
 
 \item{var}{A variable name.}
 
 \item{years}{A year range.}
 
-\item{runs}{A numeric value indicating the number of Hector runs to complete.}
+\item{params}{A data frame object containing parameter values.}
 }
 \value{
 A data frame with added columns indicating parameter values used for
