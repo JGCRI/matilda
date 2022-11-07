@@ -62,6 +62,7 @@ metric_calc_1run <- function(x, op, var, years){
 #' @param years A year range.
 #' @param params A data frame object containing parameter values.
 #' @import hector
+#' @importFrom stats rnorm rlnorm
 #' @return A data frame with added columns indicating parameter values used for
 #' each Hector run, metric value for each Hector run, and a run_number from one
 #' to the total number of Hector runs completed.
