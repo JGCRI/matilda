@@ -2,10 +2,23 @@ Package: hectorpractice
 Type: Package
 Title: A probabilistic framework for the Hector simple climate model
 Version: 0.1.0
-Author: Joe Brown
+Author: c(person("Joseph", "Brown",
+    email = "joseph.brown@pnnl.gov",
+    role = "aut",
+    comment = c(ORCID = "0000-0002-3828-4729")),
+    person("Ben", "Bond-Lamberty",
+    email = "bondlamberty@pnnl.gov",
+    role = "aut",
+    comment = c(ORCID = "0000-0001-9525-4633")),
+    person("Leeya", "Pressburger")
+    email = "leeya.pressburger@pnnl.gov",
+    role = "aut",
+    comment = c(ORCID = "0000-0002-6850-2504")))
 Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Provides a probabilistic framework for climate variable projections
+    using the Hector simple climate model. Using this framework you can change 
+    parameters, run the model, retrieve targeted model outputs, and quantify 
+    probabilities of climate outcomes from different emissions scenarios. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
