@@ -1,22 +1,3 @@
-# Goal: Write a function that produces normal distribution draws for parameters
-# of the model and store in a table that can be passed into iterative hector.
-#
-# Why:saves a fraction of time. Importantly, it longer require iterative_hector
-# to run through the param random draw process.
-# Removing the parameter generation step from iterative_hector will make the function
-# more simple and easier to test. Its only responsibility being to run hector through
-# an iterative process.
-#
-# The parameter table should be able to be passed to iterative-hector -- will
-# need to figure this out next.
-#
-## Leeya's generate_params function already does this using tidyr/dplyr
-## generate_params takes "run_numbers" arg and creates columns for each of the parameters
-## using the appropriate normal distribution function, with "runs" as the arg for the
-## number of random draws to take from the normal distribution.
-## Can also see how Leeya applies her tibble of param values to the run_hector function
-## (lines 185-193 in 01_generate_data.Rmd)
-
 #' Generating Parameter Values
 #'
 #' @description Generates parameter values from a normal distribution user

@@ -24,7 +24,7 @@
 metric_calc <- function(x, op, var, years) {
 
   # error code if x is empty
-  if( nrow(x) == 0) stop('x has no data')
+  if( length(x) == 0) stop('x has no data')
 
   # error code if year arg exceeds years in x
   if( any(years > max(x$year)) ) stop('year range exceeds years in x')

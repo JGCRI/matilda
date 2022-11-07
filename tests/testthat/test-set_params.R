@@ -1,9 +1,6 @@
 # data - values as numeric
 y <- c("BETA" = 1, "Q10_RH" = 2)
 
-# empty values
-e <- c("BETA" = 0, "Q10_RH" = 0)
-
 # core
 core <- newcore(system.file("input/hector_ssp245.ini", package = "hector"))
 

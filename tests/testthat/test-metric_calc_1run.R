@@ -23,7 +23,7 @@ test_that("metric_calc_1run returns a single numeric value", {
 
 })
 
-test_that("correct error thrown when args not subset of df", {
+test_that("correct error thrown when var and years not subset of df", {
 
   # is error produced if year range provided exceeds years in df
   expect_error(metric_calc_1run(y,
