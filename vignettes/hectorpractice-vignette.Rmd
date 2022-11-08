@@ -14,6 +14,54 @@ knitr::opts_chunk$set(
 )
 ```
 
+# Introduction
+
+Give a good description of hector practice -- what is it doing? include the capability of running hector through an iterative process using randomly generated parameters for each iteration which provides a level of uncertainty to the model we did not previously have. In addition, the package gives the capability to calculate metrics that can summarize climate variable projections for year ranges. For example, it can compute projections of mean global surface temperature warming by the end of the century. Last, it will have the ability to provide probabilities of such climatic variable projections. But make this all sound better.
+
+This vignette will run through the basic functionality of this package. First, it shows how to produce a data frame of parameter values drawn from randomly from normal distributions. Next, it will use the parameters produced to run Hector in an iterative process, whereby parameter values are changed with each subsequent model run. Then it shows how to use an iterative Hector output to compute mean global surface temperature warming for each iteration. 
+
+eventually there will be probability calculation information in here somewhere.
+
+# Set-up
+
+## Configure Hector core
+
+First, load the `hectorpractice` package 
+
 ```{r setup}
 library(hectorpractice)
 ```
+
+Next, we will initialize a core or Hector instance. While some functions in this package do not require a core input, we will need one to run the Hector model. 
+
+More information about establishing a new core for running Hector can be found in the tutorial for using the [Hector R interface](https://jgcri.github.io/hector/articles/intro-to-hector.html).
+
+```{r}
+# Reading INI file with emission scenario of interest
+ini <- system.file("input/hector_ssp245.ini", package = "hector")
+
+# Creating a new core 
+c_ssp245 <- newcore(ini)
+
+```
+
+This should configure a new Hector core and add it to the Global Environment.
+--> Should I give more information about the core? Can add but will likely be replicate explanations that can also be found the the tour of Hector vignette.
+
+A core is an object that contains information about Hector inputs and outputs.
+
+Now that we have a core, we can generate parameter values that can be subsequently set in the core for a series of Hector runs.
+
+## Generate parameter values
+
+We can generate a data frame of parameter values using `generate_params()`. This function will randomly sample a normal distribution of parameters and store those values in a data frame. We can specify how many random draws we would like to complete, which will also be setting the number of times we will run Hector.
+
+```{r}
+# Generate a data frame of random parameter values
+param_values <- generate_params(10)
+head(param_values)
+```
+
+We now have a data frame object called `param_values` that contains our model parameters with 10 unique values that were sample for each parameter.
+
+
