@@ -24,8 +24,11 @@ Encoding: UTF-8
 LazyData: true
 Depends: hector
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Remotes:
     github::JGCRI/hector@v3_dev
 RoxygenNote: 7.2.1
 Config/testthat/edition: 3
+VignetteBuilder: knitr
