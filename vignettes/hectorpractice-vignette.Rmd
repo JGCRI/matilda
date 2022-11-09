@@ -22,6 +22,8 @@ This vignette will run through the basic functionality of this package. First, i
 
 eventually there will be probability calculation information in here somewhere.
 
+####
+
 # Set-up
 
 ## Configure Hector core
@@ -64,9 +66,11 @@ head(param_values)
 
 We now have a data frame object called `param_values` that contains our model parameters with 10 unique values that were sample for each parameter.
 
-We can use this parameter data frame to run Hector through an iterative process, setting new parameter values with each run until Hector outputs have been produced for each set of parameter values we generated.
+We can use this parameter data frame to run Hector through an iterative process, setting new parameter values with each run until Hector outputs have been produced for each set of parameter values we generated.  
 
-## Running Hector itereratively
+####
+
+# Running Hector with iterations
 
 Now that we have configured a Hector core and generated a series of parameter values, we can run Hector through iterative model runs using the `iterative_hector()` function.
 
@@ -90,3 +94,10 @@ ggplot(data = results, aes(x = year, y = value, group = run_number)) +
   geom_line()
 ```
 
+From this result we can see how incorporating uncertainty in parameters included in the model influences trajectories of climate variables, in this case global average surface temperature. This shows the non-deterministic result of climate model projections when parameter uncertainty is included in Hector model runs. 
+
+####
+
+**What would be next? -- computing metrics and using the output to conduct probability of variable outcomes?**
+
+**Running multiple scenarios? plotting max, min, median of the parameter uncertainty?**
