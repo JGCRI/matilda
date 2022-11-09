@@ -64,4 +64,29 @@ head(param_values)
 
 We now have a data frame object called `param_values` that contains our model parameters with 10 unique values that were sample for each parameter.
 
+We can use this parameter data frame to run Hector through an iterative process, setting new parameter values with each run until Hector outputs have been produced for each set of parameter values we generated.
+
+## Running Hector itereratively
+
+Now that we have configured a Hector core and generated a series of parameter values, we can run Hector through iterative model runs using the `iterative_hector()` function.
+
+`iterative_hector()` requires the some specific information in order to produce the output we want. As previously mentioned, it requires a core and a data frame of parameter values. In addition it requires a specification of the variables and year ranges to fetch from the core object. Below we will specify that we want to retrieve results for global average surface temperature (global_tas) for the years 2000 to 2300. We create an object called `results` which will store our output in a data frame.
+
+```{r, message=FALSE}
+# Run Hector model repeatedly over all parameter values
+results <- iterative_hector(c_ssp245, var = "global_tas", years = 2000:2300, params = param_values)
+head(results)
+```
+
+Viewing the full results will show that global average surface temperature values from 2000-2300 for 10 separate runs, which is indicated by `run_number`. Each run uses different parameter estimates to complete the model. 
+
+The result is a `data.frame` and therefore we can plot the results easily in `ggplot2`.
+
+```{r}
+# plotting results from iterative Hector run
+library(ggplot2)
+
+ggplot(data = results, aes(x = year, y = value, group = run_number)) +
+  geom_line()
+```
 
