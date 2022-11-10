@@ -34,15 +34,18 @@ test_that("invalid inputs returns proper error/warning", {
 
 test_that("set_param functions properly", {
 
-  param_gen <- generate_params(1)
+  default_beta <- fetchvars(core, NA, BETA())$value
 
-  param_values <- unlist(param_gen)
+  #ensure beta is different from default value
+  new_beta <- default_beta + 0.1
+
+  param_values <- c("BETA" = new_beta)
 
   params <- set_params(core, param_values)
 
   fetch <- fetchvars(core, NA, BETA())
 
   expect_equal(fetch$value,
-               param_gen$BETA)
+               new_beta)
 
 })
