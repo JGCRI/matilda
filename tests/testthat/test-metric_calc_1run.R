@@ -16,8 +16,9 @@ test_that("metric_calc_1run returns a single numeric value", {
                         var = "var1",
                         years = 2000:2100)
 
-  # is value length equal to one
+  # value length equal to one
   expect_equal(length(r), 1)
+
   # is value numeric
   expect_true(is.numeric(r))
 
@@ -25,14 +26,14 @@ test_that("metric_calc_1run returns a single numeric value", {
 
 test_that("correct error thrown when var and years not subset of df", {
 
-  # is error produced if year range provided exceeds years in df
+  # check if error produced when year range provided exceeds years in df
   expect_error(metric_calc_1run(y,
                                 op = mean,
                                 var = "var1",
                                 years = 2000:2101),
                regexp = 'year range must be subset of years in x')
 
-  # is error produced if variable provided is not present in df - results in NA return
+  # check if error produced when variable provided is not present in df - results in NA return
   expect_error(metric_calc_1run(y,
                                 mean,
                                 "var3",
