@@ -19,22 +19,22 @@
 #'
 #' @export
 
-metric_calc <- function(x, op, var, years) {
+metric_calc <- function(x, new_metric) {
 
   # error code if x is empty
   if( length(x) == 0) stop('x has no data')
 
   # error code if year arg exceeds years in x
-  if( any(years > max(x$year)) ) stop('year range exceeds years in x')
+  if( any(new_metric$years > max(x$year)) ) stop('year range exceeds years in x')
 
   # error code if variable arg is not in x
-  if( any(var != x$variable)) stop('variable is not present in x')
+  if( any(new_metric$var != x$variable)) stop('variable is not present in x')
 
   # Splitting x (df of hector output) by run number
   result_split <- split(x, x$run_number)
 
   # calculating metric for split result using metric_calc_1run
-  metric_result <- sapply(result_split, metric_calc_1run, op, var, years)
+  metric_result <- sapply(result_split, metric_calc_1run, new_metric)
 
   # result as a data frame
   df <- as.data.frame(metric_result)
