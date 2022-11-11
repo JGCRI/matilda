@@ -1,8 +1,6 @@
 # data - values as numeric
 y <- data.frame("BETA" = 1:2, "Q10_RH" = 2:3)
 
-df_NA = data.frame("BETA" = NA, "Q10_RH" = 3)
-
 # generating parameters
 params <- generate_params(5)
 
