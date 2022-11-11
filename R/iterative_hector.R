@@ -38,18 +38,18 @@ lognorm <- function(m, sd){
 #' year range.
 #' @export
 
-metric_calc_1run <- function(x, op, var, years){
+metric_calc_1run <- function(x, new_metric) {
 
-  if(any (years > max(x$year))) stop('year range must be subset of years in x')
+  if(any (new_metric$years > max(x$year))) stop('year range must be subset of years in x')
 
   # subsets single hector run to only include variables and years of interest
-  x <- subset(x, variable == var & year %in% years)
+  x <- subset(x, variable == new_metric$var & year %in% new_metric$years)
 
   # applies operation to the variable values in the Hector data frame
   # if the returned value is NA return error
   # else return metric_value
-  if ( is.na(op(x$value))) stop('variable not present in x, metric_value == NA')
-  else (op(x$value))
+  if ( is.na(new_metric$op(x$value))) stop('variable not present in x, metric_value == NA')
+  else (new_metric$op(x$value))
 
 }
 
@@ -106,3 +106,4 @@ iterative_hector <- function(core, var, years, params) {
   # what to return?
   return(df)
 }
+

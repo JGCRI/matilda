@@ -14,7 +14,7 @@ new_metric <- function(var, years, op){
 
   # creating a list of metrics to store in object
   m <- list(var = var,
-            years= years,
+            years = years,
             op = op,
             # deparse makes an unevaluated expression to character string
             op_name = deparse(substitute(op)))

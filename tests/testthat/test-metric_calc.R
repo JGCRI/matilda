@@ -7,14 +7,21 @@ x <- data.frame(year = 2000:2050,
 # empty df - no data
 df <- data.frame(c())
 
+# new_metric to pass into tests
+new_metric <- new_metric("var", 2000:2050, mean)
+
+# new_metric with too many years
+year_range <- new_metric("var", 2000:2051, mean)
+
+# new_metric with no var
+no_var <- new_metric("var1", 2000:2050, mean)
+
 # tests
 
 test_that("result has proper class and structure", {
 
   r <- metric_calc(x,
-                   mean,
-                   "var",
-                   2000:2050)
+                   new_metric)
 
   # return is a df
   expect_s3_class(r, "data.frame")
@@ -29,22 +36,16 @@ test_that("error messages are thrown in proper cases", {
 
   # error when data frame has no data
   expect_error(metric_calc(df,
-                           mean,
-                           "var",
-                           2000:2050),
+                           new_metric),
                regexp = 'x has no data')
 
   # error when year requested exceeds years in df
   expect_error(metric_calc(x,
-                           mean,
-                           "var",
-                           2000:2051),
+                           year_range),
                regexp = 'year range exceeds years in x')
 
   # error when requested var is not in df
   expect_error(metric_calc(x,
-                           mean,
-                           "global_tas",
-                           2000:2050),
+                           no_var),
                regexp = 'variable is not present in x')
 })
