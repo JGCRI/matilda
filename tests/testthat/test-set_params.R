@@ -21,12 +21,12 @@ test_that("invalid inputs returns proper error/warning", {
                           1:3),
                regexp = "no names")
 
-  # warning when vector has not values
+  # ensuring warning produced when vector has no values
   expect_warning(set_params(core,
                             c()),
                regexp = "no parameters")
 
-  # error when param values not numeric
+  # ensuring error when param values not numeric
   expect_error(set_params(core,
                           data.frame("x" = 1)),
                regexp = 'not numeric')
