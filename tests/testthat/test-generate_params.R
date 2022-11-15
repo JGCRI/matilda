@@ -4,17 +4,22 @@ y <- data.frame("BETA" = 1:2, "Q10_RH" = 2:3)
 # generating parameters
 params <- generate_params(5)
 
+test_that("output has proper class, structure, and length", {
 
-test_that("output has proper class and structure", {
-
-# test that the output is of class data.frame
+# make sure output is data.frame
   expect_s3_class(y, "data.frame")
 
-# test that the data frame has names?
-  expect_named(y,
-               c("BETA", "Q10_RH"))
+# make sure all values are numeric
+  expect_true(all(sapply(y, is.numeric)))
 
-# test that the the values produced for the df are numeric?
-  expect_true(is.numeric(params$BETA))
+# make sure the output is a proper length
+  expect_equal(nrow(params),5)
+
+})
+
+test_that("no NAs are produced", {
+
+  # make sure params output has no NAs
+  expect_false(any(is.na(params)))
 
 })
