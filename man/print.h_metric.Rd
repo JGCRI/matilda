@@ -4,10 +4,12 @@
 \alias{print.h_metric}
 \title{Printing new metric}
 \usage{
-\method{print}{h_metric}(x)
+\method{print}{h_metric}(x, ...)
 }
 \arguments{
 \item{x}{R object storing class attributes.}
+
+\item{...}{Other arguments passed to or from other methods.}
 }
 \value{
 Pretty print of metrics stored in R object.

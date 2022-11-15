@@ -32,11 +32,12 @@ new_metric <- function(var, years, op){
 #' \code{\link{new_metric}}
 #'
 #' @param x R object storing class attributes.
+#' @param ... Other arguments passed to or from other methods.
 #'
 #' @return Pretty print of metrics stored in R object.
 #' @export
 
-print.h_metric <- function(x) {
+print.h_metric <- function(x, ...) {
 
   cat("Probabilistic Hector Metric: ", x$op_name,
       x$var, min(x$years), " to ", max(x$years), "\n")
