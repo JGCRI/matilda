@@ -68,7 +68,7 @@ metric_calc_1run <- function(x, new_metric) {
 #' to the total number of Hector runs completed.
 #' @export
 
-iterative_hector <- function(core, var, years, params) {
+iterative_hector <- function(core, new_metric, params) {
 
   # store results
   result_list <- list()
@@ -90,7 +90,7 @@ iterative_hector <- function(core, var, years, params) {
 
     # fetch model results based on function arguments provided by the user
     # Stores in object 'dat'
-    dat <- fetchvars(core = core, dates = years, vars = var)
+    dat <- fetchvars(core = core, dates = new_metric$years, vars = new_metric$var)
 
     # adding run_number column
     dat$run_number <- i
