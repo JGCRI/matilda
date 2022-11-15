@@ -19,9 +19,9 @@ generate_params <- function(draws){
     "NPP_FLUX0" = rnorm(draws, mean = 56.2, sd = 14.3),
     "AERO_SCALE" = rnorm(draws, mean = 1.01, sd = 0.23))
 
+  # converting list to data frame
   result <- as.data.frame(params)
 
-  # Output - converting list to df
   return(result)
 
 }

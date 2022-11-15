@@ -30,26 +30,25 @@ lognorm <- function(m, sd){
 #' @description Function for calculating a variable metric from Hector output data.
 #'
 #' @param x A data frame result from a single Hector run.
-#' @param op An operation to apply to data (e.g. mean, median, max, min, etc.).
-#' @param var A variable name.
-#' @param years A year range.
+#' @param metric An object identifying a variable, year range, and operation
+#' (e.g. mean, median, max, min, etc.) to apply to data.
 #'
 #' @return A numeric value calculated from the operation for each variable in the
 #' year range.
 #' @export
 
-metric_calc_1run <- function(x, op, var, years){
+metric_calc_1run <- function(x, metric) {
 
-  if(any (years > max(x$year))) stop('year range must be subset of years in x')
+  if(any (metric$years > max(x$year))) stop('year range must be subset of years in x')
 
   # subsets single hector run to only include variables and years of interest
-  x <- subset(x, variable == var & year %in% years)
+  x <- subset(x, variable == metric$var & year %in% metric$years)
 
   # applies operation to the variable values in the Hector data frame
   # if the returned value is NA return error
   # else return metric_value
-  if ( is.na(op(x$value))) stop('variable not present in x, metric_value == NA')
-  else (op(x$value))
+  if ( is.na(metric$op(x$value))) stop('variable not present in x, metric_value == NA')
+  else (metric$op(x$value))
 
 }
 
@@ -58,17 +57,17 @@ metric_calc_1run <- function(x, op, var, years){
 #' @description Runs Hector in an iterative process with parameter uncertainty.
 #'
 #' @param core A core object to initiate Hector runs.
-#' @param var A variable name.
-#' @param years A year range.
+#' @param metric An object identifying a variable, year range, and operation
+#' (e.g. mean, median, max, min, etc.) to fetch from Hector result.
 #' @param params A data frame object containing parameter values.
 #' @import hector
 #' @importFrom stats rnorm rlnorm
-#' @return A data frame with added columns indicating parameter values used for
-#' each Hector run, metric value for each Hector run, and a run_number from one
-#' to the total number of Hector runs completed.
+#' @return A data frame with a run_number from one to the total number of Hector
+#' runs completed and values for the variables and year range identified in
+#' the metric argument for each Hector run.
 #' @export
 
-iterative_hector <- function(core, var, years, params) {
+iterative_hector <- function(core, metric, params) {
 
   # store results
   result_list <- list()
@@ -90,7 +89,7 @@ iterative_hector <- function(core, var, years, params) {
 
     # fetch model results based on function arguments provided by the user
     # Stores in object 'dat'
-    dat <- fetchvars(core = core, dates = years, vars = var)
+    dat <- fetchvars(core = core, dates = metric$years, vars = metric$var)
 
     # adding run_number column
     dat$run_number <- i
@@ -106,3 +105,4 @@ iterative_hector <- function(core, var, years, params) {
   # what to return?
   return(df)
 }
+

@@ -4,16 +4,13 @@
 \alias{metric_calc_1run}
 \title{Metric calc from single Hector Run}
 \usage{
-metric_calc_1run(x, op, var, years)
+metric_calc_1run(x, metric)
 }
 \arguments{
 \item{x}{A data frame result from a single Hector run.}
 
-\item{op}{An operation to apply to data (e.g. mean, median, max, min, etc.).}
-
-\item{var}{A variable name.}
-
-\item{years}{A year range.}
+\item{metric}{An object identifying a variable, year range, and operation
+(e.g. mean, median, max, min, etc.) to apply to data.}
 }
 \value{
 A numeric value calculated from the operation for each variable in the
