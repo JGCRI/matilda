@@ -27,8 +27,7 @@ set_params <- function(core, param_values) {
 
   if( is.null(names(param_values))) stop("no names")
 
-  # for each parameter along the sequence of parameters in param_values
-  # do the thing
+  # for each parameter along the sequence of parameters in param_values do action
   for (i in seq_along(param_values)) {
 
     # use param_values names to create fn_name - storing the function names for

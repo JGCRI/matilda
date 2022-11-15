@@ -7,11 +7,11 @@
 new_metric(var, years, op)
 }
 \arguments{
-\item{var}{character string of Hector variable}
+\item{var}{A character string of Hector variable}
 
-\item{years}{range of years}
+\item{years}{A range of years}
 
-\item{op}{operation to apply to the metric}
+\item{op}{An operation to apply to data}
 }
 \value{
 Pretty print of R object containing new metric values.
