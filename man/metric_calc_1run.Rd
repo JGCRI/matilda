@@ -4,7 +4,7 @@
 \alias{metric_calc_1run}
 \title{Metric calc from single Hector Run}
 \usage{
-metric_calc_1run(x, op, var, years)
+metric_calc_1run(x, new_metric)
 }
 \arguments{
 \item{x}{A data frame result from a single Hector run.}
