@@ -4,7 +4,9 @@
 \alias{metric_calc}
 \title{Metric Calculation}
 \usage{
+
 metric_calc(x, metric)
+
 }
 \arguments{
 \item{x}{A data frame object from \code{\link{iterative_hector}} output.}
