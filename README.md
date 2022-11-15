@@ -20,7 +20,7 @@ You can install the development version of `hectorpractice` from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("ecolo-joe/hectorpractice")
+devtools::install_github("jk-brown/hectorpractice")
 ```
 
 ## More information
