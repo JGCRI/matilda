@@ -17,7 +17,7 @@ test_that("output has proper class, structure, and length", {
 
 })
 
-test_that("check for NAs", {
+test_that("no NAs are produced", {
 
   # make sure params output has no NAs
   expect_false(any(is.na(params)))
