@@ -3,9 +3,9 @@
 #' @description Stores metric values in an object for easily interchanging new
 #' metrics for functions within hectorpractice.
 #'
-#' @param var character string of Hector variable
-#' @param years range of years
-#' @param op operation to apply to the metric
+#' @param var A character string of Hector variable
+#' @param years A range of years
+#' @param op An operation to apply to data
 #'
 #' @return Pretty print of R object containing new metric values.
 #' @export

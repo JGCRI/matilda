@@ -4,21 +4,20 @@
 \alias{iterative_hector}
 \title{Iterative Hector Runs}
 \usage{
-iterative_hector(core, var, years, params)
+iterative_hector(core, metric, params)
 }
 \arguments{
 \item{core}{A core object to initiate Hector runs.}
 
-\item{var}{A variable name.}
-
-\item{years}{A year range.}
+\item{metric}{An object identifying a variable, year range, and operation
+(e.g. mean, median, max, min, etc.) to fetch from Hector result.}
 
 \item{params}{A data frame object containing parameter values.}
 }
 \value{
-A data frame with added columns indicating parameter values used for
-each Hector run, metric value for each Hector run, and a run_number from one
-to the total number of Hector runs completed.
+A data frame with a run_number from one to the total number of Hector
+runs completed and values for the variables and year range identified in
+the metric argument for each Hector run.
 }
 \description{
 Runs Hector in an iterative process with parameter uncertainty.
