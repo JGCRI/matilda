@@ -114,10 +114,50 @@ ggplot(data = results, aes(x = year, y = value, group = run_number)) +
 
 From this result we can see how incorporating parameter uncertainty in Hector influences trajectories of climate variable projections, in this case global average surface temperature. We can view this as a non-deterministic result of climate model projections when parameter uncertainty is included in the Hector model.
 
-Once we have our Hector result, we can begin to address broader questions about climate projections. For example, we may be interested in what the median global_tas values are from 2000-2100 for each model run, and what the probability is that median warming of the global average surface temperature will remain between 2-3$\circ$ C by 2100?
+Once we have our Hector result, we can begin to address broader questions about climate projections. For example, we may be interested in what the median global_tas values are from 2000-2100 for each model run, and what the probability is that median warming of the global average surface temperature will remain below 2$^\circ$ C by 2100?
 
 ####
 
-**What would be next? -- computing metrics and using the output to conduct probability of variable outcomes?**
+# Calculating metrics and probabilistic outcomes
 
-**Running multiple scenarios? plotting max, min, median of the parameter uncertainty?**
+After producing a result from `interative_hector` we can calculate our metrics of interest for each Hector run. As a reminder, we have already specified a metric we are interested in (`my_metric`). This metric object includes outputs from 2000-2300. 
+
+But if we are now interested in a reduced year range (2000-2100) we can just as easily create a new metric specific to those goals.
+
+```{r}
+# New metric object to address question of warming below 2 C by 2100
+my_metric2 <- new_metric("global_tas", 2000:2100, median)
+
+print(my_metric2)
+```
+
+With the new metric object and our `iterative_hector` output data frame, we can utilize the `metric_calc` function to calculate our metric (median global_tas from 2000 to 2100) for each of our Hector runs.
+
+```{r}
+# Getting results for our metric of interest
+metric_result <- metric_calc(results, my_metric2)
+
+head(metric_result)
+```
+
+We can use the `metric_calc` results to organize data into bins for which we define the ranges. 
+
+```{r}
+binned_metrics <- bin_metrics(metric_result, c(1, 1.5, 2.0, 2.5, 3.0, 4.0))
+
+print(binned_metrics)
+
+```
+
+#### EDIT 
+
+After data are binned we can use the table result to calculate the probability of specific outcomes of the climate varaible we are interested in. 
+
+In this example... 
+
+```{r}
+prob_result <- prob_calc(binned_metrics)
+
+print(prob_result)
+```
+
