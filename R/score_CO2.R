@@ -26,14 +26,16 @@ score_ramp <- function(x, y, w1, w2) {
   scores <- rep(NA_real_, length(x))
 
   # the order of the following two statements matters, because
-  # we want a diff of w1 to get a score of 1, even when w1 = w2
+  # we want a diff exactly equal to w1 to get a score of 1, even when w1 = w2
   scores [abs_diffs >= w2] <- 0
   scores [abs_diffs <= w1] <- 1
 
-  # for abs_diffs between w1 and w2 - compute how far between w1 and w2
+  # for abs_diffs between w1 and w2 - compute how far between w1 and w2 the
+  # abs_diff value is
   between_w1_w2 <- abs_diffs > w1 & abs_diffs < w2
   w1_w2_frac <- (abs_diffs [between_w1_w2] - w1) / (w2 - w1)
 
+  # for scores between w1 and w2 use (1- computed distance) as score value
   scores [between_w1_w2] <- 1 - w1_w2_frac
 
   return(scores)
