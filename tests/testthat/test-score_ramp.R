@@ -37,7 +37,7 @@ test_that("function stops and produces error messgages", {
 
 })
 
-# Testing edge cases and computation
+# Testing edge cases
 
 test_that("scores assessed correctly based on w1 and w2 values", {
 
@@ -51,8 +51,14 @@ test_that("scores assessed correctly based on w1 and w2 values", {
   expect_gt(score_ramp(x = 2, y = 1, w1 = 0, w2 = 2), 0)
   expect_lt(score_ramp(x = 2, y = 1, w1 = 0, w2 = 2), 1)
 
-  # when x-y diff is between w1 & w2 expect computed score to equal
-  # 1 - (abs_diff - w1) / (w2-w1)
-  expect_equal(score_ramp(x = 2, y = 1, w1 = 0, w2 = 2), 1 - (abs(2 - 1) - 0) / (2 - 0))
-
   })
+
+# Testing score calculation
+
+test_that("x-y differences between w1 & w2 are computed accurately", {
+
+# when x-y diff is between w1 & w2 expect computed score to equal
+# 1 - (abs_diff - w1) / (w2-w1)
+expect_equal(score_ramp(x = 2, y = 1, w1 = 0, w2 = 2), 1 - (abs(2 - 1) - 0) / (2 - 0))
+
+})
