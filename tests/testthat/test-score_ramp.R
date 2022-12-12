@@ -39,12 +39,12 @@ test_that("function stops and produces error messgages", {
 
 # Testing edge cases and computation
 
-test_that("score calculated appropriately", {
+test_that("scores assessed correctly based on w1 and w2 values", {
 
-  # when w1 = 0
+  # when w1 = 0 -- only diffs = 0, score = 1; diffs > 0, score = 0
   expect_equal(score_ramp(x = r$x, y = r$y, w1 = 0, w2 = 1), c(1, 0, 0))
 
-  # when w1 & w2 = 0
+  # when w1 & w2 both = 1 -- diffs <= 1, score = 1; diffs > 1, score = 0
   expect_equal(score_ramp(x = r$x, y = r$y, w1 = 1, w2 = 1), c(1, 1, 0))
 
   # when x-y diff is between w1 & w2 expect value between 0-1
