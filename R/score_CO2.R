@@ -68,7 +68,7 @@ score_CO2 <- function(x, w1 = 2, w2 = 20) {
   # calculate mean scores for each run.
   res_merge$scores <- score_ramp(res_merge$mean, res_merge$value, w1, w2)
 
-  score_mean <- aggregate(scores ~ run_number,data = res_merge, FUN = mean)
+  score_mean <- aggregate(scores ~ run_number, data = res_merge, FUN = mean)
 
   # df of mean scores
   mean_score <- as.data.frame(score_mean)
