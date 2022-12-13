@@ -21,6 +21,10 @@ score_ramp <- function(x, y, w1, w2) {
 
   stopifnot(length(x) == length(y))
 
+  if ( any(is.na(x))) warning("result contains NAs")
+
+  if ( any(is.na(y))) warning("result contains NAs")
+
   abs_diffs <- abs(x - y)
 
   scores <- rep(NA_real_, length(x))

@@ -16,12 +16,16 @@
 # testing df
 r <- data.frame(x = rep(1,3), y = 1:3)
 
-# df with nas
+# df with NAs - for entire variable
 na <- data.frame(x = rep(NA, 3), y = 1:3)
+
+# df with NA for some values of a variable
+na_x <- data.frame(x = c(1, NA, 3), y = 1:3)
+na_y <- data.frame(x = 1:3, y = c(1, NA, 3))
 
 # Testing error cases
 
-test_that("function stops and produces error messgages", {
+test_that("function stops and produces error messages", {
 
   # error when x and y not equal length
   expect_error(score_ramp(1:5, 1:6, w1 = 1, w2 = 2))
@@ -32,9 +36,16 @@ test_that("function stops and produces error messgages", {
   # error when w2 not >= w1
   expect_error(score_ramp(1:5, 1:5, w1 = 1, w2 = 0))
 
-  # error when NAs in data
+  # error when entire variable is NA
   expect_error(score_ramp(x = na$x, y = na$y, w1 = 0, w2 = 2))
 
+  # warning when some values of x are NAs
+  expect_warning(score_ramp(x = na_x$x, y = na_x$y, w1 = 0, w2 = 2),
+                 regexp = "result contains NAs")
+
+  # warning when some values of x are NAs
+  expect_warning(score_ramp(x = na_x$x, y = na_x$y, w1 = 0, w2 = 2),
+                 regexp = "result contains NAs")
 })
 
 # Testing edge cases
