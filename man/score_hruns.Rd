@@ -4,7 +4,7 @@
 \alias{score_hruns}
 \title{Screen Hector outputs with observed data}
 \usage{
-score_hruns(x, obs_dat = mlo, years, w1 = 2, w2 = 20)
+score_hruns(x, crit, score_function, ...)
 }
 \arguments{
 \item{x}{result data frame from iterative_hector.}

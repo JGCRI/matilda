@@ -67,21 +67,22 @@ score_ramp <- function(x, y, w1, w2, na.omit = FALSE) {
 #'
 #' @examples
 
-score_hruns <- function(x, obs_dat = mlo, years, w1 = 2, w2 = 20) {
+score_hruns <- function(x, crit, score_function,...) {
 
   # subset to include years for CO2 screening
-  res_subset <- subset(x, year %in% years)
+  x_subset <- subset(x, year %in% crit$years & variable == crit$var)
+
+  #creates observed data frame
+  obs_dat <- data.frame(year = crit$years, value_obs = crit$obs_values)
 
   # merge hector results with calibration data observed CO2 data
-  res_merge <- merge(x, obs_dat, by.x = 'year', by.y = 'year')
+  x_merge <- merge(x_subset, obs_dat, by = 'year')
 
   # add new column to res_merge computing scores so that we can
+  x_merge$scores <- score_function(x_merge$value_obs, x_merge$value,...)
+
   # calculate mean scores for each run.
-
-  ## Need to call correct column names for a dfs that user provides for obs_dat
-  res_merge$scores <- score_ramp(res_merge$mean, res_merge$value, w1, w2)
-
-  score_mean <- aggregate(scores ~ run_number, data = res_merge, FUN = mean)
+  score_mean <- aggregate(scores ~ run_number, data = x_merge, FUN = mean)
 
   # df of mean scores
   mean_score <- as.data.frame(score_mean)

@@ -47,6 +47,7 @@ print.criterion <- function(x, ...) {
 #' Screening criterion using Mauna Loa atmospheric CO2
 #'
 #' @return A criterion using Mauna Loa atmospheric CO2
+#' @note This uses the Mauna Loa on 'URL' on 'DATE'
 #' @export
 #'
 #' @examples

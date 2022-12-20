@@ -12,6 +12,9 @@ A criterion using Mauna Loa atmospheric CO2
 \description{
 Screening criterion using Mauna Loa atmospheric CO2
 }
+\note{
+This uses the Mauna Loa on 'URL' on 'DATE'
+}
 \examples{
 crit_CO2_obs()
 }
