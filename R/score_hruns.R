@@ -13,17 +13,22 @@
 #' @export
 #'
 #' @examples
-score_ramp <- function(x, y, w1, w2) {
+score_ramp <- function(x, y, w1, w2, na.omit = FALSE) {
 
-  stopifnot(w1 >= 0)
+  if (na.omit) {
+    x <- na.omit(x)
+    y <- na.omit(y)
+  }
 
-  stopifnot(w2 >= w1)
+  if (w1 < 0) stop("w1 must be at least 0")
 
-  stopifnot(length(x) == length(y))
+  if (w2 < w1) stop("w2 must be at least as big as w1")
 
-  if ( any(is.na(x))) warning("result contains NAs")
+  if (length(x) != length(y)) stop("Length of x must be equal to length of y")
 
-  if ( any(is.na(y))) warning("result contains NAs")
+  if ( all(is.na(x))) stop("No non-NA values in x")
+
+  if ( all(is.na(y))) stop("No non-NA values in y")
 
   abs_diffs <- abs(x - y)
 
@@ -49,27 +54,31 @@ score_ramp <- function(x, y, w1, w2) {
 # Goal: score hector runs based on divergence of CO2 projections in relation to
 # observed values (using mlo data)
 
-#' Screen Hector outputs by observed CO2
+#' Screen Hector outputs with observed data
 #'
-#' @param x result data frame from iterative_hector
-#' @param w1 low divergence bound to assign highest score
-#' @param w2 high divergence bound to assign lowest score
+#' @param x result data frame from iterative_hector.
+#' @param obs_dat observed data used to score hector runs.
+#' @param years year range of used for screening hector runs.
+#' @param w1 low divergence bound to assign highest score.
+#' @param w2 high divergence bound to assign lowest score.
 #'
 #' @return Data frame with mean score for each Hector run
 #' @export
 #'
 #' @examples
 
-score_CO2 <- function(x, w1 = 2, w2 = 20) {
+score_hruns <- function(x, obs_dat = mlo, years, w1 = 2, w2 = 20) {
 
   # subset to include years for CO2 screening
-  res_subset <- subset(x, year >= 1959 & year <= 2021)
+  res_subset <- subset(x, year %in% years)
 
-  # merge hector results with mlo observed CO2 data
-  res_merge <- merge(x, mlo, by.x = 'year', by.y = 'year')
+  # merge hector results with calibration data observed CO2 data
+  res_merge <- merge(x, obs_dat, by.x = 'year', by.y = 'year')
 
   # add new column to res_merge computing scores so that we can
   # calculate mean scores for each run.
+
+  ## Need to call correct column names for a dfs that user provides for obs_dat
   res_merge$scores <- score_ramp(res_merge$mean, res_merge$value, w1, w2)
 
   score_mean <- aggregate(scores ~ run_number, data = res_merge, FUN = mean)

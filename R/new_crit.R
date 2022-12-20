@@ -15,15 +15,15 @@
 #' @export
 #'
 #' @examples
-new_crit <- function(var, years, op) {
+new_crit <- function(var, years, obs_values) {
 
-  c <- list(var = var,
+  crit <- list(var = var,
             years = years,
-            op = op)
+            obs_values = obs_values)
 
-  class(c) <- "criterion"
+  class(crit) <- "criterion"
 
-  return(c)
+  return(crit)
 
 }
 
@@ -38,8 +38,22 @@ new_crit <- function(var, years, op) {
 #' @examples
 print.criterion <- function(x, ...) {
 
-  cat("Criterion for screening Hector: ", x$op_name,
+  cat("Criterion for screening Hector: ",
       x$var, min(x$years), " to ", max(x$years), "\n")
 
 }
 
+
+#' Screening criterion using Mauna Loa atmospheric CO2
+#'
+#' @return A criterion using Mauna Loa atmospheric CO2
+#' @export
+#'
+#' @examples
+#' crit_CO2_obs()
+
+crit_CO2_obs <- function() {
+
+  new_crit(ATMOSPHERIC_CO2(), years = mlo$year, obs_values = mlo$mean)
+
+}

@@ -4,7 +4,7 @@
 \alias{new_crit}
 \title{New Criterion Object}
 \usage{
-new_crit(var, years, op)
+new_crit(var, years, obs_values)
 }
 \arguments{
 \item{op}{}
