@@ -15,6 +15,9 @@ score_ramp(x, y, w1, w2, na.omit = FALSE)
 
 \item{w2}{Distance at which score becomes 0}
 }
+\value{
+Vector of scores
+}
 \description{
 Computing vector of score for numeric vectors
 }

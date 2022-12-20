@@ -2,13 +2,24 @@
 % Please edit documentation in R/new_crit.R
 \name{new_crit}
 \alias{new_crit}
-\title{New Criterion Object}
+\title{Creating New Criterion Object}
 \usage{
 new_crit(var, years, obs_values)
 }
 \arguments{
-\item{op}{}
+\item{var}{A variable from Hector output to compare with observed data}
+
+\item{years}{A range of years from observed data}
+
+\item{obs_values}{Numeric values from observed data}
+}
+\value{
+Pretty print of R object containing new criterion parameters.
 }
 \description{
-New Criterion Object
+Creating New Criterion Object
+}
+\examples{
+atmos_crit <- new_crit(ATMOSPHERIC_CO2, years = mlo$years, obs_values = mlo$mean)
+atmos_crit
 }

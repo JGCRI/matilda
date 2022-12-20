@@ -8,6 +8,10 @@
 #' @return A data frame object with a row for each parameter value generated for each
 #' run. Columns indicate run_number and each parameter.
 #' @export
+#'
+#' @examples
+#' param_values <- generate_params(10)
+#' para_values
 
 generate_params <- function(draws){
 

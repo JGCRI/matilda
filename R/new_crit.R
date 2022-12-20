@@ -1,25 +1,21 @@
-# Goal: function that screens hector runs from a result, assigns boolean for whether
-# each times step fails to fall within MLO obs CO2 range.
-#
-# Will want to calc % of values in each run that fall outside obs range
-# (inidcated by fail == 'TRUE') and if greater than specifed percent (maybe 33%
-# based on leeyas C tracking), drop run.
-
-#' New Criterion Object
+#' Creating New Criterion Object
 #'
-#' @param var
-#' @param years
-#' @param op
+#' @param var A variable from Hector output to compare with observed data
+#' @param years A range of years from observed data
+#' @param obs_values Numeric values from observed data
 #'
-#' @return
+#' @return Pretty print of R object containing new criterion parameters.
 #' @export
 #'
 #' @examples
+#' atmos_crit <- new_crit(ATMOSPHERIC_CO2, years = mlo$years, obs_values = mlo$mean)
+#' atmos_crit
+
 new_crit <- function(var, years, obs_values) {
 
   crit <- list(var = var,
-            years = years,
-            obs_values = obs_values)
+               years = years,
+               obs_values = obs_values)
 
   class(crit) <- "criterion"
 
@@ -29,13 +25,13 @@ new_crit <- function(var, years, obs_values) {
 
 #' Pretty print of new criterion
 #'
-#' @param x
+#' @param x Criterion object created in \code{\link{new_crit()}}
 #' @param ...
 #'
-#' @return
+#' @return Pretty print of criterion stored in R object.
 #' @export
 #'
-#' @examples
+
 print.criterion <- function(x, ...) {
 
   cat("Criterion for screening Hector: ",

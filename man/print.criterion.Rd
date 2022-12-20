@@ -7,7 +7,12 @@
 \method{print}{criterion}(x, ...)
 }
 \arguments{
+\item{x}{Criterion object created in \code{\link{new_crit()}}}
+
 \item{...}{}
+}
+\value{
+Pretty print of criterion stored in R object.
 }
 \description{
 Pretty print of new criterion
