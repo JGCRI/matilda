@@ -60,6 +60,7 @@ metric_calc_1run <- function(x, metric) {
 #' @param metric An object identifying a variable, year range, and operation
 #' (e.g. mean, median, max, min, etc.) to fetch from Hector result.
 #' @param params A data frame object containing parameter values.
+#'
 #' @import hector
 #' @return A data frame with a run_number from one to the total number of Hector
 #' runs completed and values for the variables and year range identified in
