@@ -4,18 +4,17 @@
 \alias{metric_calc}
 \title{Metric Calculation}
 \usage{
-
 metric_calc(x, metric)
-
 }
 \arguments{
 \item{x}{A data frame object from \code{\link{iterative_hector}} output.}
 
 \item{metric}{An object identifying a variable, year range, and operation
-(e.g. mean, median, max, min, etc.) to fetch from Hector result.
-
-?me@return A data frame with columns for run_number, variable, and a metric
-calculation for each Hector run.}
+(e.g. mean, median, max, min, etc.) to fetch from Hector result.}
+}
+\value{
+A data frame with columns for run_number, variable, and a metric
+calculation for each Hector run.
 }
 \description{
 A function that accepts a data frame result from an iterative Hector
