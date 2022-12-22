@@ -52,7 +52,7 @@ metric_calc_1run <- function(x, metric) {
 
 }
 
-#' Iterative Hector Runs
+#' Iterate Hector Runs
 #'
 #' @description Runs Hector in an iterative process with parameter uncertainty.
 #'
@@ -67,7 +67,7 @@ metric_calc_1run <- function(x, metric) {
 #' the metric argument for each Hector run.
 #' @export
 
-iterative_hector <- function(core, metric, params) {
+iterate_hector <- function(core, metric, params) {
 
   # store results
   result_list <- list()

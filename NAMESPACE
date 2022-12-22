@@ -3,7 +3,7 @@
 S3method(print,h_metric)
 export(bin_metrics)
 export(generate_params)
-export(iterative_hector)
+export(iterate_hector)
 export(metric_calc)
 export(metric_calc_1run)
 export(new_metric)
