@@ -19,3 +19,11 @@ year range.
 \description{
 Function for calculating a variable metric from Hector output data.
 }
+\examples{
+ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
+core <- newcore(ssp245)
+run(core)
+h_result <- fetchvars(core, dates = 2000:2300)
+metric <- new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
+metric_calc_1run(h_result, metric)
+}

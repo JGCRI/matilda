@@ -20,3 +20,6 @@ Function used to supply proper values to rlnorm() in order to produce
 a log-normal distribution when arithmetic mean and standard deviation of a parameter are
 supplied.
 }
+\examples{
+lognorm(0, 1)
+}

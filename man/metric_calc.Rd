@@ -7,7 +7,7 @@
 metric_calc(x, metric)
 }
 \arguments{
-\item{x}{A data frame object from \code{\link{iterative_hector}} output.}
+\item{x}{A data frame object from \code{\link{iterate_hector}} output.}
 
 \item{metric}{An object identifying a variable, year range, and operation
 (e.g. mean, median, max, min, etc.) to fetch from Hector result.}
@@ -19,4 +19,12 @@ calculation for each Hector run.
 \description{
 A function that accepts a data frame result from an iterative Hector
 run and calculates a specified metric for each run.
+}
+\examples{
+ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
+core <- newcore(ssp245)
+metric <- new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
+params <- generate_params(10)
+h_result <- iterate_hector(core, metric, params)
+metric_calc(h_result, metric)
 }

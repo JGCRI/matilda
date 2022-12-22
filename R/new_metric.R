@@ -9,6 +9,9 @@
 #'
 #' @return Pretty print of R object containing new metric values.
 #' @export
+#'
+#' @examples
+#' new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
 
 new_metric <- function(var, years, op){
 

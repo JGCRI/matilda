@@ -22,7 +22,9 @@ Description: Provides a probabilistic framework for climate variable projections
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Depends: hector
+Depends: 
+    hector,
+    R (>= 2.10)
 Suggests: 
     knitr,
     rmarkdown,

@@ -22,3 +22,11 @@ the metric argument for each Hector run.
 \description{
 Runs Hector in an iterative process with parameter uncertainty.
 }
+
+\examples{
+ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
+core <- newcore(ssp245)
+metric <- new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
+params <- generate_params(10)
+iterate_hector(core, metric, params)
+}

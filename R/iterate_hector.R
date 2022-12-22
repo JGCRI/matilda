@@ -10,6 +10,9 @@
 #' @return Mean and standard deviation parameters that can be used for appropriate
 #' calculation of a log normal distribution for random draws.
 #'
+#' @examples
+#' lognorm(0, 1)
+
 
 lognorm <- function(m, sd){
 
@@ -37,6 +40,14 @@ lognorm <- function(m, sd){
 #' year range.
 #' @export
 
+#' @examples
+#' ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
+#' core <- newcore(ssp245)
+#' run(core)
+#' h_result <- fetchvars(core, dates = 2000:2300)
+#' metric <- new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
+#' metric_calc_1run(h_result, metric)
+
 metric_calc_1run <- function(x, metric) {
 
   if(any (metric$years > max(x$year))) stop('year range must be subset of years in x')
@@ -62,10 +73,21 @@ metric_calc_1run <- function(x, metric) {
 #' @param params A data frame object containing parameter values.
 #'
 #' @import hector
+#'
+#' @importFrom stats rnorm rlnorm
+#'
 #' @return A data frame with a run_number from one to the total number of Hector
 #' runs completed and values for the variables and year range identified in
 #' the metric argument for each Hector run.
+#'
 #' @export
+#'
+#' @examples
+#' ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
+#' core <- newcore(ssp245)
+#' metric <- new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
+#' params <- generate_params(10)
+#' iterate_hector(core, metric, params)
 
 iterate_hector <- function(core, metric, params) {
 
@@ -75,7 +97,8 @@ iterate_hector <- function(core, metric, params) {
   # set number of model iterations
   for(i in seq_len(nrow(params))) {
 
-    # convert params to numeric - or should this happen externally?
+
+    # convert params to numeric
     params_i <- unlist(params [i, ])
 
     # set variable values -- needs core and numeric param values
@@ -88,13 +111,13 @@ iterate_hector <- function(core, metric, params) {
     run(core)
 
     # fetch model results based on function arguments provided by the user
-    # Stores in object 'dat'
     dat <- fetchvars(core = core, dates = metric$years, vars = metric$var)
 
     # adding run_number column
     dat$run_number <- i
 
-    # stores resulting dfs (dat) from each run in result_list()
+
+    # stores results
     result_list[[i]] <- dat
 
   }
