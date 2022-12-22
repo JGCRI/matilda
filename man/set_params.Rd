@@ -20,3 +20,10 @@ Takes randomly generated parameter values produced by
 \code{\link{generate_params}} and sets each value to appropriate Hector variable
 for the supplied Hector core.
 }
+\examples{
+ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
+core <- newcore(ssp245)
+params <- generate_params(10)
+param_vals <- unlist(params [1, ])
+set_params(core, param_vals)
+}

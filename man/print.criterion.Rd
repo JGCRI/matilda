@@ -7,7 +7,7 @@
 \method{print}{criterion}(x, ...)
 }
 \arguments{
-\item{x}{Criterion object created in \code{\link{new_crit()}}}
+\item{x}{Criterion object created in \code{\link{new_crit}}}
 
 \item{...}{}
 }

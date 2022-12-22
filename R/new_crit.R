@@ -8,8 +8,7 @@
 #' @export
 #'
 #' @examples
-#' atmos_crit <- new_crit(ATMOSPHERIC_CO2, years = mlo$years, obs_values = mlo$mean)
-#' atmos_crit
+#' new_crit(ATMOSPHERIC_CO2(), years = mlo$year, obs_values = mlo$mean)
 
 new_crit <- function(var, years, obs_values) {
 
@@ -25,7 +24,7 @@ new_crit <- function(var, years, obs_values) {
 
 #' Pretty print of new criterion
 #'
-#' @param x Criterion object created in \code{\link{new_crit()}}
+#' @param x Criterion object created in \code{\link{new_crit}}
 #' @param ...
 #'
 #' @return Pretty print of criterion stored in R object.
@@ -39,7 +38,6 @@ print.criterion <- function(x, ...) {
 
 }
 
-
 #' Screening criterion using Mauna Loa atmospheric CO2
 #'
 #' @return A criterion using Mauna Loa atmospheric CO2
@@ -47,9 +45,9 @@ print.criterion <- function(x, ...) {
 #' @export
 #'
 #' @examples
-#' crit_CO2_obs()
+#' crit_co2_obs()
 
-crit_CO2_obs <- function() {
+crit_co2_obs <- function() {
 
   new_crit(ATMOSPHERIC_CO2(), years = mlo$year, obs_values = mlo$mean)
 

@@ -18,6 +18,5 @@ Generates parameter values from a normal distribution user
 provided number of random draws.
 }
 \examples{
-param_values <- generate_params(10)
-para_values
+generate_params(10)
 }

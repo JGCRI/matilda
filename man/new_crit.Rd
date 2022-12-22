@@ -20,6 +20,5 @@ Pretty print of R object containing new criterion parameters.
 Creating New Criterion Object
 }
 \examples{
-atmos_crit <- new_crit(ATMOSPHERIC_CO2, years = mlo$years, obs_values = mlo$mean)
-atmos_crit
+new_crit(ATMOSPHERIC_CO2(), years = mlo$year, obs_values = mlo$mean)
 }

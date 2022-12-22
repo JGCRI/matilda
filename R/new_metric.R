@@ -11,9 +11,7 @@
 #' @export
 #'
 #' @examples
-#' metric <- new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
-#' metric
-
+#' new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
 
 new_metric <- function(var, years, op){
 

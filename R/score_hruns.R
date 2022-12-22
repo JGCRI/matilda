@@ -2,7 +2,7 @@
 # w1 - distance at which score ramps down from 1.
 # w2 - distance at which score becomes 0.
 
-#' Computing vector of score for numeric vectors
+#' Computing vector of scores for numeric vectors
 #'
 #' @param x First set of numeric vectors
 #' @param y Second set of numeric vectors
@@ -13,6 +13,10 @@
 #' @export
 #'
 #' @examples
+#' x <- c(3, 5, 3, 4, 9)
+#' y <- c(3, 6.5, 5, 9, 10)
+#' score_ramp(x, y, w1 = 1, w2 = 3)
+
 score_ramp <- function(x, y, w1, w2, na.omit = FALSE) {
 
   if (na.omit) {
@@ -51,21 +55,23 @@ score_ramp <- function(x, y, w1, w2, na.omit = FALSE) {
 
 }
 
-# Goal: score hector runs based on divergence of CO2 projections in relation to
-# observed values (using mlo data)
-
 #' Screen Hector outputs with observed data
 #'
-#' @param x result data frame from iterative_hector.
-#' @param obs_dat observed data used to score hector runs.
-#' @param years year range of used for screening hector runs.
-#' @param w1 low divergence bound to assign highest score.
-#' @param w2 high divergence bound to assign lowest score.
+#' @param x Result data frame from \code{\link{iterate_hector}}.
+#' @param score_function Scoring function to use for screening Hector model runs.
+#' @param ... Additional arguments needed to run the selected scoring function.
+#' @param crit Criterion to use for screening Hector runs.
 #'
 #' @return Data frame with mean score for each Hector run
 #' @export
 #'
 #' @examples
+#' ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
+#' core <- newcore(ssp245)
+#' metric <- new_metric(ATMOSPHERIC_CO2(), years = 2000:2100, op = mean)
+#' params <- generate_params(10)
+#' h_result <- iterate_hector(core, metric, params)
+#' score_hruns(h_result, crit_co2_obs(), score_ramp, w1 = 2, w2 = 20)
 
 score_hruns <- function(x, crit, score_function,...) {
 

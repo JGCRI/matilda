@@ -2,7 +2,7 @@
 % Please edit documentation in R/score_hruns.R
 \name{score_ramp}
 \alias{score_ramp}
-\title{Computing vector of score for numeric vectors}
+\title{Computing vector of scores for numeric vectors}
 \usage{
 score_ramp(x, y, w1, w2, na.omit = FALSE)
 }
@@ -19,5 +19,10 @@ score_ramp(x, y, w1, w2, na.omit = FALSE)
 Vector of scores
 }
 \description{
-Computing vector of score for numeric vectors
+Computing vector of scores for numeric vectors
+}
+\examples{
+x <- c(3, 5, 3, 4, 9)
+y <- c(3, 6.5, 5, 9, 10)
+score_ramp(x, y, w1 = 1, w2 = 3)
 }

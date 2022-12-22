@@ -21,6 +21,5 @@ Stores metric values in an object for easily interchanging new
 metrics for functions within hectorpractice.
 }
 \examples{
-metric <- new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
-metric
+new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
 }

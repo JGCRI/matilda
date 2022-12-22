@@ -7,19 +7,25 @@
 score_hruns(x, crit, score_function, ...)
 }
 \arguments{
-\item{x}{result data frame from iterative_hector.}
+\item{x}{Result data frame from \code{\link{iterate_hector}}.}
 
-\item{obs_dat}{observed data used to score hector runs.}
+\item{crit}{Criterion to use for screening Hector runs.}
 
-\item{years}{year range of used for screening hector runs.}
+\item{score_function}{Scoring function to use for screening Hector model runs.}
 
-\item{w1}{low divergence bound to assign highest score.}
-
-\item{w2}{high divergence bound to assign lowest score.}
+\item{...}{Additional arguments needed to run the selected scoring function.}
 }
 \value{
 Data frame with mean score for each Hector run
 }
 \description{
 Screen Hector outputs with observed data
+}
+\examples{
+ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
+core <- newcore(ssp245)
+metric <- new_metric(ATMOSPHERIC_CO2(), years = 2000:2100, op = mean)
+params <- generate_params(10)
+h_result <- iterate_hector(core, metric, params)
+score_hruns(h_result, crit_co2_obs(), score_ramp, w1 = 2, w2 = 20)
 }
