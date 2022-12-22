@@ -12,7 +12,7 @@
 #' @param metric An object identifying a variable, year range, and operation
 #' (e.g. mean, median, max, min, etc.) to fetch from Hector result.
 #'
-#' ?me@return A data frame with columns for run_number, variable, and a metric
+#' @return A data frame with columns for run_number, variable, and a metric
 #' calculation for each Hector run.
 #'
 #' @export

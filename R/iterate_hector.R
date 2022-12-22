@@ -13,6 +13,7 @@
 #' @examples
 #' lognorm(0, 1)
 
+
 lognorm <- function(m, sd){
 
   # re-parameterization of supplied mean value
@@ -38,7 +39,7 @@ lognorm <- function(m, sd){
 #' @return A numeric value calculated from the operation for each variable in the
 #' year range.
 #' @export
-#'
+
 #' @examples
 #' ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
 #' core <- newcore(ssp245)
@@ -72,6 +73,7 @@ metric_calc_1run <- function(x, metric) {
 #' @param params A data frame object containing parameter values.
 #'
 #' @import hector
+#'
 #' @importFrom stats rnorm rlnorm
 #'
 #' @return A data frame with a run_number from one to the total number of Hector
@@ -95,6 +97,7 @@ iterate_hector <- function(core, metric, params) {
   # set number of model iterations
   for(i in seq_len(nrow(params))) {
 
+
     # convert params to numeric
     params_i <- unlist(params [i, ])
 
@@ -113,7 +116,8 @@ iterate_hector <- function(core, metric, params) {
     # adding run_number column
     dat$run_number <- i
 
-    # stores resulting
+
+    # stores results
     result_list[[i]] <- dat
 
   }
