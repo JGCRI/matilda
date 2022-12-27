@@ -74,15 +74,15 @@ We can use this parameter data frame to run Hector through an iterative process,
 
 # Running Hector with iterations
 
-Once we have configured a Hector core and generated a series of parameter values, we can complete iterative Hector runs using the `iterative_hector()` function.
+Once we have configured a Hector core and generated a series of parameter values, we can complete iterative Hector runs using the `iterate_hector()` function.
 
-`iterative_hector()` requires some specific information in order to produce an output we want. As previously mentioned, it requires a core (arg = `core`) and a data frame of parameter values (arg = `params`). In addition it requires the user to indicate which variables and year ranges to fetch from the core object (arg = `metric`). 
+`iterate_hector()` requires some specific information in order to produce an output we want. As previously mentioned, it requires a core (arg = `core`) and a data frame of parameter values (arg = `params`). In addition it requires the user to indicate which variables and year ranges to fetch from the core object (arg = `metric`). 
 
-`hectorpractice` has the ability to store desired metric definitions in an object that can be easily passed to many different functions in the package, including `iterative_hector`. 
+`hectorpractice` has the ability to store desired metric definitions in an object that can be easily passed to many different functions in the package, including `iterate_hector`. 
 
-We will use the `new_metric` function to define the variable, year range, and operation we are most interested in gathering Hector projections on and use that object as the `metric` argument in  `iterative_hector`.
+We will use the `new_metric` function to define the variable, year range, and operation we are most interested in gathering Hector projections on and use that object as the `metric` argument in  `iterate_hector`.
 
-Below we will create a metric object indicating that we want to retrieve results for global average surface temperature (global_tas) for the years 2000 to 2300. We will also specify that we are interested in computing median global_tas data. It is important to note that the operation stored in our metric object will **not** be used in the `iterative_hector` function, but will be important for subsequent steps in the analysis.  
+Below we will create a metric object indicating that we want to retrieve results for global average surface temperature (global_tas) for the years 2000 to 2300. We will also specify that we are interested in computing median global_tas data. It is important to note that the operation stored in our metric object will **not** be used in the `iterate_hector` function, but will be important for subsequent steps in the analysis.  
 
 ```{r}
 # Setting a new_metric object for Hector analysis
@@ -91,11 +91,11 @@ my_metric <- new_metric("global_tas", 2000:2300, median)
 print(my_metric)
 ```
 
-Now that have all of the required arguments for `iterative_hector` we can run the model. We will create an object called `results` which will store our output in a data frame.
+Now that have all of the required arguments for `iterate_hector` we can run the model. We will create an object called `results` which will store our output in a data frame.
 
 ```{r, message=FALSE}
 # Run Hector model repeatedly over all parameter values
-results <- iterative_hector(core = c_ssp245, metric = my_metric, params = param_values)
+results <- iterate_hector(core = c_ssp245, metric = my_metric, params = param_values)
 
 head(results)
 ```
@@ -120,7 +120,7 @@ Once we have our Hector result, we can begin to address broader questions about 
 
 # Calculating metrics and probabilistic outcomes
 
-After producing a result from `interative_hector` we can calculate our metrics of interest for each Hector run. As a reminder, we have already specified a metric we are interested in (`my_metric`). This metric object includes outputs from 2000-2300. 
+After producing a result from `iterate_hector` we can calculate our metrics of interest for each Hector run. As a reminder, we have already specified a metric we are interested in (`my_metric`). This metric object includes outputs from 2000-2300. 
 
 But if we are now interested in a reduced year range (2000-2100) we can just as easily create a new metric specific to those goals.
 
@@ -131,7 +131,7 @@ my_metric2 <- new_metric("global_tas", 2000:2100, median)
 print(my_metric2)
 ```
 
-With the new metric object and our `iterative_hector` output data frame, we can utilize the `metric_calc` function to calculate our metric (median global_tas from 2000 to 2100) for each of our Hector runs.
+With the new metric object and our `iterate_hector` output data frame, we can utilize the `metric_calc` function to calculate our metric (median global_tas from 2000 to 2100) for each of our Hector runs.
 
 ```{r}
 # Getting results for our metric of interest
