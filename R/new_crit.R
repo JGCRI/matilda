@@ -49,6 +49,8 @@ print.criterion <- function(x, ...) {
 
 crit_co2_obs <- function() {
 
-  new_crit(ATMOSPHERIC_CO2(), years = mlo$year, obs_values = mlo$mean)
+  new_crit(ATMOSPHERIC_CO2(),
+           years = metricdata_co2$year,
+           obs_values = metricdata_co2$co2_PgC)
 
 }

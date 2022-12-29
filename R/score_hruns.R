@@ -75,6 +75,9 @@ score_ramp <- function(x, y, w1, w2, na.omit = FALSE) {
 
 score_hruns <- function(x, crit, score_function,...) {
 
+  # error if variable in x does not match variable in the criterion being used
+  if( any(crit$var != x$variable)) stop('variable in x does not match criterion variable')
+
   # subset to include years for CO2 screening
   x_subset <- subset(x, year %in% crit$years & variable == crit$var)
 
@@ -90,9 +93,6 @@ score_hruns <- function(x, crit, score_function,...) {
   # calculate mean scores for each run.
   score_mean <- aggregate(scores ~ run_number, data = x_merge, FUN = mean)
 
-  # df of mean scores
-  mean_score <- as.data.frame(score_mean)
-
-  return(mean_score)
+  return(score_mean)
 
 }

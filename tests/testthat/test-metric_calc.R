@@ -17,18 +17,16 @@ year_range <- new_metric("var", 2000:2051, mean)
 no_var <- new_metric("var1", 2000:2050, mean)
 
 # tests
-
 test_that("result has proper class and structure", {
 
-  r <- metric_calc(x,
-                   new_metric)
+  result <- metric_calc(x, new_metric)
 
   # return is a df
-  expect_s3_class(r, "data.frame")
+  expect_s3_class(result, "data.frame")
 
   # is data str correct for cols
-  expect_true(is.numeric(r$metric_result))
-  expect_true(is.integer(r$run_number))
+  expect_true(is.numeric(result$metric_result))
+  expect_true(is.integer(result$run_number))
 
 })
 

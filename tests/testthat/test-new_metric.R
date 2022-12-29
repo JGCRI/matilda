@@ -9,7 +9,7 @@
 ##
 ## Because this function just stores user information into a list
 
-# creating new_metric object
+# creating new_metric object for tests
 new_metric <- new_metric("global_tas", 2000:2050, mean)
 
 # Testing attribute class
@@ -20,7 +20,7 @@ test_that("result inherits correct attribute class", {
 
 })
 
-# Testing stucture of result
+# Testing structure of result
 test_that("output has correct data structure", {
 
   expect_true(is.character(c(new_metric$var, new_metric$op_name)))
