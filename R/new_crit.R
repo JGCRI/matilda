@@ -22,7 +22,7 @@ new_crit <- function(var, years, obs_values) {
 
 }
 
-#' Pretty print of new criterion
+#' Print new criterion
 #'
 #' @param x Criterion object created in \code{\link{new_crit}}
 #' @param ...
@@ -31,21 +31,25 @@ new_crit <- function(var, years, obs_values) {
 #' @export
 #'
 
-print.criterion <- function(x, ...) {
+print.crit <- function(x, ...) {
 
   cat("Criterion for screening Hector: ",
       x$var, min(x$years), " to ", max(x$years), "\n")
 
 }
 
-#' Title
+#' Is an object of type criterion?
 #'
-#' @param x
+#' @description Checks whether the supplied argument has an attribute class of criterion
 #'
-#' @return
+#' @param x an R object.
+#'
+#' @return TRUE if x has an attribute class of criterion, and FALSE otherwise.
 #' @export
 #'
 #' @examples
+#' x <- crit_co2_obs()
+#' is.crit(x)
 
 is.crit <- function(x) {
 
@@ -55,8 +59,12 @@ is.crit <- function(x) {
 
 #' Screening criterion using Mauna Loa atmospheric CO2
 #'
+#' @description This data set gives the longest running measurements of mean annual
+#' atmospheric CO2 levels (ppm) from the Mauna Loa Observatory.
+#'
 #' @return A criterion using Mauna Loa atmospheric CO2
-#' @note This uses the Mauna Loa on 'URL' on 'DATE'
+#' @note This uses the Mauna Loa data set from \link{https://gml.noaa.gov/ccgg/trends/data.html}
+#' downloaded on 01/03/2023
 #' @export
 #'
 #' @examples

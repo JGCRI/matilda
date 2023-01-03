@@ -2,13 +2,20 @@
 % Please edit documentation in R/new_crit.R
 \name{is.crit}
 \alias{is.crit}
-\title{Title}
+\title{Is an object of type criterion?}
 \usage{
 is.crit(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{an R object.}
+}
+\value{
+TRUE if x has an attribute class of criterion, and FALSE otherwise.
 }
 \description{
-Title
+Checks whether the supplied argument has an attribute class of criterion
+}
+\examples{
+x <- crit_co2_obs()
+is.crit(x)
 }

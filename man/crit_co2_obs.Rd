@@ -10,10 +10,12 @@ crit_co2_obs()
 A criterion using Mauna Loa atmospheric CO2
 }
 \description{
-Screening criterion using Mauna Loa atmospheric CO2
+This data set gives the longest running measurements of mean annual
+atmospheric CO2 levels (ppm) from the Mauna Loa Observatory.
 }
 \note{
-This uses the Mauna Loa on 'URL' on 'DATE'
+This uses the Mauna Loa data set from \link{https://gml.noaa.gov/ccgg/trends/data.html}
+downloaded on 01/03/2023
 }
 \examples{
 crit_co2_obs()
