@@ -10,6 +10,7 @@ test_that("result inherits correct attribute class", {
 })
 
 # Testing structure of result
+
 test_that("output has correct data structure", {
 
   expect_true(is.integer(c(co2_crit$year)))
