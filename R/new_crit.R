@@ -38,6 +38,21 @@ print.criterion <- function(x, ...) {
 
 }
 
+#' Title
+#'
+#' @param x
+#'
+#' @return
+#' @export
+#'
+#' @examples
+
+is.crit <- function(x) {
+
+  isa(x, "criterion")
+
+}
+
 #' Screening criterion using Mauna Loa atmospheric CO2
 #'
 #' @return A criterion using Mauna Loa atmospheric CO2

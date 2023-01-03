@@ -3,7 +3,7 @@ co2_crit <- crit_co2_obs()
 
 # Testing attribute class
 
-test_that("result inherits correct attribute class", {
+test_that("result has correct attribute class", {
 
   expect_s3_class(co2_crit, "criterion")
 

@@ -75,11 +75,20 @@ score_ramp <- function(x, y, w1, w2, na.omit = FALSE) {
 
 score_hruns <- function(x, crit, score_function,...) {
 
-  # error if variable in x does not match variable in the criterion being used
-  if( any(crit$var != x$variable)) stop('variable in x does not match criterion variable')
+  # error if x is not a data frame
+  if( !is.data.frame(x)) stop('user supplied x is not a data frame')
+
+  # error if crit is not a criterion
+  if( !is.crit(crit)) stop('user supplied crit is not a criterion')
+
+  # error if score_function is not a function
+  if( !is.function(score_function)) stop('user supplied score_function is not a function')
 
   # subset to include years for CO2 screening
   x_subset <- subset(x, year %in% crit$years & variable == crit$var)
+
+  # error if variable in x does not match variable in the criterion being used
+  if( !nrow(x_subset)) stop('criterion year and variable combination not represented in data')
 
   #creates observed data frame
   obs_dat <- data.frame(year = crit$years, value_obs = crit$obs_values)
