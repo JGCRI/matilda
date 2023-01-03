@@ -5,7 +5,7 @@
 ## 'unc' column which represents STD for annual mean CO2.
 
 # Reading in Mauna Loa annual mean CO2 data
-metricdata_co2 <- read.csv("co2_annmean_mlo.csv")
+metricdata_co2 <- read.csv("co2_annmean_maunaloa.csv")
 
 # converting ppm to PgC for comparison to atmos_co2 in Hector
 metricdata_co2$co2_PgC <- metricdata_co2$mean * 2.13
