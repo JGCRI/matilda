@@ -20,5 +20,5 @@ Pretty print of R object containing new criterion parameters.
 Creating New Criterion Object
 }
 \examples{
-new_crit(ATMOSPHERIC_CO2(), years = mlo$year, obs_values = mlo$mean)
+new_crit(ATMOSPHERIC_CO2(), years = metricdata_co2$year, obs_values = metricdata_co2$co2_ppm)
 }

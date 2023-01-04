@@ -10,9 +10,6 @@
 #' @return Mean and standard deviation parameters that can be used for appropriate
 #' calculation of a log normal distribution for random draws.
 #'
-#' @examples
-#' lognorm(0, 1)
-
 
 lognorm <- function(m, sd){
 

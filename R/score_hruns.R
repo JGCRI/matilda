@@ -65,6 +65,8 @@ score_ramp <- function(x, y, w1, w2, na.omit = FALSE) {
 #' @return Data frame with mean score for each Hector run
 #' @export
 #'
+#' @import stats
+#'
 #' @examples
 #' ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
 #' core <- newcore(ssp245)

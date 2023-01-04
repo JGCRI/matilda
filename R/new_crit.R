@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-#' new_crit(ATMOSPHERIC_CO2(), years = mlo$year, obs_values = mlo$mean)
+#' new_crit(ATMOSPHERIC_CO2(), years = metricdata_co2$year, obs_values = metricdata_co2$co2_ppm)
 
 new_crit <- function(var, years, obs_values) {
 
@@ -63,7 +63,8 @@ is.crit <- function(x) {
 #' atmospheric CO2 levels (ppm) from the Mauna Loa Observatory.
 #'
 #' @return A criterion using Mauna Loa atmospheric CO2
-#' @note This uses the Mauna Loa data set from \link{https://gml.noaa.gov/ccgg/trends/data.html}
+#' @note This uses the Mauna Loa data set from
+#' \href{https://gml.noaa.gov/ccgg/trends/data.html}{https://gml.noaa.gov/ccgg/trends/data.html}
 #' downloaded on 01/03/2023
 #' @export
 #'
@@ -74,6 +75,6 @@ crit_co2_obs <- function() {
 
   new_crit(ATMOSPHERIC_CO2(),
            years = metricdata_co2$year,
-           obs_values = metricdata_co2$co2_PgC)
+           obs_values = metricdata_co2$co2_ppm)
 
 }
