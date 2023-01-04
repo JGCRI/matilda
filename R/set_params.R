@@ -1,6 +1,3 @@
-# Goal looping hector using generated param values
-
-## Priority to-do: Function and test - test error and are vars set correctly for core
 
 #' Set Parameter Values to Hector Variables
 #'
@@ -11,9 +8,16 @@
 #' @param param_values An object of generated parameter values. Must be of
 #' numeric class. Column names must match parameter functions in Hector.
 #' @param core Hector core object
+#'
 #' @return Message indicating the values set to each parameter variable.
 #' @export
 #'
+#' @examples
+#' ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
+#' core <- newcore(ssp245)
+#' params <- generate_params(10)
+#' param_vals <- unlist(params [1, ])
+#' set_params(core, param_vals)
 
 set_params <- function(core, param_values) {
 

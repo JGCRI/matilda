@@ -17,3 +17,6 @@ run. Columns indicate run_number and each parameter.
 Generates parameter values from a normal distribution user
 provided number of random draws.
 }
+\examples{
+generate_params(10)
+}

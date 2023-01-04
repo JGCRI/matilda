@@ -1,0 +1,163 @@
+---
+title: "hectorpractice-vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{hectorpractice-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+Hectorpractice (NAME!?) is a package that provides probabilistic capability to the Hector simple climate model. Within the package are functions that introduce running Hector through an iterative process using randomly generated parameters for each iteration and computation of probabilistic projections of specified climatic variables. This process adds parameter uncertainty to model outputs that were not previously available in Hector. 
+
+In addition, the package has functions available that allow the user to calculate metrics and compute probabilistic projections of climate variable outcomes for specified date ranges. For example, it is possible to compute the probability that median global surface warming will remain between 2-3$^\circ$ C by the end of the century (2100).
+
+Producing probabilistic climate variable outcomes relies on the inclusion of parameter uncertainty. Including parameter uncertainty allows Hector to run multiple times across a range of possible parameter values, leading to multiple possible outcomes.  
+
+This vignette will work through the basic functionality of the hectorpractice (NAME!?) package. First, we will show how to produce a data frame of parameter values drawn randomly from normal distributions of important model parameters. Next, we will use the parameter values produced to run Hector in an iterative process, whereby parameter values are substituted (without replacement) for multiple model runs. Then, we shows how to use an iterative Hector output to compute a climatic variable metric for each Hector run. These metrics will then be organized into bins and probabilities will be calculated for the projection of each climatic variable.
+
+As a final simple analysis example, we will show how these functions give Hector the capability to be used as a coupled climate model to compute probabilistic projections of future climate change using emissions derived from two different Shared Socio-economic Pathways (SSPs). 
+
+####
+
+# Set-up
+
+## Configure Hector core
+
+First, load the `hectorpractice` package 
+
+```{r setup}
+library(hectorpractice)
+```
+
+Next, we will initialize a "core" or Hector instance, we will need this core to run the Hector model. 
+
+More information about establishing a new core for running Hector can be found in the tutorial for using the [Hector R interface](https://jgcri.github.io/hector/articles/intro-to-hector.html).
+
+```{r}
+# Reading INI file with emission scenario of interest
+ini <- system.file("input/hector_ssp245.ini", package = "hector")
+
+# Creating a new core 
+c_ssp245 <- newcore(ini)
+
+```
+
+This new Hector core is an object that contains information about Hector inputs and outputs.
+
+Now we can generate parameter values. The parameter values that we produce will be subsequently used to set parameter variables in our core for a series of Hector runs.
+
+## Generate parameter values
+
+We can generate a data frame of parameter values using `generate_params()`. This function randomly samples a normal distribution of each parameter and stores sampled parameter values in a data frame. We need to specify how many random draws of the parameter distributions we would like to complete. The number of sample draws we indicate will also be the number of times we will run Hector.
+
+```{r}
+# Generate a data frame of random parameter values
+param_values <- generate_params(10)
+
+head(param_values)
+```
+
+We now have a data frame object called `param_values`. This data frame contains our model parameter names with 10 (user specified arg in `generate_params`) unique values that were sampled for each parameter.
+
+We can use this parameter data frame to run Hector through an iterative process, setting new parameter values with each run until a Hector output has been produced for each set of parameter values we generated.  
+
+####
+
+# Running Hector with iterations
+
+Once we have configured a Hector core and generated a series of parameter values, we can complete iterative Hector runs using the `iterate_hector()` function.
+
+`iterate_hector()` requires some specific information in order to produce an output we want. As previously mentioned, it requires a core (arg = `core`) and a data frame of parameter values (arg = `params`). In addition it requires the user to indicate which variables and year ranges to fetch from the core object (arg = `metric`). 
+
+`hectorpractice` has the ability to store desired metric definitions in an object that can be easily passed to many different functions in the package, including `iterate_hector`. 
+
+We will use the `new_metric` function to define the variable, year range, and operation we are most interested in gathering Hector projections on and use that object as the `metric` argument in  `iterate_hector`.
+
+Below we will create a metric object indicating that we want to retrieve results for global average surface temperature (global_tas) for the years 2000 to 2300. We will also specify that we are interested in computing median global_tas data. It is important to note that the operation stored in our metric object will **not** be used in the `iterate_hector` function, but will be important for subsequent steps in the analysis.  
+
+```{r}
+# Setting a new_metric object for Hector analysis
+my_metric <- new_metric("global_tas", 2000:2300, median)
+
+print(my_metric)
+```
+
+Now that have all of the required arguments for `iterate_hector` we can run the model. We will create an object called `results` which will store our output in a data frame.
+
+```{r, message=FALSE}
+# Run Hector model repeatedly over all parameter values
+results <- iterate_hector(core = c_ssp245, metric = my_metric, params = param_values)
+
+head(results)
+```
+
+Viewing the full results will show that global average surface temperature values from 2000-2300 for 10 separate runs, which is indicated by `run_number`. As a reminder, each run uses different parameter estimates to complete the model. 
+
+The result is a `data.frame` and therefore we can plot the results easily in `ggplot2`.
+
+```{r}
+# plotting results from iterative Hector run
+library(ggplot2)
+
+ggplot(data = results, aes(x = year, y = value, group = run_number)) +
+  geom_line()
+```
+
+From this result we can see how incorporating parameter uncertainty in Hector influences trajectories of climate variable projections, in this case global average surface temperature. We can view this as a non-deterministic result of climate model projections when parameter uncertainty is included in the Hector model.
+
+Once we have our Hector result, we can begin to address broader questions about climate projections. For example, we may be interested in what the median global_tas values are from 2000-2100 for each model run, and what the probability is that median warming of the global average surface temperature will remain below 2$^\circ$ C by 2100?
+
+####
+
+# Calculating metrics and probabilistic outcomes
+
+After producing a result from `iterate_hector` we can calculate our metrics of interest for each Hector run. As a reminder, we have already specified a metric we are interested in (`my_metric`). This metric object includes outputs from 2000-2300. 
+
+But if we are now interested in a reduced year range (2000-2100) we can just as easily create a new metric specific to those goals.
+
+```{r}
+# New metric object to address question of warming below 2 C by 2100
+my_metric2 <- new_metric("global_tas", 2000:2100, median)
+
+print(my_metric2)
+```
+
+With the new metric object and our `iterate_hector` output data frame, we can utilize the `metric_calc` function to calculate our metric (median global_tas from 2000 to 2100) for each of our Hector runs.
+
+```{r}
+# Getting results for our metric of interest
+metric_result <- metric_calc(results, my_metric2)
+
+head(metric_result)
+```
+
+We can use the `metric_calc` results to organize data into bins for which we define the ranges. 
+
+```{r}
+binned_metrics <- bin_metrics(metric_result, c(1, 1.5, 2.0, 2.5, 3.0, 4.0))
+
+print(binned_metrics)
+
+```
+
+#### EDIT 
+
+After data are binned we can use the table result to calculate the probability of specific outcomes of the climate varaible we are interested in. 
+
+In this example... 
+
+```{r}
+prob_result <- prob_calc(binned_metrics)
+
+print(prob_result)
+```
+

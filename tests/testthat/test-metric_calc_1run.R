@@ -8,7 +8,7 @@ y <- data.frame(year = 2000:2100,
 # creating new metric
 metric <- new_metric("var1", 2000:2100, mean)
 
-# creating new metric for testign year length
+# creating new metric for testing year length
 year_length <- new_metric("var1", 2000:2101, mean)
 
 # new metric with missing variable
