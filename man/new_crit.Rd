@@ -20,5 +20,6 @@ Pretty print of R object containing new criterion parameters.
 Creating New Criterion Object
 }
 \examples{
-new_crit(ATMOSPHERIC_CO2(), years = metricdata_co2$year, obs_values = metricdata_co2$co2_ppm)
+x <- hectorpractice:::metricdata_co2
+new_crit(ATMOSPHERIC_CO2(), years = x$year, obs_values = x$co2_ppm)
 }

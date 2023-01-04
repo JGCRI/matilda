@@ -16,5 +16,4 @@ metricdata_co2$unc <- NULL
 
 
 # Add metric data for internal use
-#
 usethis::use_data(metricdata_co2, overwrite = TRUE, internal = TRUE)
