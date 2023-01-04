@@ -14,6 +14,9 @@ score_ramp(x, y, w1, w2, na.omit = FALSE)
 \item{w1}{Distance at which score ramps down from 1.}
 
 \item{w2}{Distance at which score becomes 0}
+
+\item{na.omit}{How should score_ramp deal with rows in data frame containing NAs?
+Defaults to FALSE, leaving NAs in data frame.}
 }
 \value{
 Vector of scores

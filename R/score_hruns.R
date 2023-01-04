@@ -8,6 +8,8 @@
 #' @param y Second set of numeric vectors
 #' @param w1 Distance at which score ramps down from 1.
 #' @param w2 Distance at which score becomes 0
+#' @param na.omit How should score_ramp deal with rows in data frame containing NAs?
+#' Defaults to FALSE, leaving NAs in data frame.
 #'
 #' @return Vector of scores
 #' @export

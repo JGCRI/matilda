@@ -9,11 +9,14 @@
 \arguments{
 \item{x}{Criterion object created in \code{\link{new_crit}}}
 
-\item{...}{}
+\item{...}{Other arguments to or from other methods.}
 }
 \value{
 Pretty print of criterion stored in R object.
 }
 \description{
 Print new criterion
+}
+\examples{
+hectorpractice:::print.crit(crit_co2_obs())
 }

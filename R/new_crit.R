@@ -26,11 +26,13 @@ new_crit <- function(var, years, obs_values) {
 #' Print new criterion
 #'
 #' @param x Criterion object created in \code{\link{new_crit}}
-#' @param ...
+#' @param ... Other arguments to or from other methods.
 #'
 #' @return Pretty print of criterion stored in R object.
 #' @export
 #'
+#' @examples
+#' hectorpractice:::print.crit(crit_co2_obs())
 
 print.crit <- function(x, ...) {
 
