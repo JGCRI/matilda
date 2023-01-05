@@ -1,12 +1,13 @@
 #' Generating Parameter Values
 #'
-#' @description Generates parameter values from a normal distribution user
-#' provided number of random draws.
+#' @description This function will generate parameter values for running Hector.
+#' Parameters are generated from random draws of a normal distribution.
 #'
 #' @param draws Number of random draws for each parameter.
 #'
-#' @return A data frame object with a row for each parameter value generated for each
-#' run. Columns indicate run_number and each parameter.
+#' @return A data frame object with parameter values generated for each
+#' draw. The column \code{run_number} indicates the number of \code{draws} provided
+#' as an argument in the function.
 #' @export
 #'
 #' @examples
