@@ -17,7 +17,8 @@ new_crit(var, years, obs_values)
 Pretty print of R object containing new criterion parameters.
 }
 \description{
-Creating New Criterion Object
+This will create a new criterion for screening Hector runs for realism.
+User can load data for comparing Hector variable outputs to observed data values.
 }
 \examples{
 x <- hectorpractice:::metricdata_co2

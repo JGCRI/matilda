@@ -1,5 +1,8 @@
 #' Creating New Criterion Object
 #'
+#' @description This will create a new criterion for screening Hector runs for realism.
+#' User can load data for comparing Hector variable outputs to observed data values.
+#'
 #' @param var A variable from Hector output to compare with observed data
 #' @param years A range of years from observed data
 #' @param obs_values Numeric values from observed data
@@ -25,10 +28,12 @@ new_crit <- function(var, years, obs_values) {
 
 #' Print new criterion
 #'
+#' @description This prints the screening criterion provided as \code{x}.
+#'
 #' @param x Criterion object created in \code{\link{new_crit}}
 #' @param ... Other arguments to or from other methods.
 #'
-#' @return Pretty print of criterion stored in R object.
+#' @return Printed version of criterion stored in \code{R} object.
 #' @export
 #'
 #' @examples
@@ -43,11 +48,12 @@ print.crit <- function(x, ...) {
 
 #' Is an object of type criterion?
 #'
-#' @description Checks whether the supplied argument has an attribute class of criterion
+#' @description Checks whether \code{x} has an attribute class of \code{"criterion"}
 #'
-#' @param x an R object.
+#' @param x an \code{R} object.
 #'
-#' @return TRUE if x has an attribute class of criterion, and FALSE otherwise.
+#' @return \code{is.crit} returns \code{TRUE} or \code{FALSE} depending on whether \code{x}
+#' has an attribute class of \code{"criterion"} or not.
 #' @export
 #'
 #' @examples
@@ -62,10 +68,12 @@ is.crit <- function(x) {
 
 #' Screening criterion using Mauna Loa atmospheric CO2
 #'
-#' @description This data set gives the longest running measurements of mean annual
-#' atmospheric CO2 levels (ppm) from the Mauna Loa Observatory.
+#' @description This is a criterion identifier for screening Hector runs using
+#' observed CO2 levels (ppm) from the Mauna Loa data set. The data set provides the
+#' longest running measurements of mean annual atmospheric CO2, collected from the
+#' Mauna Loa Observatory.
 #'
-#' @return A criterion using Mauna Loa atmospheric CO2
+#' @return A criterion identifier using Mauna Loa atmospheric CO2
 #' @note This uses the Mauna Loa data set from
 #' \href{https://gml.noaa.gov/ccgg/trends/data.html}{https://gml.noaa.gov/ccgg/trends/data.html}
 #' downloaded on 01/03/2023

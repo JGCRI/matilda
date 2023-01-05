@@ -7,13 +7,14 @@
 is.crit(x)
 }
 \arguments{
-\item{x}{an R object.}
+\item{x}{an \code{R} object.}
 }
 \value{
-TRUE if x has an attribute class of criterion, and FALSE otherwise.
+\code{is.crit} returns \code{TRUE} or \code{FALSE} depending on whether \code{x}
+has an attribute class of \code{"criterion"} or not.
 }
 \description{
-Checks whether the supplied argument has an attribute class of criterion
+Checks whether \code{x} has an attribute class of \code{"criterion"}
 }
 \examples{
 x <- crit_co2_obs()
