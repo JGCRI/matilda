@@ -14,11 +14,12 @@ new_metric(var, years, op)
 \item{op}{An operation to apply to data}
 }
 \value{
-Pretty print of R object containing new metric values.
+Prints \code{R} object containing metric parameters.
 }
 \description{
-Stores metric values in an object for easily interchanging new
-metrics for functions within hectorpractice.
+This creates and stores a new set of metric parameters for running
+\code{\link{iterate_hector}} and other functions in \code{hectorpractice}
+that require the parameters stored in the object.
 }
 \examples{
 new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)

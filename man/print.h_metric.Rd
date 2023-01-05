@@ -7,14 +7,14 @@
 \method{print}{h_metric}(x, ...)
 }
 \arguments{
-\item{x}{R object storing class attributes.}
+\item{x}{An \code{R} object storing the Hector metric.
+Built using \code{\link{new_metric}}.}
 
 \item{...}{Other arguments passed to or from other methods.}
 }
 \value{
-Pretty print of metrics stored in R object.
+Printed version of metrics stored in \code{R} object.
 }
 \description{
-Prints Hector metric objects produced using.
-\code{\link{new_metric}}
+Prints the Hector metric provided as \code{x}.
 }
