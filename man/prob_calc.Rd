@@ -7,13 +7,14 @@
 prob_calc(x)
 }
 \arguments{
-\item{x}{Table of binned climate variable metrics.}
+\item{x}{A data frame of scored frequencies of each model run organized into data bins.
+For example, an output from \code{\link{bin_scored_metrics}}.}
 }
 \value{
-Table of probabilities using breaks assigned by user in
-\code{\link{bin_metrics}}
+A data frame of probabilities using breaks assigned by user in
+\code{\link{bin_scored_metrics}}
 }
 \description{
-A function that calculates basic probabilities of outcomes based
-on previously defined bin groupings.
+This is a function that calculates basic probabilities of metric outcomes
+from multiple model runs.
 }

@@ -2,13 +2,14 @@
 
 #' Calculating probabilities of climate metric outcomes
 #'
-#' @description A function that calculates basic probabilities of outcomes based
-#' on previously defined bin groupings.
+#' @description This is a function that calculates basic probabilities of metric outcomes
+#' from multiple model runs.
 #'
-#' @param x Table of binned climate variable metrics.
+#' @param x A data frame of scored frequencies of each model run organized into data bins.
+#' For example, an output from \code{\link{bin_scored_metrics}}.
 #'
-#' @return Table of probabilities using breaks assigned by user in
-#' \code{\link{bin_metrics}}
+#' @return A data frame of probabilities using breaks assigned by user in
+#' \code{\link{bin_scored_metrics}}
 #'
 #' @export
 

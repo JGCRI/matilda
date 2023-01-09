@@ -2,7 +2,7 @@
 % Please edit documentation in R/bin_metrics.R
 \name{bin_metrics}
 \alias{bin_metrics}
-\title{Data binning for climate metrics}
+\title{Binning un-scored climate metrics}
 \usage{
 bin_metrics(metric_df, bins)
 }
@@ -12,7 +12,7 @@ bin_metrics(metric_df, bins)
 \item{bins}{a vector of breaks for data binning.}
 }
 \value{
-An object of class table binning metric values using breaks supplied
+A table object that bins metric values using breaks supplied
 by user.
 }
 \description{
