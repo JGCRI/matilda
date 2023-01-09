@@ -14,7 +14,10 @@
 
 prob_calc <- function(x) {
 
-  prob = x / sum(x)
+  prob = data.frame(
+    bins = x$bins,
+    scores = x$scores,
+    probability = x$scores / sum(x$scores))
 
   prob
 

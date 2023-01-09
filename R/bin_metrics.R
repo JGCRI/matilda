@@ -19,3 +19,27 @@ bin_metrics <- function(metric_df, bins) {
   table(cut(metric_df$metric_result, bins))
 
 }
+
+
+#' Sum scores
+#'
+#' @param metric_df
+#' @param score_result
+#' @param bins
+#'
+#' @return
+#' @export
+#'
+#' @examples
+sum_scores <- function(metric_df, score_result, bins) {
+
+  bin_df <- as.data.frame(cut(metric_df$metric_result, bins), col.names = 'bin')
+
+  colnames(bin_df)[1] <- "bins"
+  bin_df$run_number <- metric_df$run_number
+
+  merge_df <- merge(bin_df, score_result, by = 'run_number')
+
+  sum_scores <- aggregate(scores ~ bins, merge_df, sum)
+
+}
