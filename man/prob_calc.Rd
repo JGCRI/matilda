@@ -40,5 +40,5 @@ scores_df
 bins <- c(690, 720, 740, 760, 780, 805)
 
 # Calculating probabilities for each bin
-bin_scored_metrics(metric_df = metric_df, bins = bins, score_result = scores_df)
+prob_calc(metric_df = metric_df, bins = bins, score_result = scores_df)
 }
