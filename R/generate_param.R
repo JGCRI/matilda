@@ -11,6 +11,7 @@
 #' @export
 #'
 #' @examples
+#' # Generate parameters for Hector iterations
 #' generate_params(10)
 
 generate_params <- function(draws){

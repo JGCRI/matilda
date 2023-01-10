@@ -19,5 +19,6 @@ This function will generate parameter values for running Hector.
 Parameters are generated from random draws of a normal distribution.
 }
 \examples{
+# Generate parameters for Hector iterations
 generate_params(10)
 }

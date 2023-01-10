@@ -22,5 +22,6 @@ This creates and stores a new set of metric parameters for running
 that require the parameters stored in the object.
 }
 \examples{
+# Creating a new metric
 new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
 }
