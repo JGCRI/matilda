@@ -18,5 +18,7 @@ Checks whether \code{x} has an attribute class of \code{"criterion"}
 }
 \examples{
 x <- crit_co2_obs()
+
+# Does x have a class of 'criterion'
 is.crit(x)
 }

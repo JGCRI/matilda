@@ -1,7 +1,8 @@
 #' Creating New Criterion Object
 #'
-#' @description This will create a new criterion for screening Hector runs for realism.
-#' User can load data for comparing Hector variable outputs to observed data values.
+#' @description This function will create a new criterion for screening Hector
+#' runs for realism. User can load data for comparing Hector variable outputs to
+#' observed data values.
 #'
 #' @param var A variable from Hector output to compare with observed data
 #' @param years A range of years from observed data
@@ -11,7 +12,10 @@
 #' @export
 #'
 #' @examples
+#' # Assign observed data to an object
 #' x <- hectorpractice:::metricdata_co2
+#'
+#' # Create a new criteria that can be used to screen Hector runs
 #' new_crit(ATMOSPHERIC_CO2(), years = x$year, obs_values = x$co2_ppm)
 
 new_crit <- function(var, years, obs_values) {
@@ -58,6 +62,8 @@ print.crit <- function(x, ...) {
 #'
 #' @examples
 #' x <- crit_co2_obs()
+#'
+#' # Does x have a class of 'criterion'
 #' is.crit(x)
 
 is.crit <- function(x) {

@@ -1,8 +1,8 @@
 #' Binning scored climate metrics and calculating probabilities
 #'
 #'@description This function organizes metric data into bins and computes the sum of the
-#'scored runs in each bin. This method effectively weights bins by how closely each run
-#'represents observed data, and calculates the probability that a metric will occur in
+#'scored Hector runs in each bin. This method effectively weights bins by how closely each run
+#'represents observed data. This function also calculates the probability that a metric will occur in
 #'each bin range.
 #'
 #' @param metric_df A data frame of metrics calculated for each model run. For example,
@@ -11,8 +11,8 @@
 #' @param score_result A data frame of scores calculated for each model run. For example,
 #' an output from \code{\link{score_hruns}}.
 #'
-#' @return A data frame object of bins and the summed scores of model runs producing
-#' metrics in the value range of each bin.
+#' @return A data frame object of bins, the summed scores of model runs producing
+#' metrics in the value range of each bin, and the probability of each bin outcome.
 #' @export
 #'
 #' @examples
@@ -32,7 +32,7 @@
 #' # Calculating probabilities for each bin
 #' bin_scored_metrics(metric_df = metric_df, bins = bins, score_result = scores_df)
 
-bin_scored_metrics <- function(metric_df, bins, score_result) {
+prob_calc <- function(metric_df, bins, score_result) {
 
   # if data frames have different lengths (different run_numbers) produce error
   if( length(metric_df) != length(score_result))
