@@ -20,10 +20,20 @@ year range.
 Function for calculating a variable metric from Hector output data.
 }
 \examples{
+# Load scenario file and initiate a Hector core
 ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
 core <- newcore(ssp245)
+
+# Run Hector
 run(core)
+
+# Fetch Hector results
 h_result <- fetchvars(core, dates = 2000:2300)
+
+# Create a new metric
 metric <- new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
+print(metric)
+
+# Calculate the metric value from Hector results
 metric_calc_1run(h_result, metric)
 }

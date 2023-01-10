@@ -21,10 +21,19 @@ A function that accepts a data frame result from an iterative Hector
 run and calculates a specified metric for each run.
 }
 \examples{
+# Load scenario file and initiate a new hector core
 ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
 core <- newcore(ssp245)
+
+# Create new metric
 metric <- new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
+
+# Compute parameter values for Hector iterations
 params <- generate_params(10)
+
+# Iterate Hector runs with parameter uncertainty
 h_result <- iterate_hector(core, metric, params)
+
+# Calculate metric values for each Hector run
 metric_calc(h_result, metric)
 }

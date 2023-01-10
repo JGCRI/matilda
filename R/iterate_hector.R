@@ -38,11 +38,21 @@ lognorm <- function(m, sd){
 #' @export
 
 #' @examples
+#' # Load scenario file and initiate a Hector core
 #' ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
 #' core <- newcore(ssp245)
+#'
+#' # Run Hector
 #' run(core)
+#'
+#' # Fetch Hector results
 #' h_result <- fetchvars(core, dates = 2000:2300)
+#'
+#' # Create a new metric
 #' metric <- new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
+#' print(metric)
+#'
+#' # Calculate the metric value from Hector results
 #' metric_calc_1run(h_result, metric)
 
 metric_calc_1run <- function(x, metric) {
@@ -80,11 +90,21 @@ metric_calc_1run <- function(x, metric) {
 #' @export
 #'
 #' @examples
+#' # Load scenario file and initiate a new Hector core
 #' ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
 #' core <- newcore(ssp245)
+#'
+#' # Create and new metric
 #' metric <- new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
+#' print(metric)
+#'
+#' # Compute parameter values for Hector iterations
 #' params <- generate_params(10)
-#' iterate_hector(core, metric, params)
+#' params
+#'
+#' # Iterate Hector runs with parameter uncertainty
+#' h_result <- iterate_hector(core, metric, params)
+#' head(h_result)
 
 iterate_hector <- function(core, metric, params) {
 

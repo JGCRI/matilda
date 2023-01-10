@@ -10,13 +10,15 @@ generate_params(draws)
 \item{draws}{Number of random draws for each parameter.}
 }
 \value{
-A data frame object with a row for each parameter value generated for each
-run. Columns indicate run_number and each parameter.
+A data frame object with parameter values generated for each
+draw. The column \code{run_number} indicates the number of \code{draws} provided
+as an argument in the function.
 }
 \description{
-Generates parameter values from a normal distribution user
-provided number of random draws.
+This function will generate parameter values for running Hector.
+Parameters are generated from random draws of a normal distribution.
 }
 \examples{
+# Generate parameters for Hector iterations
 generate_params(10)
 }

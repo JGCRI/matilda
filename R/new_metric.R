@@ -1,16 +1,18 @@
 #' Creating new metric object
 #'
-#' @description Stores metric values in an object for easily interchanging new
-#' metrics for functions within hectorpractice.
+#' @description This creates and stores a new set of metric parameters for running
+#' \code{\link{iterate_hector}} and other functions in \code{hectorpractice}
+#' that require the parameters stored in the object.
 #'
 #' @param var A character string of Hector variable
 #' @param years A range of years
 #' @param op An operation to apply to data
 #'
-#' @return Pretty print of R object containing new metric values.
+#' @return Prints \code{R} object containing metric parameters.
 #' @export
 #'
 #' @examples
+#' # Creating a new metric
 #' new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
 
 new_metric <- function(var, years, op){
@@ -31,13 +33,13 @@ new_metric <- function(var, years, op){
 
 #' Printing new metric
 #'
-#' @description Prints Hector metric objects produced using.
-#' \code{\link{new_metric}}
+#' @description Prints the Hector metric provided as \code{x}.
 #'
-#' @param x R object storing class attributes.
+#' @param x An \code{R} object storing the Hector metric.
+#' Built using \code{\link{new_metric}}.
 #' @param ... Other arguments passed to or from other methods.
 #'
-#' @return Pretty print of metrics stored in R object.
+#' @return Printed version of metrics stored in \code{R} object.
 #' @export
 
 print.h_metric <- function(x, ...) {

@@ -7,11 +7,13 @@
 crit_co2_obs()
 }
 \value{
-A criterion using Mauna Loa atmospheric CO2
+A criterion identifier using Mauna Loa atmospheric CO2
 }
 \description{
-This data set gives the longest running measurements of mean annual
-atmospheric CO2 levels (ppm) from the Mauna Loa Observatory.
+This is a criterion identifier for screening Hector runs using
+observed CO2 levels (ppm) from the Mauna Loa data set. The data set provides the
+longest running measurements of mean annual atmospheric CO2, collected from the
+Mauna Loa Observatory.
 }
 \note{
 This uses the Mauna Loa data set from

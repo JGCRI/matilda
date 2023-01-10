@@ -12,10 +12,10 @@
 \item{...}{Other arguments to or from other methods.}
 }
 \value{
-Pretty print of criterion stored in R object.
+Printed version of criterion stored in \code{R} object.
 }
 \description{
-Print new criterion
+This prints the screening criterion provided as \code{x}.
 }
 \examples{
 hectorpractice:::print.crit(crit_co2_obs())

@@ -1,8 +1,3 @@
-# Goals: remove metric_calc_1run from iterative_hector. Dev new function - metric-calc.
-# New metric_calc function should take the resulting df from iterative_hector,
-# split it (by run number), then combine results for output with one metric value
-# for each run completed in iterative_hector.
-
 #' Metric Calculation
 #'
 #' @description A function that accepts a data frame result from an iterative Hector
@@ -18,11 +13,20 @@
 #' @export
 #'
 #' @examples
+#' # Load scenario file and initiate a new hector core
 #' ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
 #' core <- newcore(ssp245)
+#'
+#' # Create new metric
 #' metric <- new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
+#'
+#' # Compute parameter values for Hector iterations
 #' params <- generate_params(10)
+#'
+#' # Iterate Hector runs with parameter uncertainty
 #' h_result <- iterate_hector(core, metric, params)
+#'
+#' # Calculate metric values for each Hector run
 #' metric_calc(h_result, metric)
 
 metric_calc <- function(x, metric) {

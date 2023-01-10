@@ -22,10 +22,14 @@ Defaults to FALSE, leaving NAs in data frame.}
 Vector of scores
 }
 \description{
-Computing vector of scores for numeric vectors
+Computes scores based on proximity of two numeric values in a vector.
+Scores are derived from cutoffs provided by the user (w1, w2).
 }
 \examples{
+# Example vectors
 x <- c(3, 5, 3, 4, 9)
 y <- c(3, 6.5, 5, 9, 10)
+
+# Computing scores from score ramp
 score_ramp(x, y, w1 = 1, w2 = 3)
 }
