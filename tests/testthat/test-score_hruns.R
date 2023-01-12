@@ -1,4 +1,3 @@
-
 # data occupied df
 test <- data.frame(year = 2001:2003,
                    variable = rep(c("atmos_co2"), each = 3),

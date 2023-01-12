@@ -34,9 +34,18 @@
 
 prob_calc <- function(metric_df, bins, score_result) {
 
-  # if data frames have different lengths (different run_numbers) produce error
-  if( length(metric_df) != length(score_result))
-    stop("Length of metric_df must equal length of score_result.")
+  # if data frames have a length of 0, produce error.
+  if( length(metric_df) == 0) stop("metric_df has no data.")
+  if( length(score_result) == 0) stop("score_result has no data.")
+
+  # if bins are not defined by user, produce error.
+  if( length(bins) == 0) stop("bins must be defined.")
+
+  # Order of this warning matters. Want to throw error if there is no data, but
+  # throw a warning is there is data of unequal length.
+  # if data frames have different lengths run_numbers produce error
+  if( nrow(metric_df) != nrow(score_result))
+    warning("run_number of metric_df does not equal run_number of score_result.")
 
   # cut data be metric values and assign to bin
   bin_df <- as.data.frame(cut(metric_df$metric_result, bins))
