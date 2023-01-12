@@ -9,7 +9,7 @@ metric_df <- data.frame(run_number = 1:5,
                         metric_result = runif(5, 1, 5))
 score_result <- data.frame(run_number = 1:5,
                            scores = runif(5, 0, 1))
-bins <- c(2, 4, 6, 8, 10)
+bins <- c(1, 2, 3, 4, 5)
 
 # shorter score result
 score_result_short <- data.frame(run_number = 1:4,
@@ -19,8 +19,6 @@ score_result_short <- data.frame(run_number = 1:4,
 metric_no_data <- data.frame(c())
 scores_no_data <- data.frame(c())
 no_bins <- c()
-
-
 
 # test class and structure
 
@@ -59,3 +57,22 @@ test_that("errors and warnings are produced in proper cases", {
                  regexp = "run_number of metric_df does not equal run_number of score_result.")
 
 })
+
+# test probability functionality
+
+met_df <- data.frame(run_number = 1:3,
+                     metric_result = c(1, 2, 3))
+
+scr_df <- data.frame(run_number = 1:3,
+                     scores = runif(1, 2, 3))
+
+bins_prob_test <- c(1,2)
+
+test_that("expected probability is calculated", {
+
+  prob_df <- prob_calc(met_df, bins_prob_test, scr_df)
+
+  expect_equal(prob_df$probability, 1)
+
+})
+
