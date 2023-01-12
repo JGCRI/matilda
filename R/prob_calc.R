@@ -32,33 +32,24 @@
 #' # Calculating probabilities for each bin
 #' prob_calc(metric_df = metric_df, bins = bins, score_result = scores_df)
 
-prob_calc <- function(metric_df, bins, score_result) {
+prob_calc <- function(metrics, bins, scores = rep(1, length(metrics))) {
 
-  # if data frames have a length of 0, produce error.
-  if( length(metric_df) == 0) stop("metric_df has no data.")
-  if( length(score_result) == 0) stop("score_result has no data.")
+  # if metrics have a length of 0, produce error.
+  if( length(metrics) == 0) stop("metrics has no data.")
 
   # if bins are not defined by user, produce error.
   if( length(bins) == 0) stop("bins must be defined.")
 
-  # Order of this warning matters. Want to throw error if there is no data, but
-  # throw a warning is there is data of unequal length.
-  # if data frames have different lengths run_numbers produce error
-  if( nrow(metric_df) != nrow(score_result))
-    warning("run_number of metric_df does not equal run_number of score_result.")
+  # metrics and scores must be the same length.
+  if( length(metrics) != length(scores))
+    stop("Length of metrics does not equal length of scores.")
 
   # cut data be metric values and assign to bin
-  bin_df <- as.data.frame(cut(metric_df$metric_result, bins))
-
-  # edit column names and add run numbers for merge
-  colnames(bin_df)[1] <- "bins"
-  bin_df$run_number <- metric_df$run_number
-
-  # merge binned metrics and score for each run by run_number
-  merge_df <- merge(bin_df, score_result, by = 'run_number')
+  bin_df <- data.frame(bins = cut(metrics, bins),
+                       score = scores)
 
   # compute summed scores by metric bins
-  sum_scores <- aggregate(scores ~ bins, merge_df, sum)
+  sum_scores <- aggregate(scores ~ bins, bin_df, sum)
 
   # calculate probabilities
   sum_scores$probability <- (sum_scores$scores / sum(sum_scores$scores))

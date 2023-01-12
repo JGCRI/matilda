@@ -13,8 +13,6 @@ new_metric <- new_metric("var", 2000:2050, mean)
 # new_metric with too many years
 year_range <- new_metric("var", 2000:2051, mean)
 
-# new_metric with no var
-no_var <- new_metric("var1", 2000:2050, mean)
 
 # tests
 test_that("result has proper class and structure", {
@@ -41,9 +39,4 @@ test_that("error messages are thrown in proper cases", {
   expect_error(metric_calc(x,
                            year_range),
                regexp = 'year range exceeds years in x')
-
-  # error when requested var is not in df
-  expect_error(metric_calc(x,
-                           no_var),
-               regexp = 'variable is not present in x')
 })

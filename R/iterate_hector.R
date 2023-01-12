@@ -133,7 +133,6 @@ iterate_hector <- function(core, metric, params) {
     # adding run_number column
     dat$run_number <- i
 
-
     # stores results
     result_list[[i]] <- dat
 

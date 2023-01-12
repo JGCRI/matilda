@@ -26,19 +26,6 @@ Scoring criteria (\code{'crit'}) defaults are also available in the package.
 Users can also build their own scoring criteria using the \code{\link{new_crit}}.
 }
 \examples{
-# Load scenario file and initiate a new Hector core
-ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
-core <- newcore(ssp245)
-
-# Create new metric
-metric <- new_metric(ATMOSPHERIC_CO2(), years = 2000:2100, op = mean)
-
-# Compute parameter values for Hector iterations
-params <- generate_params(10)
-
-# Iterate Hector runs with parameter uncertainty
-h_result <- iterate_hector(core, metric, params)
-
 # Score Hector using observed CO2 data with the score_ramp method
-score_hruns(h_result, crit_co2_obs(), score_ramp, w1 = 2, w2 = 20)
+score_hruns(hector_result, crit_co2_obs(), score_ramp, w1 = 2, w2 = 20)
 }

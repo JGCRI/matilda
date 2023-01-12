@@ -4,13 +4,13 @@
 \alias{prob_calc}
 \title{Binning scored climate metrics and calculating probabilities}
 \usage{
-prob_calc(metric_df, bins, score_result)
+prob_calc(metrics, bins, scores = rep(1, length(metrics)))
 }
 \arguments{
+\item{bins}{A vector of variable ranges used to bin metric data.}
+
 \item{metric_df}{A data frame of metrics calculated for each model run. For example,
 an output from \code{\link{metric_calc}}.}
-
-\item{bins}{A vector of variable ranges used to bin metric data.}
 
 \item{score_result}{A data frame of scores calculated for each model run. For example,
 an output from \code{\link{score_hruns}}.}
