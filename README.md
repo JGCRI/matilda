@@ -8,7 +8,7 @@
 [![R-CMD-check](https://github.com/ecolo-joe/hectorpractice/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ecolo-joe/hectorpractice/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The `matilda` package is a probabilistic analysis framework for the Hector simple climate model. `matilda` adds the capability to include parameter uncertainty for multiple Hector model iterations. Additionally, functions in `matilda` give users to ability to score Hector runs by comparing results to observed historical data and  compute probabilitistic projections of climate varible metrics.  
+The `matilda` package is a probabilistic analysis framework for the Hector simple climate model. `matilda` adds the capability to include parameter uncertainty for multiple Hector model iterations. Additionally, functions in `matilda` give users to ability to score Hector runs by comparing results to observed historical data and  compute probabilitistic projections of climate variable metrics.  
 
 ## Installation
 
