@@ -18,5 +18,5 @@ Printed version of criterion stored in \code{R} object.
 This prints the screening criterion provided as \code{x}.
 }
 \examples{
-hectorpractice:::print.crit(crit_co2_obs())
+print.crit(crit_co2_obs())
 }

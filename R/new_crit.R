@@ -13,7 +13,7 @@
 #'
 #' @examples
 #' # Assign observed data to an object
-#' data <- hectorpractice:::metricdata_co2
+#' data <- matilda:::metricdata_co2
 #'
 #' # Create a new criteria that can be used to screen Hector runs
 #' new_crit(ATMOSPHERIC_CO2(), years = data$year, obs_values = data$co2_ppm)
@@ -41,7 +41,7 @@ new_crit <- function(var, years, obs_values) {
 #' @export
 #'
 #' @examples
-#' hectorpractice:::print.crit(crit_co2_obs())
+#' print.crit(crit_co2_obs())
 
 print.crit <- function(x, ...) {
 
