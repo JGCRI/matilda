@@ -17,6 +17,3 @@ Printed version of criterion stored in \code{R} object.
 \description{
 This prints the screening criterion provided as \code{x}.
 }
-\examples{
-print.crit(crit_co2_obs())
-}

@@ -39,9 +39,6 @@ new_crit <- function(var, years, obs_values) {
 #'
 #' @return Printed version of criterion stored in \code{R} object.
 #' @export
-#'
-#' @examples
-#' print.crit(crit_co2_obs())
 
 print.crit <- function(x, ...) {
 
@@ -63,7 +60,7 @@ print.crit <- function(x, ...) {
 #' @examples
 #' x <- crit_co2_obs()
 #'
-#' # Does x have a class of 'criterion'
+#' # Is x of class 'criterion'?
 #' is.crit(x)
 
 is.crit <- function(x) {
