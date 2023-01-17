@@ -1,8 +1,8 @@
 ---
-title: "hectorpractice-vignette"
+title: "matilda-vignette"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{hectorpractice-vignette}
+  %\VignetteIndexEntry{matilda-vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,15 +16,15 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-Hectorpractice (NAME!?) is a package that provides probabilistic capability to the Hector simple climate model. This package gives the user the ability to randomly generate model parameters from a normal distribution, run Hector using the generated parameters, screen model outputs for realism, and compute probabilities of climate variables projections. This package allows Hector to automate the incorporation of parameter uncertainty. Including parameter uncertainty allows Hector to run multiple times across a range of possible parameter values. into and quantifies the likelihood of future climate change outcomes.
+matilda (NAME!?) is a package that provides probabilistic capability to the Hector simple climate model. This package gives the user the ability to randomly generate model parameters from a normal distribution, run Hector using the generated parameters, screen model outputs for realism, and compute probabilities of climate variables projections. This package allows Hector to automate the incorporation of parameter uncertainty. Including parameter uncertainty allows Hector to run multiple times across a range of possible parameter values. into and quantifies the likelihood of future climate change outcomes.
 
 In addition, the package has functions available that allow the user to identify information they are interested in fetching and computing from Hector runs. Here we define a metric as a combination of identifiers that help fetch data and calculate a "metric value" from a Hector output. For example, it is possible to compute the probability that mean global surface warming will remain between 2-3$^\circ$ C by the end of the century (2100). In this case the metric could be identified as:
 
 `Probabilistic Hector Metric:  mean global_tas 2000  to  2100`
 
-Once the model is run, the user can screen outputs using observed data to identify the most realistic model results (those that most closely align with observed data). We call this a scoring "criterion". `Hectorpractice` has pre-established criterion for scoring Hector runs based on proximity to observed data, but also is capable of allowing the user to establish their own scoring criterion.  
+Once the model is run, the user can screen outputs using observed data to identify the most realistic model results (those that most closely align with observed data). We call this a scoring "criterion". `matilda` has pre-established criterion for scoring Hector runs based on proximity to observed data, but also is capable of allowing the user to establish their own scoring criterion.  
 
-This vignette will work through the basic functionality of the hectorpractice (NAME!?) package. First, we will show how to produce a data frame of parameter values drawn randomly from normal distributions of important model parameters. Next, we will use the parameter values produced to run Hector in an iterative process, whereby parameter values are substituted (without replacement) for multiple model runs. Then, we shows how to use an iterative Hector output to compute a climatic variable metric for each Hector run. These metrics will then be organized into bins and probabilities will be calculated for the projection of each climatic variable.
+This vignette will work through the basic functionality of the matilda (NAME!?) package. First, we will show how to produce a data frame of parameter values drawn randomly from normal distributions of important model parameters. Next, we will use the parameter values produced to run Hector in an iterative process, whereby parameter values are substituted (without replacement) for multiple model runs. Then, we shows how to use an iterative Hector output to compute a climatic variable metric for each Hector run. These metrics will then be organized into bins and probabilities will be calculated for the projection of each climatic variable.
 
 As a final simple analysis example, we will show how these functions give Hector the capability to be used as a coupled climate model to compute probabilistic projections of future climate change using emissions derived from two different Shared Socio-economic Pathways (SSPs). 
 
@@ -34,10 +34,10 @@ As a final simple analysis example, we will show how these functions give Hector
 
 ## Configure Hector core
 
-First, load the `hectorpractice` package 
+First, load the `matilda` package 
 
 ```{r setup}
-library(hectorpractice)
+library(matilda)
 ```
 
 Next, we will initialize a "core" or Hector instance, we will need this core to run the Hector model. 
@@ -70,7 +70,7 @@ head(param_values)
 
 We now have a data frame object called `param_values`. This data frame contains our model parameter names with 10 unique values that were sampled from a normal distribution of each parameter.
 
-We can use this parameter data frame to run Hector through an iterative process. `hectorpractice` can run Hector with iterations that will run Hector multiple times, setting new parameter values with each run until an output has been produced for each set of parameter values generated.  
+We can use this parameter data frame to run Hector through an iterative process. `matilda` can run Hector with iterations that will run Hector multiple times, setting new parameter values with each run until an output has been produced for each set of parameter values generated.  
 
 ####
 
@@ -80,13 +80,13 @@ Once we have configured a Hector core and generated a series of parameter values
 
 `iterate_hector()` requires some specific information in order to produce an output we want. As previously mentioned, it requires a core (arg = `core`) and a data frame of parameter values (arg = `params`). In addition, it requires the user to indicate which variables and year ranges to fetch from the core object (arg = `metric`). 
 
-`hectorpractice` has the ability to store desired metric identifiers in an object that can be easily passed to many different functions in the package, including `iterate_hector`. 
+`matilda` has the ability to store desired metric identifiers in an object that can be easily passed to many different functions in the package, including `iterate_hector`. 
 
 We will use the `new_metric` function to define our metric and use that object as our `metric` argument in `iterate_hector`.
 
 Below we will create a metric indicating that we want to retrieve results for global average surface temperature (global_tas) for the years 2000 to 2300. We will also specify that we are interested in computing mean global_tas data. It is important to note that the operation stored in our metric will **not** be used in the `iterate_hector` function, but will be important for subsequent steps in the analysis. 
 
-For this example we will be using observed atmospheric CO2 as a scoring criterion. This criterion is easy to use because it is already defined within the `hectorpractice` package. In order to screen our Hector runs based on observed CO2, we will need to the atmos_co2 variable included in our Hector output. Therefore, we will include it as a desired variable when defining our metric.  
+For this example we will be using observed atmospheric CO2 as a scoring criterion. This criterion is easy to use because it is already defined within the `matilda` package. In order to screen our Hector runs based on observed CO2, we will need to the atmos_co2 variable included in our Hector output. Therefore, we will include it as a desired variable when defining our metric.  
 
 ```{r}
 # Setting a new_metric object for Hector analysis

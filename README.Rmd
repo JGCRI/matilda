@@ -12,21 +12,21 @@ knitr::opts_chunk$set(
 )
 ```
 
-# hectorpractice
+# matilda
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/ecolo-joe/hectorpractice/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ecolo-joe/hectorpractice/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/ecolo-joe/matilda/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ecolo-joe/matilda/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The `hectorpractice` package can be used to run Hector in an interative process with the capability of computing probabilistic outcomes of climatic variables in provided year ranges for different climate impact scenarios. 
+The `matilda` package can be used to run Hector in an interative process with the capability of computing probabilistic outcomes of climatic variables in provided year ranges for different climate impact scenarios. 
 
 ## Installation
 
-You can install the development version of `hectorpractice` from [GitHub](https://github.com/) with:
+You can install the development version of `matilda` with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("ecolo-joe/hectorpractice")
+devtools::install_github("ecolo-joe/matilda")
 ```
 
 ## More information
