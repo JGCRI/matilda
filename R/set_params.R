@@ -1,8 +1,8 @@
 #' Set Parameter Values to Hector Variables
 #'
-#' @description Takes randomly generated parameter values produced by
-#' \code{\link{generate_params}} and sets each value to appropriate Hector variable
-#' for the supplied Hector core.
+#' @description This function takes randomly generated parameter values produced by
+#' \code{\link{generate_params}} and sets each value Hector variables for the
+#' supplied Hector core.
 #'
 #' @param param_values An object of generated parameter values. Must be of
 #' numeric class. Column names must match parameter functions in Hector.

@@ -13,12 +13,13 @@ metric_calc(x, metric)
 (e.g. mean, median, max, min, etc.) to fetch from Hector result.}
 }
 \value{
-A data frame with columns for run_number, variable, and a metric
-calculation for each Hector run.
+A data frame with columns for \code{run_number} and
+ \code{metric_result} values for each Hector run.
 }
 \description{
-A function that accepts a data frame result from an iterative Hector
-run and calculates a specified metric for each run.
+This is a function that calculates metric values for multiple
+Hector runs. Metrics to be calculated from Hector runs are defined using
+\code{\link{new_metric}}.
 }
 \examples{
 # Create new metric

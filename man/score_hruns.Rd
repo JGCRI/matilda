@@ -19,11 +19,11 @@ score_hruns(x, crit, score_function, ...)
 Data frame with mean score for each Hector run
 }
 \description{
-This is a function uses a scoring function to screen Hector runs
-based on proximity of climate variable values to observed data. Default score
+This function uses any scoring function to screen Hector runs
+based on proximity of climate variable values to observed data. Internal scoring
 functions are provided in \code{matilda}, but users can also supply their own.
-Scoring criteria (\code{'crit'}) defaults are also available in the package.
-Users can also build their own scoring criteria using the \code{\link{new_crit}}.
+Criteria (\code{crit}) used for scoring are also available in the package.
+Alternatively, users can also build their own scoring criteria with \code{\link{new_crit}}.
 }
 \examples{
 # Score Hector using observed CO2 data with the score_ramp method

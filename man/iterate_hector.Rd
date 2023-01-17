@@ -15,12 +15,15 @@ iterate_hector(core, metric, params)
 \item{params}{A data frame object containing parameter values.}
 }
 \value{
-A data frame with a run_number from one to the total number of Hector
-runs completed and values for the variables and year range identified in
-the metric argument for each Hector run.
+A data frame with a column of \code{run_number} indicating the total
+number of Hector runs completed. Values for the variables and year ranges
+identified in the user defined \code{metric}.
 }
 \description{
-Runs Hector in an iterative process with parameter uncertainty.
+This function runs Hector in an iterative process with parameter
+uncertainty. Parameter values for each Hector run are set using the output of
+the \code{\link{generate_params}} function. Output of model iterations will
+be filtered according to metric information.
 }
 \examples{
 # Load scenario file and initiate a new Hector core

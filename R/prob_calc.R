@@ -1,36 +1,34 @@
 #' Binning scored climate metrics and calculating probabilities
 #'
-#'@description This function organizes metric data into bins and computes the sum of the
-#'scored Hector runs in each bin. This method effectively weights bins by how closely each run
-#'represents observed data. This function also calculates the probability that a metric will occur in
-#'each bin range.
+#' @description This function organizes metric data into bins and computes the
+#' sum of the scored Hector runs in each bin. This method effectively weights bins
+#' by how closely each run represents observed data. This function also calculates
+#' the probability that a metric will occur in each bin range.
 #'
-#' @param metric_df A data frame of metrics calculated for each model run. For example,
-#' an output from \code{\link{metric_calc}}.
+#' @param metric_df A vector of metrics calculated for each model run. For
+#' example, an output from \code{\link{metric_calc}}.
 #' @param bins A vector of variable ranges used to bin metric data.
-#' @param score_result A data frame of scores calculated for each model run. For example,
-#' an output from \code{\link{score_hruns}}.
+#' @param score_result A vector of scores calculated for each model run. For
+#' example, an output from \code{\link{score_hruns}}.
 #'
 #' @return A data frame object of bins, the summed scores of model runs producing
 #' metrics in the value range of each bin, and the probability of each bin outcome.
 #' @export
 #'
 #' @examples
-#' # Example of data frame containing metric values
-#' metric_df <- data.frame(run_number = 1:10,
-#'                         metric_result = runif(10, 690, 805))
-#' metric_df
+#' # Example vector containing metric values
+#' metrics <- runif(5, 690, 805)
+#' metrics
 #'
-#' # Example of data frame containing scores for each run
-#' scores_df <- data.frame(run_number = 1:10,
-#'                         scores = runif(10, 0, 1))
-#' scores_df
+#' # Example vector containing scores for each run
+#' scores <- runif(5, 0, 1)
+#' scores
 #'
 #' # Creating bins using variable ranges
 #' bins <- c(690, 720, 740, 760, 780, 805)
 #'
 #' # Calculating probabilities for each bin
-#' prob_calc(metric_df = metric_df, bins = bins, score_result = scores_df)
+#' prob_calc(metrics = metrics, bins = bins, score = scores)
 
 prob_calc <- function(metrics, bins, scores = rep(1, length(metrics))) {
 

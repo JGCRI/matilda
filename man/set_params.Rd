@@ -16,9 +16,9 @@ numeric class. Column names must match parameter functions in Hector.}
 Message indicating the values set to each parameter variable.
 }
 \description{
-Takes randomly generated parameter values produced by
-\code{\link{generate_params}} and sets each value to appropriate Hector variable
-for the supplied Hector core.
+This function takes randomly generated parameter values produced by
+\code{\link{generate_params}} and sets each value Hector variables for the
+supplied Hector core.
 }
 \examples{
 ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")

@@ -2,7 +2,7 @@
 % Please edit documentation in R/iterate_hector.R
 \name{metric_calc_1run}
 \alias{metric_calc_1run}
-\title{Metric calc from single Hector Run}
+\title{Metric calculation for single Hector run}
 \usage{
 metric_calc_1run(x, metric)
 }
@@ -13,11 +13,11 @@ metric_calc_1run(x, metric)
 (e.g. mean, median, max, min, etc.) to apply to data.}
 }
 \value{
-A numeric value calculated from the operation for each variable in the
-year range.
+A numeric value calculated from information defined in \code{metric}
+object.
 }
 \description{
-Function for calculating a variable metric from Hector output data.
+This function calculates a metric variable using Hector output data.
 }
 \examples{
 # Load scenario file and initiate a Hector core

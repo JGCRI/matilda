@@ -1,16 +1,14 @@
-# compute vector of score for two numeric vectors (x and y)
-# w1 - distance at which score ramps down from 1.
-# w2 - distance at which score becomes 0.
-
 #' Computing vector of scores for numeric vectors
 #'
-#' @description Computes scores based on proximity of two numeric values in a vector.
-#' Scores are derived from cutoffs provided by the user (w1, w2).
+#' @description This function computes scores based on proximity of two numeric
+#' values in a vector. Scores are derived from cutoffs provided by the user
+#' (\code{w1}, \code{w2}). Scores decrease (starting at a score of 1) as two
+#' values become more different.
 #'
 #' @param x First set of numeric vectors
 #' @param y Second set of numeric vectors
-#' @param w1 Distance at which score ramps down from 1.
-#' @param w2 Distance at which score becomes 0
+#' @param w1 Difference at which score begins to ramp down from 1.
+#' @param w2 Difference at which score hits 0.
 #' @param na.omit How should score_ramp deal with rows in data frame containing NAs?
 #' Defaults to FALSE, leaving NAs in data frame.
 #'
@@ -65,11 +63,11 @@ score_ramp <- function(x, y, w1, w2, na.omit = FALSE) {
 
 #' Screen Hector outputs with observed data
 #'
-#' @description This is a function uses a scoring function to screen Hector runs
-#' based on proximity of climate variable values to observed data. Default score
+#' @description This function uses any scoring function to screen Hector runs
+#' based on proximity of climate variable values to observed data. Internal scoring
 #' functions are provided in \code{matilda}, but users can also supply their own.
-#' Scoring criteria (\code{'crit'}) defaults are also available in the package.
-#' Users can also build their own scoring criteria using the \code{\link{new_crit}}.
+#' Criteria (\code{crit}) used for scoring are also available in the package.
+#' Alternatively, users can also build their own scoring criteria with \code{\link{new_crit}}.
 #'
 #' @param x Result data frame from \code{\link{iterate_hector}}.
 #' @param score_function Scoring function to use for screening Hector model runs.
