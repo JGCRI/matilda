@@ -7,12 +7,12 @@
 prob_calc(metrics, bins, scores = rep(1, length(metrics)))
 }
 \arguments{
-\item{bins}{A vector of variable ranges used to bin metric data.}
-
-\item{metric_df}{A vector of metrics calculated for each model run. For
+\item{metrics}{A vector of metrics calculated for each model run. For
 example, an output from \code{\link{metric_calc}}.}
 
-\item{score_result}{A vector of scores calculated for each model run. For
+\item{bins}{A vector of variable ranges used to bin metric data.}
+
+\item{scores}{A vector of scores calculated for each model run. For
 example, an output from \code{\link{score_hruns}}.}
 }
 \value{

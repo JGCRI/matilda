@@ -5,10 +5,10 @@
 #' by how closely each run represents observed data. This function also calculates
 #' the probability that a metric will occur in each bin range.
 #'
-#' @param metric_df A vector of metrics calculated for each model run. For
+#' @param metrics A vector of metrics calculated for each model run. For
 #' example, an output from \code{\link{metric_calc}}.
 #' @param bins A vector of variable ranges used to bin metric data.
-#' @param score_result A vector of scores calculated for each model run. For
+#' @param scores A vector of scores calculated for each model run. For
 #' example, an output from \code{\link{score_hruns}}.
 #'
 #' @return A data frame object of bins, the summed scores of model runs producing
