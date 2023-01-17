@@ -1,33 +1,24 @@
 #' Metric Calculation
 #'
-#' @description A function that accepts a data frame result from an iterative Hector
-#' run and calculates a specified metric for each run.
+#' @description This is a function that calculates metric values for multiple
+#' Hector runs. Metrics to be calculated from Hector runs are defined using
+#' \code{\link{new_metric}}.
 #'
 #' @param x A data frame object from \code{\link{iterate_hector}} output.
 #' @param metric An object identifying a variable, year range, and operation
 #' (e.g. mean, median, max, min, etc.) to fetch from Hector result.
 #'
-#' @return A data frame with columns for run_number, variable, and a metric
-#' calculation for each Hector run.
+#' @return A data frame with columns for \code{run_number} and
+#'  \code{metric_result} values for each Hector run.
 #'
 #' @export
 #'
 #' @examples
-#' # Load scenario file and initiate a new hector core
-#' ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
-#' core <- newcore(ssp245)
-#'
 #' # Create new metric
-#' metric <- new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
-#'
-#' # Compute parameter values for Hector iterations
-#' params <- generate_params(10)
-#'
-#' # Iterate Hector runs with parameter uncertainty
-#' h_result <- iterate_hector(core, metric, params)
+#' metric <- new_metric(var = "global_tas", years = 2000:2100, op = mean)
 #'
 #' # Calculate metric values for each Hector run
-#' metric_calc(h_result, metric)
+#' metric_calc(hector_result, metric)
 
 metric_calc <- function(x, metric) {
 
@@ -36,9 +27,6 @@ metric_calc <- function(x, metric) {
 
   # error code if year arg exceeds years in x
   if( any(metric$years > max(x$year)) ) stop('year range exceeds years in x')
-
-  # error code if variable arg is not in x
-  if( any(metric$var != x$variable)) stop('variable is not present in x')
 
   # Splitting x (df of hector output) by run number
   result_split <- split(x, x$run_number)

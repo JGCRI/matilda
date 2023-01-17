@@ -7,21 +7,21 @@
 new_metric(var, years, op)
 }
 \arguments{
-\item{var}{A character string of Hector variable}
+\item{var}{A character string of Hector variables}
 
 \item{years}{A range of years}
 
-\item{op}{An operation to apply to data}
+\item{op}{An operation to apply to data (e.g. mean, median, max, min, etc.)}
 }
 \value{
 Prints \code{R} object containing metric parameters.
 }
 \description{
-This creates and stores a new set of metric parameters for running
-\code{\link{iterate_hector}} and other functions in \code{hectorpractice}
-that require the parameters stored in the object.
+This function creates and stores a new set of metric parameters
+for running \code{\link{iterate_hector}} and other functions in \code{matilda}.
 }
 \examples{
-# Creating a new metric
+# Creating a new metric to produce an ouput for mean global temperature increase
+# for years between 2000 and 2100
 new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
 }

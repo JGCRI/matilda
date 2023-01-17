@@ -1,18 +1,18 @@
 #' Creating new metric object
 #'
-#' @description This creates and stores a new set of metric parameters for running
-#' \code{\link{iterate_hector}} and other functions in \code{hectorpractice}
-#' that require the parameters stored in the object.
+#' @description This function creates and stores a new set of metric parameters
+#' for running \code{\link{iterate_hector}} and other functions in \code{matilda}.
 #'
-#' @param var A character string of Hector variable
+#' @param var A character string of Hector variables
 #' @param years A range of years
-#' @param op An operation to apply to data
+#' @param op An operation to apply to data (e.g. mean, median, max, min, etc.)
 #'
 #' @return Prints \code{R} object containing metric parameters.
 #' @export
 #'
 #' @examples
-#' # Creating a new metric
+#' # Creating a new metric to produce an ouput for mean global temperature increase
+#' # for years between 2000 and 2100
 #' new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
 
 new_metric <- function(var, years, op){

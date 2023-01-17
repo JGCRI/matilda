@@ -1,7 +1,8 @@
 #' Generating Parameter Values
 #'
-#' @description This function will generate parameter values for running Hector.
-#' Parameters are generated from random draws of a normal distribution.
+#' @description This function will generate parameter values that will be set for
+#' multiple Hector iterations.Parameters are generated from random draws of a
+#' normal distribution.
 #'
 #' @param draws Number of random draws for each parameter.
 #'
@@ -16,7 +17,7 @@
 
 generate_params <- function(draws){
 
-  # Building list of runs and random parameter draws based on run number
+  # list of random parameter values drawn from normal distribution
   params <- list(
 
     "BETA" = rnorm(draws, mean = 0.54, sd = 0.1),

@@ -11,9 +11,9 @@ score_ramp(x, y, w1, w2, na.omit = FALSE)
 
 \item{y}{Second set of numeric vectors}
 
-\item{w1}{Distance at which score ramps down from 1.}
+\item{w1}{Difference at which score begins to ramp down from 1.}
 
-\item{w2}{Distance at which score becomes 0}
+\item{w2}{Difference at which score hits 0.}
 
 \item{na.omit}{How should score_ramp deal with rows in data frame containing NAs?
 Defaults to FALSE, leaving NAs in data frame.}
@@ -22,8 +22,10 @@ Defaults to FALSE, leaving NAs in data frame.}
 Vector of scores
 }
 \description{
-Computes scores based on proximity of two numeric values in a vector.
-Scores are derived from cutoffs provided by the user (w1, w2).
+This function computes scores based on proximity of two numeric
+values in a vector. Scores are derived from cutoffs provided by the user
+(\code{w1}, \code{w2}). Scores decrease (starting at a score of 1) as two
+values become more different.
 }
 \examples{
 # Example vectors

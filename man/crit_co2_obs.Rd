@@ -16,7 +16,7 @@ longest running measurements of mean annual atmospheric CO2, collected from the
 Mauna Loa Observatory.
 }
 \note{
-This uses the Mauna Loa data set from
+This function uses the Mauna Loa data set from
 \href{https://gml.noaa.gov/ccgg/trends/data.html}{https://gml.noaa.gov/ccgg/trends/data.html}
 downloaded on 01/03/2023
 }

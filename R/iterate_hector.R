@@ -25,16 +25,16 @@ lognorm <- function(m, sd){
 
 }
 
-#' Metric calc from single Hector Run
+#' Metric calculation for single Hector run
 #'
-#' @description Function for calculating a variable metric from Hector output data.
+#' @description This function calculates a metric variable using Hector output data.
 #'
 #' @param x A data frame result from a single Hector run.
 #' @param metric An object identifying a variable, year range, and operation
 #' (e.g. mean, median, max, min, etc.) to apply to data.
 #'
-#' @return A numeric value calculated from the operation for each variable in the
-#' year range.
+#' @return A numeric value calculated from information defined in \code{metric}
+#' object.
 #' @export
 
 #' @examples
@@ -72,7 +72,10 @@ metric_calc_1run <- function(x, metric) {
 
 #' Iterate Hector Runs
 #'
-#' @description Runs Hector in an iterative process with parameter uncertainty.
+#' @description This function runs Hector in an iterative process with parameter
+#' uncertainty. Parameter values for each Hector run are set using the output of
+#' the \code{\link{generate_params}} function. Output of model iterations will
+#' be filtered according to metric information.
 #'
 #' @param core A core object to initiate Hector runs.
 #' @param metric An object identifying a variable, year range, and operation
@@ -83,9 +86,9 @@ metric_calc_1run <- function(x, metric) {
 #'
 #' @importFrom stats rnorm rlnorm
 #'
-#' @return A data frame with a run_number from one to the total number of Hector
-#' runs completed and values for the variables and year range identified in
-#' the metric argument for each Hector run.
+#' @return A data frame with a column of \code{run_number} indicating the total
+#' number of Hector runs completed. Values for the variables and year ranges
+#' identified in the user defined \code{metric}.
 #'
 #' @export
 #'
@@ -132,7 +135,6 @@ iterate_hector <- function(core, metric, params) {
 
     # adding run_number column
     dat$run_number <- i
-
 
     # stores results
     result_list[[i]] <- dat

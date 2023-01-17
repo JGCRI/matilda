@@ -15,8 +15,9 @@ draw. The column \code{run_number} indicates the number of \code{draws} provided
 as an argument in the function.
 }
 \description{
-This function will generate parameter values for running Hector.
-Parameters are generated from random draws of a normal distribution.
+This function will generate parameter values that will be set for
+multiple Hector iterations.Parameters are generated from random draws of a
+normal distribution.
 }
 \examples{
 # Generate parameters for Hector iterations

@@ -13,27 +13,18 @@ metric_calc(x, metric)
 (e.g. mean, median, max, min, etc.) to fetch from Hector result.}
 }
 \value{
-A data frame with columns for run_number, variable, and a metric
-calculation for each Hector run.
+A data frame with columns for \code{run_number} and
+ \code{metric_result} values for each Hector run.
 }
 \description{
-A function that accepts a data frame result from an iterative Hector
-run and calculates a specified metric for each run.
+This is a function that calculates metric values for multiple
+Hector runs. Metrics to be calculated from Hector runs are defined using
+\code{\link{new_metric}}.
 }
 \examples{
-# Load scenario file and initiate a new hector core
-ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
-core <- newcore(ssp245)
-
 # Create new metric
-metric <- new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
-
-# Compute parameter values for Hector iterations
-params <- generate_params(10)
-
-# Iterate Hector runs with parameter uncertainty
-h_result <- iterate_hector(core, metric, params)
+metric <- new_metric(var = "global_tas", years = 2000:2100, op = mean)
 
 # Calculate metric values for each Hector run
-metric_calc(h_result, metric)
+metric_calc(hector_result, metric)
 }

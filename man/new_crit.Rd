@@ -17,14 +17,14 @@ new_crit(var, years, obs_values)
 Pretty print of R object containing new criterion parameters.
 }
 \description{
-This function will create a new criterion for screening Hector
+This function will create a new criterion used to screen Hector
 runs for realism. User can load data for comparing Hector variable outputs to
 observed data values.
 }
 \examples{
 # Assign observed data to an object
-x <- hectorpractice:::metricdata_co2
+data <- hectorpractice:::metricdata_co2
 
 # Create a new criteria that can be used to screen Hector runs
-new_crit(ATMOSPHERIC_CO2(), years = x$year, obs_values = x$co2_ppm)
+new_crit(ATMOSPHERIC_CO2(), years = data$year, obs_values = data$co2_ppm)
 }
