@@ -60,14 +60,16 @@ metric_calc_1run <- function(x, metric) {
   if(any (metric$years > max(x$year))) stop('year range must be subset of years in x')
 
   # subsets single hector run to only include variables and years of interest
-  x <- subset(x, variable == metric$var & year %in% metric$years)
+  x <- subset(x, x$variable == metric$var & x$year %in% metric$years)
 
   # applies operation to the variable values in the Hector data frame
   # if the returned value is NA return error
   # else return metric_value
-  if ( is.na(metric$op(x$value))) stop('variable not present in x, metric_value == NA')
-  else (metric$op(x$value))
-
+  if ( is.na(metric$op(x$value))) {
+    stop('variable not present in x, metric_value == NA')
+  } else {
+    return (metric$op(x$value))
+  }
 }
 
 #' Iterate Hector Runs

@@ -95,12 +95,12 @@ score_hruns <- function(x, crit, score_function,...) {
   if( !is.function(score_function)) stop('user supplied score_function is not a function')
 
   # subset to include years for CO2 screening
-  x_subset <- subset(x, year %in% crit$years & variable == crit$var)
+  x_subset <- subset(x, x$year %in% crit$years & x$variable == crit$var)
 
   # error if variable in x does not match variable in the criterion being used
   if( !nrow(x_subset)) stop('criterion year and variable combination not represented in data')
 
-  #creates observed data frame
+  # creates observed data frame
   obs_dat <- data.frame(year = crit$years, value_obs = crit$obs_values)
 
   # merge hector results with calibration data observed CO2 data
