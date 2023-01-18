@@ -63,7 +63,7 @@ We can generate parameter values using `generate_params()`. This function random
 
 ```{r}
 # Generate a data frame of random parameter values
-param_values <- generate_params(10)
+param_values <- generate_params(c_ssp245, 10)
 
 head(param_values)
 ```
