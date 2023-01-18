@@ -23,7 +23,7 @@ observed data values.
 }
 \examples{
 # Assign observed data to an object
-data <- hectorpractice:::metricdata_co2
+data <- matilda:::metricdata_co2
 
 # Create a new criteria that can be used to screen Hector runs
 new_crit(ATMOSPHERIC_CO2(), years = data$year, obs_values = data$co2_ppm)

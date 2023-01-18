@@ -2,9 +2,11 @@
 #'
 #' @description This function will generate parameter values that will be set for
 #' multiple Hector iterations.Parameters are generated from random draws of a
-#' normal distribution.
+#' normal distribution. The mean of each distribution is set using values from
+#' a core object initiated using \code{\link{newcore}}.
 #'
 #' @param draws Number of random draws for each parameter.
+#' @param core An initiated Hector core.
 #'
 #' @return A data frame object with parameter values generated for each
 #' draw. The column \code{run_number} indicates the number of \code{draws} provided
@@ -12,18 +14,27 @@
 #' @export
 #'
 #' @examples
+#' # Initiate a Hector core
+#' ssp_245 <- system.file("input/hector_ssp245.ini", package = "hector")
+#' core <- newcore(ssp_245)
+#'
 #' # Generate parameters for Hector iterations
-#' generate_params(10)
+#' generate_params(core, 10)
 
-generate_params <- function(draws){
+generate_params <- function(core, draws){
+
+  beta = fetchvars(core, NA, BETA())
+  q10 = fetchvars(core, NA, Q10_RH())
+  npp = fetchvars(core, NA, NPP_FLUX0())
+  aero = fetchvars(core, NA, AERO_SCALE())
 
   # list of random parameter values drawn from normal distribution
   params <- list(
 
-    "BETA" = rnorm(draws, mean = 0.54, sd = 0.1),
-    "Q10_RH" = rlnorm(draws,lognorm(2, 1.0) [1], lognorm(2, 1.0) [2]),
-    "NPP_FLUX0" = rnorm(draws, mean = 56.2, sd = 14.3),
-    "AERO_SCALE" = rnorm(draws, mean = 1.01, sd = 0.23))
+    "BETA" = rnorm(draws, mean = beta$value, sd = 0.1),
+    "Q10_RH" = rlnorm(draws,lognorm(q10$value, 1.0) [1], lognorm(q10$value, 1.0) [2]),
+    "NPP_FLUX0" = rnorm(draws, mean = npp$value, sd = 14.3),
+    "AERO_SCALE" = rnorm(draws, mean = aero$value, sd = 0.23))
 
   # converting list to data frame
   result <- as.data.frame(params)
