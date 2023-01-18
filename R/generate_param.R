@@ -31,7 +31,7 @@ generate_params <- function(core, draws){
   # list of random parameter values drawn from normal distribution
   params <- list(
 
-    "BETA" = rnorm(draws, mean = beta$value, sd = 0.1),
+    "BETA" = rlnorm(draws, lognorm(beta$value, 0.1) [1], lognorm(beta$value, 0.1) [2]),
     "Q10_RH" = rlnorm(draws,lognorm(q10$value, 1.0) [1], lognorm(q10$value, 1.0) [2]),
     "NPP_FLUX0" = rnorm(draws, mean = npp$value, sd = 14.3),
     "AERO_SCALE" = rnorm(draws, mean = aero$value, sd = 0.23))
