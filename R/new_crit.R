@@ -87,7 +87,7 @@ is.crit <- function(x) {
 
 crit_co2_obs <- function() {
 
-  new_crit(ATMOSPHERIC_CO2(),
+  new_crit(CONCENTRATIONS_CO2(),
            years = metricdata_co2$year,
            obs_values = metricdata_co2$co2_ppm)
 
