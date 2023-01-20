@@ -35,7 +35,7 @@ metric <- new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
 print(metric)
 
 # Compute parameter values for Hector iterations
-params <- generate_params(10)
+params <- generate_params(core, 10)
 params
 
 # Iterate Hector runs with parameter uncertainty

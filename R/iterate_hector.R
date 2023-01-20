@@ -104,7 +104,7 @@ metric_calc_1run <- function(x, metric) {
 #' print(metric)
 #'
 #' # Compute parameter values for Hector iterations
-#' params <- generate_params(10)
+#' params <- generate_params(core, 10)
 #' params
 #'
 #' # Iterate Hector runs with parameter uncertainty
