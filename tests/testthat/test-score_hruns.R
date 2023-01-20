@@ -1,6 +1,6 @@
 # data occupied df
 test <- data.frame(year = 2001:2003,
-                   variable = rep(c("atmos_co2"), each = 3),
+                   variable = rep(c("CO2_concentration"), each = 3),
                    value = c(630, 635, 700),
                    run_number = c(1:3))
 

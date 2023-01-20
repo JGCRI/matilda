@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 This vignette will work through the basic functionality of `matilda`. First, it shows how to generate a random sample of important model parameters from normal distributions. Then, it shows how to use the newly generated parameter values to run Hector through model iterations whereby parameter values are substituted (without replacement) for each model run. Hector runs can then be weighted based on proximity to observed climate data. Last, this vignette will show how to use an iterative Hector output to calculate aggregate functions of climatic variables. This information can then be used to calculate the probability of future climate outcomes.
 
-As a final simple analysis example, we will show how these functions give Hector the capability to be used as a coupled climate model to compute probabilistic projections of future climate change using emissions derived from two different Shared Socio-economic Pathways (SSPs).
+As a final simple analysis example, we will show how these functions give Hector the capability to be used as a coupled climate model to compute probabilistic projections of future climate change using emissions derived from commonly used Shared Socio-economic Pathways (SSPs).
 
 #### 
 
@@ -205,19 +205,19 @@ probabilities
   
 ```
 
-The `prob_calc()` function bins each metric into and sums the scores of Hector run as it is binned. The, it uses the summed score of each bin to compute the probability of of each binned outcome.
+The `prob_calc()` function bins each metric and sums the scores of each Hector run as it is binned. Then, it uses the summed score of each bin to compute the probability of of each binned outcome.
 
 The results above show that for the ten Hector runs being used for this analysis, the likelihood that mean global air temperature anomaly will be between 2-3$^\circ$ C is higher than the likelihood that it will be less than 2$^\circ$ C by the end of the 21st century.
 
 #### 
 
-# Using Hector probabilistic framework to anlayze climate outcomes of SSP2-4.5 and SSP5-8.5
+# Using Hector probabilistic framework to analyze climate outcomes of SSP scenarios
 
-The Hector model runs fairly quickly, even when incorporating parameter uncertainty with many iterations. The speed makes it easy to run lots of simulations given slightly different model configurations. For example, we can explore how different shared socio-economic pathways will impact future projections of the climate.
+The Hector model runs fairly quickly, even when incorporating parameter uncertainty with many iterations. The speed makes it easy to run lots of simulations given slightly different model configurations. For example, we can explore how different shared socio-economic pathways will impact future climate projections.
 
-The overall procedure for this is the same as presented in the previous sections. To save time we will consolidate some of the steps above with new functions.
+The overall procedure for this is the same as presented in the previous sections.
 
-```{r fig3, fig.align='center', fig.height=6, fig.width=8, message=FALSE}
+```{r fig3, fig.align='center', fig.height=6, fig.width=8, message=FALSE, echo=FALSE}
 #' Scored Hector runs
 #'
 #' @param inifile a path to ini file of emissions pathway
@@ -245,6 +245,7 @@ scored_hector_runs <- function(inifile, draws, metric, crit) {
 ini_126 <- system.file("input/hector_ssp126.ini", package = "hector")
 ini_245 <- system.file("input/hector_ssp245.ini", package = "hector")
 ini_370 <- system.file("input/hector_ssp370.ini", package = "hector")
+ini_585 <- system.file("input/hector_ssp585.ini", package = "hector")
 
 # new metric for CO2 and global_tas
 my_metric <- new_metric(c(GLOBAL_TAS(), CONCENTRATIONS_CO2()), 
@@ -263,11 +264,14 @@ hector_245 <- scored_hector_runs(ini_245, 50, my_metric, crit_co2_obs())
 hector_245$ssp <- rep("ssp245")
 hector_370 <- scored_hector_runs(ini_370, 50, my_metric, crit_co2_obs())
 hector_370$ssp <- rep("ssp370")
+hector_585 <- scored_hector_runs(ini_585, 50, my_metric, crit_co2_obs())
+hector_585$ssp <- rep("ssp585")
 
 # Merging hector results for plotting
 hector_merge <- rbind(hector_126,
                       hector_245,
-                      hector_370)
+                      hector_370,
+                      hector_585)
 
 # Plotting CO2 projections
 plot_co2 <- ggplot(hector_merge [hector_merge$variable 
@@ -281,7 +285,8 @@ plot_co2 <- ggplot(hector_merge [hector_merge$variable
   scale_alpha_continuous(range = c(0.1, 1)) +
   geom_line(data = matilda:::metricdata_co2,
             aes(year, co2_ppm),
-            color = "red") +
+            color = "red",
+            linewdith = 1) +
   facet_wrap(~variable + ssp) +
   ylab(expression(CO[2]~Concentration~(ppm))) +
   theme_light() +
@@ -291,7 +296,7 @@ plot_co2
 
 ```
 
-```{r}
+```{r fig4, fig.align='center', fig.height=3, fig.width=8, echo=FALSE}
 #' Calculating probabilities 
 #'
 #' @param h_result A hector result
@@ -303,7 +308,7 @@ plot_co2
 probabilities <- function(h_result,
                           metric,
                           crit,
-                          bins = c(0, 1, 2, 3, 4, Inf)) {
+                          bins = c(1, 1.5, 2, 3, 4, Inf)) {
   # calculating metrics
   metrics = metric_calc(h_result, metric)
   # calculating scores
@@ -321,11 +326,34 @@ probabilities <- function(h_result,
 
 # Calculating probabilities for each hector run
 probs_126 <- probabilities(hector_126, metric_global_tas, crit_co2_obs())
+probs_126$ssp <- rep("ssp_126")
 probs_245 <- probabilities(hector_245, metric_global_tas, crit_co2_obs())
+probs_245$ssp <- rep("ssp_245")
 probs_370 <- probabilities(hector_370, metric_global_tas, crit_co2_obs())
+probs_370$ssp <- rep("ssp_370")
+probs_585 <- probabilities(hector_585, metric_global_tas, crit_co2_obs())
+probs_585$ssp <- rep("ssp_585")
+
+#combining dfs with scenario types and probs
+results_all <- rbind(probs_126,
+                     probs_245,
+                     probs_370,
+                     probs_585)
+colnames(results_all) <- c("Warming", "Score" ,"Probability", "Scenario")
 
 # Plotting probabilities as stacked bar graph
-
+ggplot(results_all, aes(fill = Warming, y = Probability, x = Scenario)) +
+  geom_bar(position = position_fill(reverse = T), 
+           stat = "identity",
+           width = 0.6) +
+  scale_y_continuous(breaks = seq(0, 1.0, 0.1)) +
+  scale_fill_manual(values = c("dark grey", "light coral", "dark red", "black"),
+                    labels = c("1 to 1.5 C", "1.5 to 2 C", "2 to 3 C", "3 to 4 C")) +
+  coord_flip() +
+  theme_light() 
 
 ```
 
+This analysis shows how different SSP scenarios impact future CO~2~ concentration projections. The inclusion of a probabilistic framework with parameter uncertainty provides the capability to establish a "cone of uncertainty" for possible futures under each pathway (top panel). These possible futures are weighted by how well the model runs resulting in each projection align with observed data (darker blue indicating a better fit to historic data). 
+
+We can also use the functions in `matilda` to calculate and plot the likelihood of projected warming until 2100 (bottom panel). We can see from this analysis that the likelihood of remaining below 2.0$^\circ$ C becomes less likely as the SSP is changed from sustainable (SSP1-2.6) to fossil-fuel development (SSP5-8.5).
