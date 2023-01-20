@@ -16,31 +16,25 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-matilda (NAME!?) is a package that provides probabilistic capability to the Hector simple climate model. This package gives the user the ability to randomly generate model parameters from a normal distribution, run Hector using the generated parameters, screen model outputs for realism, and compute probabilities of climate variables projections. This package allows Hector to automate the incorporation of parameter uncertainty. Including parameter uncertainty allows Hector to run multiple times across a range of possible parameter values. into and quantifies the likelihood of future climate change outcomes.
+`matilda` is a package that provides a probabilistic framework to the Hector simple climate model. This package gives the user the capability to randomly generate model parameters from a normal distribution, run Hector using the generated parameters, screen model outputs for realism, and compute probabilities of climate variable projections.
 
-In addition, the package has functions available that allow the user to identify information they are interested in fetching and computing from Hector runs. Here we define a metric as a combination of identifiers that help fetch data and calculate a "metric value" from a Hector output. For example, it is possible to compute the probability that mean global surface warming will remain between 2-3$^\circ$ C by the end of the century (2100). In this case the metric could be identified as:
+This vignette will work through the basic functionality of `matilda`. First, it shows how to generate a random sample of important model parameters from normal distributions. Then, it shows how to use the newly generated parameter values to run Hector through model iterations whereby parameter values are substituted (without replacement) for each model run. Hector runs can then be weighted based on proximity to observed climate data. Last, this vignette will show how to use an iterative Hector output to calculate aggregate functions of climatic variables. This information can then be used to calculate the probability of future climate outcomes.
 
-`Probabilistic Hector Metric:  mean global_tas 2000  to  2100`
+As a final simple analysis example, we will show how these functions give Hector the capability to be used as a coupled climate model to compute probabilistic projections of future climate change using emissions derived from two different Shared Socio-economic Pathways (SSPs).
 
-Once the model is run, the user can screen outputs using observed data to identify the most realistic model results (those that most closely align with observed data). We call this a scoring "criterion". `matilda` has pre-established criterion for scoring Hector runs based on proximity to observed data, but also is capable of allowing the user to establish their own scoring criterion.  
-
-This vignette will work through the basic functionality of the matilda (NAME!?) package. First, we will show how to produce a data frame of parameter values drawn randomly from normal distributions of important model parameters. Next, we will use the parameter values produced to run Hector in an iterative process, whereby parameter values are substituted (without replacement) for multiple model runs. Then, we shows how to use an iterative Hector output to compute a climatic variable metric for each Hector run. These metrics will then be organized into bins and probabilities will be calculated for the projection of each climatic variable.
-
-As a final simple analysis example, we will show how these functions give Hector the capability to be used as a coupled climate model to compute probabilistic projections of future climate change using emissions derived from two different Shared Socio-economic Pathways (SSPs). 
-
-####
+#### 
 
 # Set-up
 
 ## Configure Hector core
 
-First, load the `matilda` package 
+First, load the `matilda` package
 
 ```{r setup}
 library(matilda)
 ```
 
-Next, we will initialize a "core" or Hector instance, we will need this core to run the Hector model. 
+Next, we will initialize a "core" for a new Hector instance. A core is required to run the Hector model.
 
 More information about establishing a new core for running Hector can be found in the tutorial for using the [Hector R interface](https://jgcri.github.io/hector/articles/intro-to-hector.html).
 
@@ -53,13 +47,13 @@ c_ssp245 <- newcore(ini)
 
 ```
 
-This new Hector core is an object that contains information about Hector inputs and outputs.
+This new Hector core is a self-contained object with information about Hector inputs and outputs.
 
-Now we can generate parameter values. The parameter values that we produce will be subsequently used to set parameter variables in our core for a series of Hector runs.
+Now that a new Hector core is configured, we can generate parameter values. The parameter values that we produce will be subsequently used to set parameter variables when we run the Hector model.
 
 ## Generate parameter values
 
-We can generate parameter values using `generate_params()`. This function randomly samples a normal distribution of each parameter and stores sampled parameter values in a data frame. We need to specify how many random draws of the parameter distributions we would like to complete. The number of sample draws we indicate will also be the number of times we will run Hector.
+We can generate parameter values using `generate_params()`. This function uses parameter values from the established Hector core to set the mean of a normal distribution for each parameter. The `generate_params()` function then uses the number of `draws` (argument supplied by user) to generate randomly sampled parameter values from respective distributions.
 
 ```{r}
 # Generate a data frame of random parameter values
@@ -68,34 +62,40 @@ param_values <- generate_params(c_ssp245, 10)
 head(param_values)
 ```
 
-We now have a data frame object called `param_values`. This data frame contains our model parameter names with 10 unique values that were sampled from a normal distribution of each parameter.
+Notice that We now have a data frame object called `param_values` which contains our model parameter names with 10 unique values that were sampled from a normal distribution of each parameter.
 
-We can use this parameter data frame to run Hector through an iterative process. `matilda` can run Hector with iterations that will run Hector multiple times, setting new parameter values with each run until an output has been produced for each set of parameter values generated.  
+We can use these parameter values to run Hector through an iterative process.
 
-####
+#### 
 
 # Running Hector with iterations
 
-Once we have configured a Hector core and generated a series of parameter values, we can complete iterate runs in Hector using the `iterate_hector()` function.
+`iterate_hector()` will run Hector multiple times, setting new parameter values with each.
 
-`iterate_hector()` requires some specific information in order to produce an output we want. As previously mentioned, it requires a core (arg = `core`) and a data frame of parameter values (arg = `params`). In addition, it requires the user to indicate which variables and year ranges to fetch from the core object (arg = `metric`). 
+Running `iterate_hector()` requires a core, a data frame of parameter values, and a **metric** object. Metric objects contain a combination of identifiers that communicates what data is important for fetching from a Hector result. These objects are important for reducing computing time and memory by only producing the output we are interested in. For example, we can use a metric object defined as:
 
-`matilda` has the ability to store desired metric identifiers in an object that can be easily passed to many different functions in the package, including `iterate_hector`. 
+`Probabilistic Hector Metric:  mean global_tas 2000  to  2100`
 
-We will use the `new_metric` function to define our metric and use that object as our `metric` argument in `iterate_hector`.
+to estimate mean global air temperature anomaly (global_tas) in years 2000-2100, for each Hector model iteration.
 
-Below we will create a metric indicating that we want to retrieve results for global average surface temperature (global_tas) for the years 2000 to 2300. We will also specify that we are interested in computing mean global_tas data. It is important to note that the operation stored in our metric will **not** be used in the `iterate_hector` function, but will be important for subsequent steps in the analysis. 
+The `new_metric()` function can be used to define our metric.
 
-For this example we will be using observed atmospheric CO2 as a scoring criterion. This criterion is easy to use because it is already defined within the `matilda` package. In order to screen our Hector runs based on observed CO2, we will need to the atmos_co2 variable included in our Hector output. Therefore, we will include it as a desired variable when defining our metric.  
+Below we will create a metric indicating that we want to retrieve results for global average air temperature anomaly (global_tas) for the years 1960 to 2100. We will also specify that we are interested in computing mean global_tas data.
+
+It is important to note that the operation (`op`, an aggregate function) stored in our metric will **not** be used in the `iterate_hector` function, but will be important for subsequent steps in the analysis.
+
+In this vignette we will be using observed atmospheric CO~2~ to screen Hector outputs for realism. This will be covered in detail below.
+
+In order to screen our Hector runs based on observed CO~2~, we will need the CO2_concentration variable included in our Hector output. Therefore, we will include it as a desired variable when defining the metric.
 
 ```{r}
 # Setting a new_metric object for Hector analysis
-my_metric <- new_metric(c(GLOBAL_TAS(), ATMOSPHERIC_CO2()), 2000:2300, median)
+my_metric <- new_metric(c(GLOBAL_TAS(), CONCENTRATIONS_CO2()), 1960:2100, mean)
 
 print(my_metric)
 ```
 
-Now that have all of the required arguments for `iterate_hector` we can run the model. We will create an object called `results` which will store our output as a data frame.
+We can now use `iterate_hector` to run the model.
 
 ```{r, message=FALSE}
 # Run Hector model repeatedly over all parameter values
@@ -104,66 +104,228 @@ results <- iterate_hector(core = c_ssp245, metric = my_metric, params = param_va
 head(results)
 ```
 
-Viewing the full results will show that global average surface temperature values from 2000-2300 for 10 separate runs, which is indicated by `run_number`. As a reminder, each run uses different parameter estimates to complete the model. 
+Viewing the full results shows global_tas and CO2_concentration values from 1960-2100 for 10 separate runs, as indicated by `run_number`.
 
 The result is a `data.frame` and therefore we can plot the results easily in `ggplot2`.
 
-```{r}
+```{r fig1, fig.align='center', fig.height=4, fig.width=6}
 # plotting results from iterative Hector run
 library(ggplot2)
 
-ggplot(data = results[results$variable %in% "global_tas", ], 
+ggplot(data = results, 
        aes(x = year, y = value, group = run_number)) +
   geom_line() +
   facet_wrap(~variable, scales = "free_y")
 ```
 
-From this result we can see how incorporating parameter uncertainty in Hector influences trajectories of climate variable projections, in this case global average surface temperature. We can view this as a non-deterministic result of climate model projections when parameter uncertainty is included in the Hector model.
+#### 
 
-Once we have our Hector result, we can begin to address broader questions about climate projections. For example, we may be interested in what the median global_tas values are from 2000-2100 for each model run, and what the probability is that median warming of the global average surface temperature will remain below 2$^\circ$ C by 2100?
+# Screening Hector results with observed data
 
-####
+It is important to note that Hector results should be screened to ensure that model outputs are reflecting realistic expectations of future climate outcomes from the climate scenario pathways being analyzed. We can score Hector runs based on how closely the results reflect observed data and then weight model runs accordingly.
 
-# Calculating metrics and probabilistic outcomes
-
-After producing a result from `iterate_hector` we can calculate our metrics of interest for each Hector run. As a reminder, we have already specified a metric we are interested in (`my_metric`). This metric object includes outputs from 2000-2300. 
-
-But if we are now interested in a reduced year range (2000-2100) we can just as easily create a new metric specific to those goals.
+We can score model runs using scoring **criterion**. A criterion is an object that defines information used to score Hector runs. the `matilda` package provides internal criterion for easy use but also gives the user the ability to create their own scoring criterion using the `new_crit()` function. For example:
 
 ```{r}
-# New metric object to address question of warming below 2 C by 2100
-#my_metric2 <- new_metric("global_tas", 2000:2100, median)
+# Assign observed data set to an object
+data <- matilda:::metricdata_co2
 
-#print(my_metric2)
+# Create a new criteria that can be used to screen Hector runs
+my_crit <- new_crit(CONCENTRATIONS_CO2(), years = data$year, obs_values = data$co2_ppm)
+
+my_crit
 ```
 
-With the new metric object and our `iterate_hector` output data frame, we can utilize the `metric_calc` function to calculate our metric (median global_tas from 2000 to 2100) for each of our Hector runs.
+For this example we will take advantage of an internal criterion `crit_co2_obs()`, which uses Mauna Loa atmospheric CO~2~ observations to score Hector results.
+
+We can score Hector runs with the function `score_hruns()` which uses any **scoring function** to screen the Hector results. A scoring function is a mathematical function that aims to weight model runs based on proximity to observed data. There are scoring functions provided in `matilda`.
+
+Here, we will use the scoring function `score_ramp` which requires the user to provide additional arguments for calculating Hector run scores (`w1` and `w2`). As differences between Hector runs and observed data values are computed, runs that have differences \< `w1` will score 1.0, runs with differences \> `w2` will score 0, and runs that fall between `w1` and `w2` will produce scores between 1.0 and 0.
 
 ```{r}
-# Getting results for our metric of interest
-#metric_result <- metric_calc(results, my_metric2)
+# Score Hector runs with observed CO2 data
+scores <- score_hruns(results, crit_co2_obs(), score_ramp, w1 = 2, w2 = 20)
 
-#head(metric_result)
+scores
 ```
 
-We can use the `metric_calc` results to organize data into bins for which we define the ranges. 
+The result of scoring the Hector runs shows which model runs closely resemble values from observed data (scores close to 1), and which deviate further from observed values (scores closer to 0). These scores will be used to weight model contribution to our probabilistic projections.
+
+We can plot our scored Hector runs highlighting which runs were closest to observed data:
+
+```{r fig2, fig.align='center', fig.height=4, fig.width=6}
+# merge results with model scores
+results_scored <- merge(results, scores, by = "run_number")
+
+ggplot(data = results_scored) +
+  geom_line(aes(x = year, y = value, group = run_number, color = scores)) +
+  scale_color_continuous() +
+  facet_wrap(~variable, scales = "free_y")
+```
+
+Here, we can see that model runs colored in darker blue have lower scores and will have smaller influence on the overall probabilistic projections.
+
+#### 
+
+# Calculating metrics
+
+With our Hector results we can also compute metric values for each run.
+
+We can establish a new metric that will filter global_tas for years 2000-2100 from our Hector result, then we can use `metric_calc()` to compute the mean values for each run:
 
 ```{r}
-#binned_metrics <- bin_metrics(metric_result, c(1, 1.5, 2.0, 2.5, 3.0, 4.0))
+# new metric for mean global_tas from 2000-2100
+metric_global_tas <- new_metric(GLOBAL_TAS(), 2000:2100, mean)
 
-#print(binned_metrics)
+# computing metric values
+metric_values <- metric_calc(results, metric_global_tas)
+
+metric_values
 
 ```
 
-#### EDIT 
+This result shows the mean global air temperature anomaly by the end of 2100 for each of our ten model runs.
 
-After data are binned we can use the table result to calculate the probability of specific outcomes of the climate varaible we are interested in. 
+#### 
 
-In this example... 
+# Weighted probabilistic projections
+
+We can use the newly calculated metric values and the scored model runs to compute the likelihood of different climatic outcomes. The `prob_calc()` function allows us to group metric values into bins and calculates probabilities of each outcome, weighted by the scores of the Hector runs.
+
+For example, we may be interested in the probability that mean global_tas will remain below 2.0$^\circ$ C by the end of 2100:
 
 ```{r}
-#prob_result <- prob_calc(binned_metrics)
+# establishing bin limits for grouping metric values
+bins <- c(0, 1, 2, 3)
 
-#print(prob_result)
+# Calculating probabilities for global_tas under 2C
+probabilities <- prob_calc(metric_values$metric_result, bins = bins, scores = scores$scores)
+
+probabilities
+  
+```
+
+The `prob_calc()` function bins each metric into and sums the scores of Hector run as it is binned. The, it uses the summed score of each bin to compute the probability of of each binned outcome.
+
+The results above show that for the ten Hector runs being used for this analysis, the likelihood that mean global air temperature anomaly will be between 2-3$^\circ$ C is higher than the likelihood that it will be less than 2$^\circ$ C by the end of the 21st century.
+
+#### 
+
+# Using Hector probabilistic framework to anlayze climate outcomes of SSP2-4.5 and SSP5-8.5
+
+The Hector model runs fairly quickly, even when incorporating parameter uncertainty with many iterations. The speed makes it easy to run lots of simulations given slightly different model configurations. For example, we can explore how different shared socio-economic pathways will impact future projections of the climate.
+
+The overall procedure for this is the same as presented in the previous sections. To save time we will consolidate some of the steps above with new functions.
+
+```{r fig3, fig.align='center', fig.height=6, fig.width=8, message=FALSE}
+#' Scored Hector runs
+#'
+#' @param inifile a path to ini file of emissions pathway
+#' @param draws number of random draws to generate model parameters
+#' @param metric a metric defining data to filter from Hector outpu
+#' @param crit scoring criterion to use
+#'
+#' @return Hector results with added column scoring each run.
+scored_hector_runs <- function(inifile, draws, metric, crit) {
+  # iniate and core
+  core = newcore(inifile)
+  # generate parameters
+  params = generate_params(core, draws)
+  # running Hector
+  h_result = iterate_hector(core, metric, params)
+  # score Hector runs 
+  scores = score_hruns(h_result, crit, score_ramp, w1 = 2, w2 = 20)
+  # merge scores with Hector Results
+  scored_hector = merge(h_result, scores, "run_number")
+  # return
+  return(scored_hector)  
+}
+
+# Establishing ini files for each scenario
+ini_126 <- system.file("input/hector_ssp126.ini", package = "hector")
+ini_245 <- system.file("input/hector_ssp245.ini", package = "hector")
+ini_370 <- system.file("input/hector_ssp370.ini", package = "hector")
+
+# new metric for CO2 and global_tas
+my_metric <- new_metric(c(GLOBAL_TAS(), CONCENTRATIONS_CO2()), 
+                        years = 1959:2100,
+                        op = mean)
+
+# new metric for probabilities of global_tas 
+metric_global_tas <- new_metric(GLOBAL_TAS(),
+                                years = 1990:2100,
+                                op = mean)
+
+# Running hector for each scenario and adding column fro ssp label
+hector_126 <- scored_hector_runs(ini_126, 50, my_metric, crit_co2_obs())
+hector_126$ssp <- rep("ssp126")
+hector_245 <- scored_hector_runs(ini_245, 50, my_metric, crit_co2_obs())
+hector_245$ssp <- rep("ssp245")
+hector_370 <- scored_hector_runs(ini_370, 50, my_metric, crit_co2_obs())
+hector_370$ssp <- rep("ssp370")
+
+# Merging hector results for plotting
+hector_merge <- rbind(hector_126,
+                      hector_245,
+                      hector_370)
+
+# Plotting CO2 projections
+plot_co2 <- ggplot(hector_merge [hector_merge$variable 
+                                 %in% "CO2_concentration", ]) +
+  geom_line(aes(x = year, y = value,
+                group = run_number,
+                color = scores, 
+                alpha = scores),
+            linewidth = 1) +
+  scale_color_gradient(high = "dodgerblue4", low = "lightblue1") +
+  scale_alpha_continuous(range = c(0.1, 1)) +
+  geom_line(data = matilda:::metricdata_co2,
+            aes(year, co2_ppm),
+            color = "red") +
+  facet_wrap(~variable + ssp) +
+  ylab(expression(CO[2]~Concentration~(ppm))) +
+  theme_light() +
+  guides(alpha = "none")
+
+plot_co2
+
+```
+
+```{r}
+#' Calculating probabilities 
+#'
+#' @param h_result A hector result
+#' @param metric A metric to filter results of interest
+#' @param crit A criterion used to score Hector runs
+#' @param bins Bins for computing probabilities - defaults for global_tas
+#'
+#' @return A data frame of probabilities 
+probabilities <- function(h_result,
+                          metric,
+                          crit,
+                          bins = c(0, 1, 2, 3, 4, Inf)) {
+  # calculating metrics
+  metrics = metric_calc(h_result, metric)
+  # calculating scores
+  scores = score_hruns(h_result, crit, score_ramp, w1 = 2, w2 = 20)
+  # merging metrics and scores
+  metric_scores = merge(metrics, scores, by = "run_number")
+  # calculating probability
+  probability = prob_calc(metric_scores$metric_result, bins,
+                          metric_scores$scores)
+  # coercing probability to data frame for plotting
+  probs = as.data.frame(probability)
+  # return
+  return(probs)
+}
+
+# Calculating probabilities for each hector run
+probs_126 <- probabilities(hector_126, metric_global_tas, crit_co2_obs())
+probs_245 <- probabilities(hector_245, metric_global_tas, crit_co2_obs())
+probs_370 <- probabilities(hector_370, metric_global_tas, crit_co2_obs())
+
+# Plotting probabilities as stacked bar graph
+
+
 ```
 
