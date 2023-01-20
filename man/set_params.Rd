@@ -23,7 +23,7 @@ supplied Hector core.
 \examples{
 ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
 core <- newcore(ssp245)
-params <- generate_params(10)
+params <- generate_params(core, 10)
 param_vals <- unlist(params [1, ])
 set_params(core, param_vals)
 }
