@@ -143,10 +143,7 @@ iterate_hector <- function(core, metric, params) {
 
   }
 
-  # binds rows from result_list into df
-  df = as.data.frame(do.call("rbind", result_list))
-
-  # what to return?
-  return(df)
+  # concatenate list entries into a data frame and return
+  do.call("rbind", result_list)
 }
 
