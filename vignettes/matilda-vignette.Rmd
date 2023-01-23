@@ -77,7 +77,7 @@ Running `iterate_hector()` requires a core, a data frame of parameter values, an
 
 `Probabilistic Hector Metric:  mean global_tas 2000  to  2100`
 
-to estimate mean global air temperature anomaly (global_tas) in years 2000-2100, for each Hector model iteration.
+to estimate mean global air temperature anomaly (`global_tas`) in years 2000-2100, for each Hector model iteration.
 
 The `new_metric()` function can be used to define our metric.
 
@@ -126,7 +126,7 @@ ggplot(data = results,
 It is important to note that Hector results should be screened to ensure that model outputs are consistent with current observations and/or future climate from Earth System Models (see e.g. [Goodwin and Cael 2021](https://esd.copernicus.org/articles/12/709/2021/)).
 Similarly, here we score Hector runs based on how closely they reflect observed data; this score is then use to weight the runs in the final probabilistic calculation.
 
-We score model runs using a scoring **criterion**. A criterion is an object that defines information used to score Hector runs. the `matilda` package provides internal criterion for easy use but also gives the user the ability to create their own scoring criterion using the `new_crit()` function. For example:
+We score model runs using a scoring **criterion**. A criterion is an object that defines information used to score Hector runs. The `matilda` package provides internal criterion for easy use but also gives the user the ability to create their own scoring criterion using the `new_crit()` function. For example:
 
 ```{r}
 # Create a new criteria that can be used to screen Hector runs
