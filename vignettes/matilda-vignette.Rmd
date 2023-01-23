@@ -18,9 +18,9 @@ knitr::opts_chunk$set(
 
 `matilda` is a package that provides a probabilistic framework to the Hector simple climate model. This package gives the user the capability to randomly generate model parameters from a normal distribution, run Hector using the generated parameters, screen model outputs for realism, and compute probabilities of climate variable projections.
 
-This vignette will work through the basic functionality of `matilda`. First, it shows how to generate a random sample of important model parameters from normal distributions. Then, it shows how to use the newly generated parameter values to run Hector through model iterations whereby parameter values are substituted (without replacement) for each model run. Hector runs can then be weighted based on proximity to observed climate data. Last, this vignette will show how to use an iterative Hector output to calculate aggregate functions of climatic variables. This information can then be used to calculate the probability of future climate outcomes.
-
-As a final simple analysis example, we will show how these functions give Hector the capability to be used as a coupled climate model to compute probabilistic projections of future climate change using emissions derived from commonly used Shared Socio-economic Pathways (SSPs).
+This vignette will work through the basic functionality of `matilda`. First, it shows how to generate a random sample of important model parameters from normal distributions. 
+It then shows how to use the newly generated parameter values to run Hector through model iterations whereby parameter values are substituted (without replacement) for each model run. Hector runs can then be weighted based on fidelity to observation. 
+Last, this vignette will show how to calculate probabilistic projections of future climate change using Shared Socio-economic Pathways (SSPs).
 
 #### 
 
@@ -34,8 +34,7 @@ First, load the `matilda` package
 library(matilda)
 ```
 
-Next, we will initialize a "core" for a new Hector instance. A core is required to run the Hector model.
-
+Next, we will initialize a "core" for a new Hector instance. 
 More information about establishing a new core for running Hector can be found in the tutorial for using the [Hector R interface](https://jgcri.github.io/hector/articles/intro-to-hector.html).
 
 ```{r}
@@ -49,11 +48,13 @@ c_ssp245 <- newcore(ini)
 
 This new Hector core is a self-contained object with information about Hector inputs and outputs.
 
-Now that a new Hector core is configured, we can generate parameter values. The parameter values that we produce will be subsequently used to set parameter variables when we run the Hector model.
-
 ## Generate parameter values
 
-We can generate parameter values using `generate_params()`. This function uses parameter values from the established Hector core to set the mean of a normal distribution for each parameter. The `generate_params()` function then uses the number of `draws` (argument supplied by user) to generate randomly sampled parameter values from respective distributions.
+Now that a new Hector core is configured, we can generate parameter values. These will be subsequently used to set parameter variables when we run the Hector model.
+
+We generate parameter values using `generate_params()`. 
+This function uses parameter values from the established Hector core to set the mean of a distribution (typically normal or lognormal) for each parameter, and provides parameter standard deviations based on the science literature.
+It then uses the number of `draws` (supplied by user) to generate randomly sampled values from the parameters' respective distributions.
 
 ```{r}
 # Generate a data frame of random parameter values
@@ -62,17 +63,17 @@ param_values <- generate_params(c_ssp245, 10)
 head(param_values)
 ```
 
-Notice that We now have a data frame object called `param_values` which contains our model parameter names with 10 unique values that were sampled from a normal distribution of each parameter.
+We now have a data frame object called `param_values` that contains our model parameter names with 10 random values sampled for each parameter.
 
-We can use these parameter values to run Hector through an iterative process.
+## Defining an output metric
 
-#### 
+
 
 # Running Hector with iterations
 
 `iterate_hector()` will run Hector multiple times, setting new parameter values with each.
 
-Running `iterate_hector()` requires a core, a data frame of parameter values, and a **metric** object. Metric objects contain a combination of identifiers that communicates what data is important for fetching from a Hector result. These objects are important for reducing computing time and memory by only producing the output we are interested in. For example, we can use a metric object defined as:
+Running `iterate_hector()` requires a core, a data frame of parameter values, and a **metric** object. Metric objects contain a combination of identifiers that communicates what data is important for fetching from a Hector core. These objects are important for reducing computing time and memory by only saving the output we are interested in. For example, we can use a metric object defined as:
 
 `Probabilistic Hector Metric:  mean global_tas 2000  to  2100`
 
@@ -80,13 +81,13 @@ to estimate mean global air temperature anomaly (global_tas) in years 2000-2100,
 
 The `new_metric()` function can be used to define our metric.
 
-Below we will create a metric indicating that we want to retrieve results for global average air temperature anomaly (global_tas) for the years 1960 to 2100. We will also specify that we are interested in computing mean global_tas data.
+Below we will create a metric indicating that we want to retrieve results for global average air temperature anomaly (`global_tas`) for the years 1960 to 2100. We will also specify that we are interested in computing the _mean_ of this temperature output.
 
 It is important to note that the operation (`op`, an aggregate function) stored in our metric will **not** be used in the `iterate_hector` function, but will be important for subsequent steps in the analysis.
 
 In this vignette we will be using observed atmospheric CO~2~ to screen Hector outputs for realism. This will be covered in detail below.
 
-In order to screen our Hector runs based on observed CO~2~, we will need the CO2_concentration variable included in our Hector output. Therefore, we will include it as a desired variable when defining the metric.
+In order to screen our Hector runs based on observed CO~2~, we will need the `CO2_concentration` variable included in our Hector output. Therefore, we will include it as a desired variable when defining the metric.
 
 ```{r}
 # Setting a new_metric object for Hector analysis
@@ -122,23 +123,23 @@ ggplot(data = results,
 
 # Screening Hector results with observed data
 
-It is important to note that Hector results should be screened to ensure that model outputs are reflecting realistic expectations of future climate outcomes from the climate scenario pathways being analyzed. We can score Hector runs based on how closely the results reflect observed data and then weight model runs accordingly.
+It is important to note that Hector results should be screened to ensure that model outputs are consistent with current observations and/or future climate from Earth System Models (see e.g. [Goodwin and Cael 2021](https://esd.copernicus.org/articles/12/709/2021/)).
+Similarly, here we score Hector runs based on how closely they reflect observed data; this score is then use to weight the runs in the final probabilistic calculation.
 
-We can score model runs using scoring **criterion**. A criterion is an object that defines information used to score Hector runs. the `matilda` package provides internal criterion for easy use but also gives the user the ability to create their own scoring criterion using the `new_crit()` function. For example:
+We score model runs using a scoring **criterion**. A criterion is an object that defines information used to score Hector runs. the `matilda` package provides internal criterion for easy use but also gives the user the ability to create their own scoring criterion using the `new_crit()` function. For example:
 
 ```{r}
-# Assign observed data set to an object
-data <- matilda:::metricdata_co2
-
 # Create a new criteria that can be used to screen Hector runs
-my_crit <- new_crit(CONCENTRATIONS_CO2(), years = data$year, obs_values = data$co2_ppm)
+my_crit <- new_crit(CONCENTRATIONS_CO2(), 
+                    years = metricdata_co2$year, 
+                    obs_values = metricdata_co2$co2_ppm)
 
 my_crit
 ```
 
-For this example we will take advantage of an internal criterion `crit_co2_obs()`, which uses Mauna Loa atmospheric CO~2~ observations to score Hector results.
+For this example we will take advantage of an internal criterion `crit_co2_obs()`, which uses [Mauna Loa atmospheric CO~2~ observations](https://gml.noaa.gov/ccgg/trends/) to score Hector results.
 
-We can score Hector runs with the function `score_hruns()` which uses any **scoring function** to screen the Hector results. A scoring function is a mathematical function that aims to weight model runs based on proximity to observed data. There are scoring functions provided in `matilda`.
+We can score Hector runs with the function `score_hruns()` which uses any **scoring function** to screen the Hector results. A scoring function is a mathematical function that aims to weight model runs based on proximity to observed data.
 
 Here, we will use the scoring function `score_ramp` which requires the user to provide additional arguments for calculating Hector run scores (`w1` and `w2`). As differences between Hector runs and observed data values are computed, runs that have differences \< `w1` will score 1.0, runs with differences \> `w2` will score 0, and runs that fall between `w1` and `w2` will produce scores between 1.0 and 0.
 
