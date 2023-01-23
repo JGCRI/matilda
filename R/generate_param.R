@@ -23,22 +23,16 @@
 
 generate_params <- function(core, draws){
 
-  beta = fetchvars(core, NA, BETA())
-  q10 = fetchvars(core, NA, Q10_RH())
-  npp = fetchvars(core, NA, NPP_FLUX0())
-  aero = fetchvars(core, NA, AERO_SCALE())
+  beta <- fetchvars(core, NA, BETA())
+  q10 <- fetchvars(core, NA, Q10_RH())
+  npp <- fetchvars(core, NA, NPP_FLUX0())
+  aero <- fetchvars(core, NA, AERO_SCALE())
 
-  # list of random parameter values drawn from normal distribution
-  params <- list(
-
+  # data frame of random parameter values drawn from normal or lognormal distributions
+  data.frame(
     "BETA" = rlnorm(draws, lognorm(beta$value, 0.1) [1], lognorm(beta$value, 0.1) [2]),
     "Q10_RH" = rlnorm(draws,lognorm(q10$value, 1.0) [1], lognorm(q10$value, 1.0) [2]),
     "NPP_FLUX0" = rnorm(draws, mean = npp$value, sd = 14.3),
-    "AERO_SCALE" = rnorm(draws, mean = aero$value, sd = 0.23))
-
-  # converting list to data frame
-  result <- as.data.frame(params)
-
-  return(result)
-
+    "AERO_SCALE" = rnorm(draws, mean = aero$value, sd = 0.23)
+  )
 }
