@@ -111,14 +111,13 @@ metric_calc_1run <- function(x, metric) {
 #' h_result <- iterate_hector(core, metric, params)
 #' head(h_result)
 
-iterate_hector <- function(core, metric, params) {
+iterate_hector <- function(core, metric, crit, params) {
 
   # store results
   result_list <- list()
 
   # set number of model iterations
   for(i in seq_len(nrow(params))) {
-
 
     # convert params to numeric
     params_i <- unlist(params [i, ])
@@ -133,10 +132,19 @@ iterate_hector <- function(core, metric, params) {
     run(core)
 
     # fetch model results based on function arguments provided by the user
-    dat <- fetchvars(core = core, dates = metric$years, vars = metric$var)
+    metric_dat <- fetchvars(core = core, dates = metric$years, vars = metric$var)
 
-    # adding run_number column
-    dat$run_number <- i
+    # adding run_number column to metric_dat
+    metric_dat$run_number <- i
+
+    # fetch model results consistent with crit information
+    crit_dat <- fetchvars(core = core, dates = crit$years, vars = crit$var)
+
+    # adding run_number column to crit_dat
+    crit_dat$run_number <- i
+
+    # appending results filtered from crit and metic information
+    dat <- rbind(crit_dat, metric_dat)
 
     # stores results
     result_list[[i]] <- dat
