@@ -20,7 +20,7 @@ Hector result.}
 \value{
 A data frame with a column of \code{run_number} indicating the total
 number of Hector runs completed. Values for the variables and year ranges
-identified in the user defined \code{metric}.
+identified in the user defined \code{metric} and \code{criterion}.
 }
 \description{
 This function runs Hector in an iterative process with parameter
