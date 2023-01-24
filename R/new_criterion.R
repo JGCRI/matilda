@@ -16,9 +16,9 @@
 #' data <- matilda:::metricdata_co2
 #'
 #' # Create a new criteria that can be used to screen Hector runs
-#' new_crit(ATMOSPHERIC_CO2(), years = data$year, obs_values = data$co2_ppm)
+#' new_criterion(ATMOSPHERIC_CO2(), years = data$year, obs_values = data$co2_ppm)
 
-new_crit <- function(var, years, obs_values) {
+new_criterion <- function(var, years, obs_values) {
 
   crit <- list(var = var,
                years = years,
@@ -40,7 +40,7 @@ new_crit <- function(var, years, obs_values) {
 #' @return Printed version of criterion stored in \code{R} object.
 #' @export
 
-print.crit <- function(x, ...) {
+print.criterion <- function(x, ...) {
 
   cat("Criterion for screening Hector: ",
       x$var, min(x$years), " to ", max(x$years), "\n")
@@ -58,12 +58,12 @@ print.crit <- function(x, ...) {
 #' @export
 #'
 #' @examples
-#' x <- crit_co2_obs()
+#' x <- criterion_co2_obs()
 #'
 #' # Is x of class 'criterion'?
-#' is.crit(x)
+#' is.criterion(x)
 
-is.crit <- function(x) {
+is.criterion <- function(x) {
 
   isa(x, "criterion")
 
@@ -83,11 +83,11 @@ is.crit <- function(x) {
 #' @export
 #'
 #' @examples
-#' crit_co2_obs()
+#' criterion_co2_obs()
 
-crit_co2_obs <- function() {
+criterion_co2_obs <- function() {
 
-  new_crit(CONCENTRATIONS_CO2(),
+  new_criterion(CONCENTRATIONS_CO2(),
            years = metricdata_co2$year,
            obs_values = metricdata_co2$co2_ppm)
 

@@ -126,18 +126,18 @@ ggplot(data = results,
 It is important to note that Hector results should be screened to ensure that model outputs are consistent with current observations and/or future climate from Earth System Models (see e.g. [Goodwin and Cael 2021](https://esd.copernicus.org/articles/12/709/2021/)).
 Similarly, here we score Hector runs based on how closely they reflect observed data; this score is then use to weight the runs in the final probabilistic calculation.
 
-We score model runs using a scoring **criterion**. A criterion is an object that defines information used to score Hector runs. The `matilda` package provides internal criterion for easy use but also gives the user the ability to create their own scoring criterion using the `new_crit()` function. For example:
+We score model runs using a scoring **criterion**. A criterion is an object that defines information used to score Hector runs. The `matilda` package provides internal criterion for easy use but also gives the user the ability to create their own scoring criterion using the `new_criterion()` function. For example:
 
 ```{r}
 # Create a new criteria that can be used to screen Hector runs
-my_crit <- new_crit(CONCENTRATIONS_CO2(), 
+my_criterion<- new_criterion(CONCENTRATIONS_CO2(), 
                     years = metricdata_co2$year, 
                     obs_values = metricdata_co2$co2_ppm)
 
 my_crit
 ```
 
-For this example we will take advantage of an internal criterion `crit_co2_obs()`, which uses [Mauna Loa atmospheric CO~2~ observations](https://gml.noaa.gov/ccgg/trends/) to score Hector results.
+For this example we will take advantage of an internal criterion `criterion_co2_obs()`, which uses [Mauna Loa atmospheric CO~2~ observations](https://gml.noaa.gov/ccgg/trends/) to score Hector results.
 
 We can score Hector runs with the function `score_hruns()` which uses any **scoring function** to screen the Hector results. A scoring function is a mathematical function that aims to weight model runs based on proximity to observed data.
 
@@ -145,7 +145,7 @@ Here, we will use the scoring function `score_ramp` which requires the user to p
 
 ```{r}
 # Score Hector runs with observed CO2 data
-scores <- score_hruns(results, crit_co2_obs(), score_ramp, w1 = 2, w2 = 20)
+scores <- score_hruns(results, criterion_co2_obs(), score_ramp, w1 = 2, w2 = 20)
 
 scores
 ```
@@ -224,7 +224,7 @@ The overall procedure for this is the same as presented in the previous sections
 #' @param inifile a path to ini file of emissions pathway
 #' @param draws number of random draws to generate model parameters
 #' @param metric a metric defining data to filter from Hector outpu
-#' @param crit scoring criterion to use
+#' @param criterionscoring criterion to use
 #'
 #' @return Hector results with added column scoring each run.
 scored_hector_runs <- function(inifile, draws, metric, crit) {
@@ -259,13 +259,13 @@ metric_global_tas <- new_metric(GLOBAL_TAS(),
                                 op = mean)
 
 # Running hector for each scenario and adding column fro ssp label
-hector_126 <- scored_hector_runs(ini_126, 50, my_metric, crit_co2_obs())
+hector_126 <- scored_hector_runs(ini_126, 50, my_metric, criterion_co2_obs())
 hector_126$ssp <- rep("ssp126")
-hector_245 <- scored_hector_runs(ini_245, 50, my_metric, crit_co2_obs())
+hector_245 <- scored_hector_runs(ini_245, 50, my_metric, criterion_co2_obs())
 hector_245$ssp <- rep("ssp245")
-hector_370 <- scored_hector_runs(ini_370, 50, my_metric, crit_co2_obs())
+hector_370 <- scored_hector_runs(ini_370, 50, my_metric, criterion_co2_obs())
 hector_370$ssp <- rep("ssp370")
-hector_585 <- scored_hector_runs(ini_585, 50, my_metric, crit_co2_obs())
+hector_585 <- scored_hector_runs(ini_585, 50, my_metric, criterion_co2_obs())
 hector_585$ssp <- rep("ssp585")
 
 # Merging hector results for plotting
@@ -302,7 +302,7 @@ plot_co2
 #'
 #' @param h_result A hector result
 #' @param metric A metric to filter results of interest
-#' @param crit A criterion used to score Hector runs
+#' @param criterionA criterion used to score Hector runs
 #' @param bins Bins for computing probabilities - defaults for global_tas
 #'
 #' @return A data frame of probabilities 
@@ -326,13 +326,13 @@ probabilities <- function(h_result,
 }
 
 # Calculating probabilities for each hector run
-probs_126 <- probabilities(hector_126, metric_global_tas, crit_co2_obs())
+probs_126 <- probabilities(hector_126, metric_global_tas, criterion_co2_obs())
 probs_126$ssp <- rep("ssp_126")
-probs_245 <- probabilities(hector_245, metric_global_tas, crit_co2_obs())
+probs_245 <- probabilities(hector_245, metric_global_tas, criterion_co2_obs())
 probs_245$ssp <- rep("ssp_245")
-probs_370 <- probabilities(hector_370, metric_global_tas, crit_co2_obs())
+probs_370 <- probabilities(hector_370, metric_global_tas, criterion_co2_obs())
 probs_370$ssp <- rep("ssp_370")
-probs_585 <- probabilities(hector_585, metric_global_tas, crit_co2_obs())
+probs_585 <- probabilities(hector_585, metric_global_tas, criterion_co2_obs())
 probs_585$ssp <- rep("ssp_585")
 
 #combining dfs with scenario types and probs

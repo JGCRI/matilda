@@ -1,5 +1,5 @@
 # creating new_metric object for tests
-co2_crit <- crit_co2_obs()
+co2_crit <- criterion_co2_obs()
 
 # Testing attribute class
 
