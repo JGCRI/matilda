@@ -22,7 +22,10 @@ hector_result
 \description{
 This is a data set representing the results of an output from
 \code{\link{iterate_hector}}. The data were produced by an analysis that
-includes ten iterations of the Hector model for 'global_tas' and 'CO2_concentration'
-variables between the years 1960 and 2100.
+includes ten iterations of the Hector model for the \code{global_tas} variable
+between the years 1960 and 2100. In addition, the output selects data from the
+core that aligns with the scoring criterion (\code{\link{criterion_co2_obs}}).
+This ensures that data being saved from the core includes the data needed to
+score the Hector runs with the desired scoring criteria.
 }
 \keyword{datasets}

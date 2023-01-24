@@ -17,7 +17,7 @@ no_year <- data.frame(year = NA,
                       run_number = c(1:3))
 
 # criterion for testing
-x <- crit_co2_obs()
+x <- criterion_co2_obs()
 
 # df testing for use cases where df, crit, or score_function are not provided
 # by the user

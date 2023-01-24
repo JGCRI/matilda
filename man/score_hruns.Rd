@@ -4,12 +4,12 @@
 \alias{score_hruns}
 \title{Screen Hector outputs with observed data}
 \usage{
-score_hruns(x, crit, score_function, ...)
+score_hruns(x, criterion, score_function, ...)
 }
 \arguments{
 \item{x}{Result data frame from \code{\link{iterate_hector}}.}
 
-\item{crit}{Criterion to use for screening Hector runs.}
+\item{criterion}{A scoring criterion to use for screening Hector runs.}
 
 \item{score_function}{Scoring function to use for screening Hector model runs.}
 
@@ -27,5 +27,5 @@ Alternatively, users can also build their own scoring criteria with \code{\link{
 }
 \examples{
 # Score Hector using observed CO2 data with the score_ramp method
-score_hruns(hector_result, crit_co2_obs(), score_ramp, w1 = 2, w2 = 20)
+score_hruns(hector_result, criterion_co2_obs(), score_ramp, w1 = 2, w2 = 20)
 }

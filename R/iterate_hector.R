@@ -81,7 +81,9 @@ metric_calc_1run <- function(x, metric) {
 #'
 #' @param core A core object to initiate Hector runs.
 #' @param metric An object identifying a variable, year range, and operation
-#' (e.g. mean, median, max, min, etc.) to fetch from Hector result.
+#' (e.g. mean, median, max, min, etc.) to fetch best Hector result.
+#' @param criterion An object identifying the scoring criterion to fetch best
+#' Hector result.
 #' @param params A data frame object containing parameter values.
 #'
 #' @import hector
@@ -99,7 +101,7 @@ metric_calc_1run <- function(x, metric) {
 #' ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
 #' core <- newcore(ssp245)
 #'
-#' # Create and new metric
+#' # Create a new metric
 #' metric <- new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
 #' print(metric)
 #'
@@ -108,17 +110,16 @@ metric_calc_1run <- function(x, metric) {
 #' params
 #'
 #' # Iterate Hector runs with parameter uncertainty
-#' h_result <- iterate_hector(core, metric, params)
+#' h_result <- iterate_hector(core, metric, crit_co2_obs(), params)
 #' head(h_result)
 
-iterate_hector <- function(core, metric, params) {
+iterate_hector <- function(core, metric, criterion, params) {
 
   # store results
   result_list <- list()
 
   # set number of model iterations
   for(i in seq_len(nrow(params))) {
-
 
     # convert params to numeric
     params_i <- unlist(params [i, ])
@@ -133,10 +134,19 @@ iterate_hector <- function(core, metric, params) {
     run(core)
 
     # fetch model results based on function arguments provided by the user
-    dat <- fetchvars(core = core, dates = metric$years, vars = metric$var)
+    metric_dat <- fetchvars(core = core, dates = metric$years, vars = metric$var)
 
-    # adding run_number column
-    dat$run_number <- i
+    # adding run_number column to metric_dat
+    metric_dat$run_number <- i
+
+    # fetch model results consistent with crit information
+    crit_dat <- fetchvars(core = core, dates = criterion$years, vars = criterion$var)
+
+    # adding run_number column to crit_dat
+    crit_dat$run_number <- i
+
+    # appending results filtered from crit and metic information
+    dat <- rbind(crit_dat, metric_dat)
 
     # stores results
     result_list[[i]] <- dat

@@ -21,7 +21,7 @@ This function creates and stores a new set of metric parameters
 for running \code{\link{iterate_hector}} and other functions in \code{matilda}.
 }
 \examples{
-# Creating a new metric to produce an ouput for mean global temperature increase
+# Creating a new metric to produce an output for mean global temperature increase
 # for years between 2000 and 2100
 new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
 }
