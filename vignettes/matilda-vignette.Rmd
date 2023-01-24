@@ -94,7 +94,7 @@ Running `iterate_hector()` requires a core, a **metric** object, a data frame of
 
 Scoring criterion are objects used to aid in scoring model runs. A criterion defines information that should be fetched from the Hector core to score Hector runs against current observations. The `matilda` package provides internal criterion for easy use but also gives the user the ability to create their own scoring criterion using the `new_criterion()` function. For example:
 
-```{r}
+```{r, eval=FALSE}
 # Create a new criteria that can be used to screen Hector runs
 my_criterion<- new_criterion(CONCENTRATIONS_CO2(), 
                     years = metricdata_co2$year, 
