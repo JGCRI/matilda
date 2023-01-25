@@ -96,9 +96,9 @@ Scoring criterion are objects used to aid in scoring model runs. A criterion def
 
 ```{r, eval=FALSE}
 # Create a new criteria that can be used to screen Hector runs
-my_criterion<- new_criterion(CONCENTRATIONS_CO2(), 
-                    years = metricdata_co2$year, 
-                    obs_values = metricdata_co2$co2_ppm)
+my_criterion<- new_criterion(GLOBAL_TAS(), 
+                    years = 1951:2000, 
+                    obs_values = seq(0.4, 1.0, length.out = 50))
 
 my_criterion
 ```
@@ -219,17 +219,18 @@ The overall procedure for this is the same as presented in the previous sections
 #'
 #' @param inifile a path to ini file of emissions pathway
 #' @param draws number of random draws to generate model parameters
-#' @param metric a metric defining data to filter from Hector outpu
-#' @param criterionscoring criterion to use
+#' @param metric a metric defining data to filter from Hector output
+#' @param crit scoring criterion to use
+#' @param ssp_name An optional name to identify the core (string)
 #'
 #' @return Hector results with added column scoring each run.
-scored_hector_runs <- function(inifile, draws, metric, crit) {
-  # iniate and core
-  core = newcore(inifile)
+scored_hector_runs <- function(inifile, ssp_name, draws, metric, crit) {
+  # initiate and core
+  core = newcore(inifile, name = ssp_name)
   # generate parameters
   params = generate_params(core, draws)
   # running Hector
-  h_result = iterate_hector(core, metric, params)
+  h_result = iterate_hector(core, metric, crit, params)
   # score Hector runs 
   scores = score_hruns(h_result, crit, score_ramp, w1 = 2, w2 = 20)
   # merge scores with Hector Results
@@ -244,25 +245,16 @@ ini_245 <- system.file("input/hector_ssp245.ini", package = "hector")
 ini_370 <- system.file("input/hector_ssp370.ini", package = "hector")
 ini_585 <- system.file("input/hector_ssp585.ini", package = "hector")
 
-# new metric for CO2 and global_tas
-my_metric <- new_metric(c(GLOBAL_TAS(), CONCENTRATIONS_CO2()), 
-                        years = 1959:2100,
-                        op = mean)
-
 # new metric for probabilities of global_tas 
 metric_global_tas <- new_metric(GLOBAL_TAS(),
                                 years = 1990:2100,
                                 op = mean)
 
 # Running hector for each scenario and adding column fro ssp label
-hector_126 <- scored_hector_runs(ini_126, 50, my_metric, criterion_co2_obs())
-hector_126$ssp <- rep("ssp126")
-hector_245 <- scored_hector_runs(ini_245, 50, my_metric, criterion_co2_obs())
-hector_245$ssp <- rep("ssp245")
-hector_370 <- scored_hector_runs(ini_370, 50, my_metric, criterion_co2_obs())
-hector_370$ssp <- rep("ssp370")
-hector_585 <- scored_hector_runs(ini_585, 50, my_metric, criterion_co2_obs())
-hector_585$ssp <- rep("ssp585")
+hector_126 <- scored_hector_runs(ini_126, ssp_name = "ssp126", 50, metric_global_tas, criterion_co2_obs())
+hector_245 <- scored_hector_runs(ini_245, ssp_name = "ssp245", 50, metric_global_tas, criterion_co2_obs())
+hector_370 <- scored_hector_runs(ini_370, ssp_name = "ssp370", 50, metric_global_tas, criterion_co2_obs())
+hector_585 <- scored_hector_runs(ini_585, ssp_name = "ssp585", 50, metric_global_tas, criterion_co2_obs())
 
 # Merging hector results for plotting
 hector_merge <- rbind(hector_126,
@@ -283,8 +275,8 @@ plot_co2 <- ggplot(hector_merge [hector_merge$variable
   geom_line(data = matilda:::metricdata_co2,
             aes(year, co2_ppm),
             color = "red",
-            linewdith = 1) +
-  facet_wrap(~variable + ssp) +
+            linewidth = 1) +
+  facet_wrap(~variable + scenario) +
   ylab(expression(CO[2]~Concentration~(ppm))) +
   theme_light() +
   guides(alpha = "none")
