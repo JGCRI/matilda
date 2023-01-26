@@ -67,13 +67,7 @@ We now have a data frame object called `param_values` that contains our model pa
 
 ## Defining an output metric
 
-
-
-# Running Hector with iterations
-
-`iterate_hector()` will run Hector multiple times, setting new parameter values with each.
-
-Running `iterate_hector()` requires a core, a data frame of parameter values, and a **metric** object. Metric objects contain a combination of identifiers that communicates what data is important for fetching from a Hector core. These objects are important for reducing computing time and memory by only saving the output we are interested in. For example, we can use a metric object defined as:
+Metric objects contain a combination of identifiers that communicates what data is important for fetching from a Hector core. These objects are important for reducing computing time and memory by only saving the output we are interested in. For example, we can use a metric object defined as:
 
 `Probabilistic Hector Metric:  mean global_tas 2000  to  2100`
 
@@ -81,31 +75,46 @@ to estimate mean global air temperature anomaly (`global_tas`) in years 2000-210
 
 The `new_metric()` function can be used to define our metric.
 
-Below we will create a metric indicating that we want to retrieve results for global average air temperature anomaly (`global_tas`) for the years 1960 to 2100. We will also specify that we are interested in computing the _mean_ of this temperature output.
+Below we will create a metric indicating that we want to retrieve results for global average air temperature anomaly (`global_tas`) for the years 2000 to 2100. We will also specify that we are interested in computing the _mean_ of this temperature output.
 
 It is important to note that the operation (`op`, an aggregate function) stored in our metric will **not** be used in the `iterate_hector` function, but will be important for subsequent steps in the analysis.
 
-In this vignette we will be using observed atmospheric CO~2~ to screen Hector outputs for realism. This will be covered in detail below.
-
-In order to screen our Hector runs based on observed CO~2~, we will need the `CO2_concentration` variable included in our Hector output. Therefore, we will include it as a desired variable when defining the metric.
-
 ```{r}
 # Setting a new_metric object for Hector analysis
-my_metric <- new_metric(c(GLOBAL_TAS(), CONCENTRATIONS_CO2()), 1960:2100, mean)
+my_metric <- new_metric(GLOBAL_TAS(), 2000:2100, mean)
 
 print(my_metric)
 ```
+
+# Running Hector with iterations
+
+`iterate_hector()` will run Hector multiple times, setting new parameter values with each.
+
+Running `iterate_hector()` requires a core, a **metric** object, a data frame of parameter values, and a **scoring criterion** object used for scoring Hector runs. 
+
+Scoring criterion are objects used to aid in scoring model runs. A criterion defines information that should be fetched from the Hector core to score Hector runs against current observations. The `matilda` package provides internal criterion for easy use but also gives the user the ability to create their own scoring criterion using the `new_criterion()` function. For example:
+
+```{r, eval=FALSE}
+# Create a new criteria that can be used to screen Hector runs
+my_criterion<- new_criterion(GLOBAL_TAS(), 
+                    years = 1951:2000, 
+                    obs_values = seq(0.4, 1.0, length.out = 50))
+
+my_criterion
+```
+
+For this example we will take advantage of an internal criterion `criterion_co2_obs()`, which uses [Mauna Loa atmospheric CO~2~ observations](https://gml.noaa.gov/ccgg/trends/) to score Hector results.
 
 We can now use `iterate_hector` to run the model.
 
 ```{r, message=FALSE}
 # Run Hector model repeatedly over all parameter values
-results <- iterate_hector(core = c_ssp245, metric = my_metric, params = param_values)
+results <- iterate_hector(core = c_ssp245, metric = my_metric, params = param_values, criterion = criterion_co2_obs())
 
 head(results)
 ```
 
-Viewing the full results shows global_tas and CO2_concentration values from 1960-2100 for 10 separate runs, as indicated by `run_number`.
+Viewing the full results shows 10 separate runs (as indicated by `run_number`) for `global_tas` and `CO2_concentration` values from 2000-2100 and 1960-2021, respectively.
 
 The result is a `data.frame` and therefore we can plot the results easily in `ggplot2`.
 
@@ -124,24 +133,11 @@ ggplot(data = results,
 # Screening Hector results with observed data
 
 It is important to note that Hector results should be screened to ensure that model outputs are consistent with current observations and/or future climate from Earth System Models (see e.g. [Goodwin and Cael 2021](https://esd.copernicus.org/articles/12/709/2021/)).
-Similarly, here we score Hector runs based on how closely they reflect observed data; this score is then use to weight the runs in the final probabilistic calculation.
-
-We score model runs using a scoring **criterion**. A criterion is an object that defines information used to score Hector runs. The `matilda` package provides internal criterion for easy use but also gives the user the ability to create their own scoring criterion using the `new_criterion()` function. For example:
-
-```{r}
-# Create a new criteria that can be used to screen Hector runs
-my_criterion<- new_criterion(CONCENTRATIONS_CO2(), 
-                    years = metricdata_co2$year, 
-                    obs_values = metricdata_co2$co2_ppm)
-
-my_crit
-```
-
-For this example we will take advantage of an internal criterion `criterion_co2_obs()`, which uses [Mauna Loa atmospheric CO~2~ observations](https://gml.noaa.gov/ccgg/trends/) to score Hector results.
+Similarly, here we score Hector runs based on how closely they reflect observed data; this score is then used to weight the runs in the final probabilistic calculation.
 
 We can score Hector runs with the function `score_hruns()` which uses any **scoring function** to screen the Hector results. A scoring function is a mathematical function that aims to weight model runs based on proximity to observed data.
 
-Here, we will use the scoring function `score_ramp` which requires the user to provide additional arguments for calculating Hector run scores (`w1` and `w2`). As differences between Hector runs and observed data values are computed, runs that have differences \< `w1` will score 1.0, runs with differences \> `w2` will score 0, and runs that fall between `w1` and `w2` will produce scores between 1.0 and 0.
+Here, we will use the scoring function `score_ramp` which requires the user to provide additional arguments for calculating Hector run scores (`w1` and `w2`). As differences between Hector runs and observed data values are computed, runs with differences \< `w1` will score 1.0, runs with differences \> `w2` will score 0. Model run scores will decrease in a linear fashion as differences diverge from `w1`.
 
 ```{r}
 # Score Hector runs with observed CO2 data
@@ -150,7 +146,7 @@ scores <- score_hruns(results, criterion_co2_obs(), score_ramp, w1 = 2, w2 = 20)
 scores
 ```
 
-The result of scoring the Hector runs shows which model runs closely resemble values from observed data (scores close to 1), and which deviate further from observed values (scores closer to 0). These scores will be used to weight model contribution to our probabilistic projections.
+The result of scored Hector runs shows which model runs closely resemble values from observed data (scores close to 1), and which deviate further from observed values (scores closer to 0). These scores will be used to weight model contribution to our probabilistic projections.
 
 We can plot our scored Hector runs highlighting which runs were closest to observed data:
 
@@ -223,17 +219,18 @@ The overall procedure for this is the same as presented in the previous sections
 #'
 #' @param inifile a path to ini file of emissions pathway
 #' @param draws number of random draws to generate model parameters
-#' @param metric a metric defining data to filter from Hector outpu
-#' @param criterionscoring criterion to use
+#' @param metric a metric defining data to filter from Hector output
+#' @param crit scoring criterion to use
+#' @param ssp_name An optional name to identify the core (string)
 #'
 #' @return Hector results with added column scoring each run.
-scored_hector_runs <- function(inifile, draws, metric, crit) {
-  # iniate and core
-  core = newcore(inifile)
+scored_hector_runs <- function(inifile, ssp_name, draws, metric, crit) {
+  # initiate and core
+  core = newcore(inifile, name = ssp_name)
   # generate parameters
   params = generate_params(core, draws)
   # running Hector
-  h_result = iterate_hector(core, metric, params)
+  h_result = iterate_hector(core, metric, crit, params)
   # score Hector runs 
   scores = score_hruns(h_result, crit, score_ramp, w1 = 2, w2 = 20)
   # merge scores with Hector Results
@@ -248,25 +245,16 @@ ini_245 <- system.file("input/hector_ssp245.ini", package = "hector")
 ini_370 <- system.file("input/hector_ssp370.ini", package = "hector")
 ini_585 <- system.file("input/hector_ssp585.ini", package = "hector")
 
-# new metric for CO2 and global_tas
-my_metric <- new_metric(c(GLOBAL_TAS(), CONCENTRATIONS_CO2()), 
-                        years = 1959:2100,
-                        op = mean)
-
 # new metric for probabilities of global_tas 
 metric_global_tas <- new_metric(GLOBAL_TAS(),
                                 years = 1990:2100,
                                 op = mean)
 
 # Running hector for each scenario and adding column fro ssp label
-hector_126 <- scored_hector_runs(ini_126, 50, my_metric, criterion_co2_obs())
-hector_126$ssp <- rep("ssp126")
-hector_245 <- scored_hector_runs(ini_245, 50, my_metric, criterion_co2_obs())
-hector_245$ssp <- rep("ssp245")
-hector_370 <- scored_hector_runs(ini_370, 50, my_metric, criterion_co2_obs())
-hector_370$ssp <- rep("ssp370")
-hector_585 <- scored_hector_runs(ini_585, 50, my_metric, criterion_co2_obs())
-hector_585$ssp <- rep("ssp585")
+hector_126 <- scored_hector_runs(ini_126, ssp_name = "ssp126", 50, metric_global_tas, criterion_co2_obs())
+hector_245 <- scored_hector_runs(ini_245, ssp_name = "ssp245", 50, metric_global_tas, criterion_co2_obs())
+hector_370 <- scored_hector_runs(ini_370, ssp_name = "ssp370", 50, metric_global_tas, criterion_co2_obs())
+hector_585 <- scored_hector_runs(ini_585, ssp_name = "ssp585", 50, metric_global_tas, criterion_co2_obs())
 
 # Merging hector results for plotting
 hector_merge <- rbind(hector_126,
@@ -287,8 +275,8 @@ plot_co2 <- ggplot(hector_merge [hector_merge$variable
   geom_line(data = matilda:::metricdata_co2,
             aes(year, co2_ppm),
             color = "red",
-            linewdith = 1) +
-  facet_wrap(~variable + ssp) +
+            linewidth = 1) +
+  facet_wrap(~variable + scenario) +
   ylab(expression(CO[2]~Concentration~(ppm))) +
   theme_light() +
   guides(alpha = "none")

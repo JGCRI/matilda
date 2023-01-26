@@ -92,7 +92,7 @@ metric_calc_1run <- function(x, metric) {
 #'
 #' @return A data frame with a column of \code{run_number} indicating the total
 #' number of Hector runs completed. Values for the variables and year ranges
-#' identified in the user defined \code{metric}.
+#' identified in the user defined \code{metric} and \code{criterion}.
 #'
 #' @export
 #'
