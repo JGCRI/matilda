@@ -34,7 +34,7 @@ new_criterion <- function(var, years, obs_values) {
 #'
 #' @description This prints the screening criterion provided as \code{x}.
 #'
-#' @param x Criterion object created in \code{\link{new_crit}}
+#' @param x Criterion object created in \code{\link{new_criterion}}
 #' @param ... Other arguments to or from other methods.
 #'
 #' @return Printed version of criterion stored in \code{R} object.
