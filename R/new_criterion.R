@@ -13,10 +13,12 @@
 #'
 #' @examples
 #' # Assign observed data to an object
-#' data <- matilda:::metricdata_co2
+#' my_criterion <- new_criterion(GLOBAL_TAS(),
+#'                              years = 1951:2000,
+#'                              obs_values = seq(0.4, 1.0, length.out = 50))
 #'
-#' # Create a new criteria that can be used to screen Hector runs
-#' new_criterion(ATMOSPHERIC_CO2(), years = data$year, obs_values = data$co2_ppm)
+#' # View printed criterion
+#' my_criterion
 
 new_criterion <- function(var, years, obs_values) {
 
