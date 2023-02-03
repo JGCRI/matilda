@@ -4,16 +4,10 @@
 \alias{iterate_hector}
 \title{Iterate Hector Runs}
 \usage{
-iterate_hector(core, metric, criterion, params)
+iterate_hector(core, params)
 }
 \arguments{
 \item{core}{A core object to initiate Hector runs.}
-
-\item{metric}{An object identifying a variable, year range, and operation
-(e.g. mean, median, max, min, etc.) to fetch best Hector result.}
-
-\item{criterion}{An object identifying the scoring criterion to fetch best
-Hector result.}
 
 \item{params}{A data frame object containing parameter values.}
 }
@@ -33,15 +27,11 @@ be filtered according to metric information.
 ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
 core <- newcore(ssp245)
 
-# Create a new metric
-metric <- new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
-print(metric)
-
 # Compute parameter values for Hector iterations
 params <- generate_params(core, 10)
 params
 
 # Iterate Hector runs with parameter uncertainty
-h_result <- iterate_hector(core, metric, crit_co2_obs(), params)
+h_result <- iterate_hector(core, params)
 head(h_result)
 }

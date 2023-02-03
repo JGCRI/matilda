@@ -22,8 +22,8 @@ Data frame with mean score for each Hector run
 This function uses any scoring function to screen Hector runs
 based on proximity of climate variable values to observed data. Internal scoring
 functions are provided in \code{matilda}, but users can also supply their own.
-Criteria (\code{crit}) used for scoring are also available in the package.
-Alternatively, users can also build their own scoring criteria with \code{\link{new_crit}}.
+Criterion used for scoring are also available in the package. Alternatively,
+users can build their own scoring criterion with \code{\link{new_criterion}}.
 }
 \examples{
 # Score Hector using observed CO2 data with the score_ramp method

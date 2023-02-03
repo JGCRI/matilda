@@ -66,8 +66,8 @@ score_ramp <- function(x, y, w1, w2, na.omit = FALSE) {
 #' @description This function uses any scoring function to screen Hector runs
 #' based on proximity of climate variable values to observed data. Internal scoring
 #' functions are provided in \code{matilda}, but users can also supply their own.
-#' Criteria (\code{crit}) used for scoring are also available in the package.
-#' Alternatively, users can also build their own scoring criteria with \code{\link{new_crit}}.
+#' Criterion used for scoring are also available in the package. Alternatively,
+#' users can build their own scoring criterion with \code{\link{new_criterion}}.
 #'
 #' @param x Result data frame from \code{\link{iterate_hector}}.
 #' @param score_function Scoring function to use for screening Hector model runs.
