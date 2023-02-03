@@ -19,7 +19,7 @@
 #' Standard deviation values for each parameter were pulled from peer-reviewed
 #' literature as follows:
 #'
-#' \code{BETA} ± 0.10 from \href{}{Jones et al. (2018)}
+#' \code{BETA} ± 0.10 from Jones et al. (2018)
 #'
 #' \code{Q10} ± 1.0 from \href{https://doi.org/10.1038/nature04514}{Davidson and Janssens (2006)}
 #'
