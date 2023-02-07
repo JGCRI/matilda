@@ -56,6 +56,7 @@ It then uses the number of `draws` (supplied by the user) to generate randomly s
 
 ```{r}
 # Generate a data frame of random parameter values
+set.seed(1)
 param_values <- generate_params(c_ssp245, draws = 10)
 print(param_values)
 ```
@@ -231,6 +232,7 @@ ini_370 <- system.file("input/hector_ssp370.ini", package = "hector")
 ini_585 <- system.file("input/hector_ssp585.ini", package = "hector")
 
 # Running hector for each scenario
+set.seed(1)
 hector_126 <- scored_hector_runs(ini_126, ssp_name = "ssp126", 50, criterion_co2_obs())
 hector_245 <- scored_hector_runs(ini_245, ssp_name = "ssp245", 50, criterion_co2_obs())
 hector_370 <- scored_hector_runs(ini_370, ssp_name = "ssp370", 50, criterion_co2_obs())
