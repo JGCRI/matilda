@@ -139,7 +139,6 @@ iterate_hector <- function(core, params) {
     },
       error = function(e){
         message("An error occurred")
-        return(NA)
       }
     )
   }
