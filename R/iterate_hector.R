@@ -106,20 +106,19 @@ metric_calc_1run <- function(x, metric) {
 #' head(h_result)
 
 iterate_hector <- function(core, params) {
-
   # store results
   result_list <- list()
 
   # iterate hector across all param values
-  for(i in seq_len(nrow(params))) {
+  for (i in seq_len(nrow(params))) {
 
-    tryCatch({
       # convert params to numeric
-      params_i <- unlist(params [i,])
+      params_i <- unlist(params [i, ])
 
       # set variable values -- needs core and numeric param values
       set_params(core, params_i)
 
+      tryCatch({
       # resets model after each run
       reset(core, date = 0)
 
@@ -131,16 +130,15 @@ iterate_hector <- function(core, params) {
                        dates = 1745:2300,
                        vars = NULL)
 
-      # adding run_number column to metric_dat
+      # adding run_number column to metric_data
       dat$run_number <- i
 
       # stores results
       result_list[[i]] <- dat
     },
-      error = function(e){
-        message("An error occurred")
-      }
-    )
+    error = function(e) {
+      message("An error occurred")
+    })
   }
   # concatenate list entries into a data frame and return
   do.call("rbind", result_list)
