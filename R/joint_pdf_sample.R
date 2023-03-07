@@ -1,3 +1,48 @@
+#' Converting lognormal distribution to normal distribution
+#'
+#' @param n Number of observations.
+#' @param mean mean of the distribution
+#' @param sd deviation of the distribution
+#'
+#' @return A vector list of randomly sample values. The length of the results is
+#' determined by \code{n}. Lognormal distribution in this function is in reference
+#' to the result produced by \code{\link{lognorm}}.
+#' @export
+#'
+#' @examples
+lognorm_to_norm <- function(n, mean, sd){
+  lognormal <- rlnorm(n,
+                    lognorm(mean, sd)[1],
+                    lognorm(mean, sd)[2])
+  norm <- log(lognormal)
+}
+
+#' Building Variance-Covariance Matrix
+#'
+#' @description This function builds a variance-covariance matrix that contains
+#' the variances and covariances of associated with provided variable distributions.
+#'
+#' @param dist1 Probability distribution of the first covariate.
+#' @param dist2 Probability distribution of the second covariate.
+#' @param param_cor Correlation of the covariates contributing to the joint
+#' probability distribution.
+#'
+#' @return A matrix object with diagonal elements containing the variances of the
+#' variables and off-diagonal elements containing variance of the paired variables.
+#' @export
+#'
+#' @examples
+covariance_matrix <- function(dist1, dist2, param_cor = -0.75){
+  # calculating covariance value
+  cov_val <- param_cor * sd(dist1) * sd (dist2)
+
+  # building the variance-covariance matrix
+  sigma <- matrix(c(var(dist1),
+                    cov_val, cov_val,
+                    var(dist2)),
+                  2, 2)
+}
+
 #' Build and Sample Joint Probability Distribution
 #'
 #' @description A joint probability distribution is implemented for parameters that
@@ -6,16 +51,19 @@
 #' This function builds a variance-covariance matrix to randomly sample from a multivariate
 #' distribution \href{link}{(Pressburger et al. 2023)}.
 #'
-#' @param core An initiated Hector core.
 #' @param draws Number of random draws for each parameter.
+#' @param dist1 Probability distribution of the first covariate.
+#' @param dist2 Probability distribution of the second covariate.
 #' @param param_cor Correlation of the covariates contributing to the joint
 #' probability distribution.
 #'
-#' @notes To calculate covariance, we use the used defined parameter correlation
-#' \code{param_cor}. We multiply the correlation by the standard deviation of each
-#' parameter contributing to the joint probability distribution. The function
-#' \code{\link{mvnorm}} in the package \code{\link{MASS}} was used to randomly
-#' sample our variance-covariance matrix.
+#' @notes This function is currently specific to the joint pdf of \code{\link{ECS}} and
+#' \code{\link{DIFFUSIVTIY}} and therefore uses a default parameter correlation
+#' specific to these parameters. The user can also defined their own parameter
+#' correlation \code{param_cor}. Correlation value is multiplied by the standard
+#' deviation of each parameter contributing to the joint probability distribution.
+#' The function \code{\link{mvnorm}} in the package \code{\link{MASS}} was used
+#' to randomly sample the variance-covariance matrix.
 #'
 #' @return A data frame object with parameter values generated for each
 #' draw. Values randomly sample from a multivariate normal distribution of
@@ -24,38 +72,18 @@
 #'
 #' @examples
 #'
-joint_pdf_sample <- function(core, draws, param_cor = -0.75){
+joint_pdf_sample <- function(draws, dist1, dist2, param_cor = -0.75){
 
-  # this will need to change later - for now just keep it in this function"
-  ecs <- fetchvars(core, NA, ECS())
-  diffusivity <- fetchvars(core, NA, DIFFUSIVITY())
-
-  # building initial param distributions
-  ## ecs lognormal distribution
-  ecs_lognorm <- rlnorm(draws,
-                        lognorm(ecs$value, 0.65)[1],
-                        lognorm(ecs$value, 0.65)[2])
-  ## producing normal ecs values
-  ecs_norm <- log(ecs_lognorm)
-  ## diffusivity normal distribution
-  diffusivity_norm <- rnorm(draws,
-                            diffusivity$value, 0.23)
-
-  # calculating covariance value
-  cov_val <- param_cor * sd(ecs_norm) * sd (diffusivity_norm)
-
-  # building the variance-covariance matrix
-  sigma <- matrix(c(var(ecs_norm),
-                    cov_val, cov_val,
-                    var(diffusivity_norm)),
-                  2, 2)
+  # computing sigma
+  sigma = covariance_mat(dist1, dist2, param_cor)
 
   # sampling param values from joint pdf
-  ## May want to seaparate this out? talk with Ben about options
+  ## May want to separate this out? talk with Ben about options
   joint_values <- MASS::mvrnorm(draws * 2,
-                                c(mean(ecs_vals_to_norm),
-                                  mean(diffusion_vals)),
+                                c(mean(dist1),
+                                  mean(dist2)),
                                 sigma)
+
   ## give column names to values sample from joint pdf
   joint_values <- data.frame(ECS = joint_values [, 1],
                              DIFFUSIVITY = joint_values [, 2])

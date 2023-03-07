@@ -45,7 +45,7 @@ generate_params <- function(core, draws){
   # Joint ecs-diffusivity
   joint_values <- joint_pdf_sample(core, draws, param_cor = -0.75)
 
-  # data frame of random parameter values drawn from normal or lognormal distributions
+  # data frame of random parameter values drawn from parameter distributions
   data.frame(
     "BETA" = rlnorm(draws, lognorm(beta$value, 0.1) [1], lognorm(beta$value, 0.1) [2]),
     "Q10_RH" = rlnorm(draws,lognorm(q10$value, 1.0) [1], lognorm(q10$value, 1.0) [2]),
