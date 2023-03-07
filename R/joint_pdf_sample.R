@@ -57,9 +57,9 @@ covariance_matrix <- function(dist1, dist2, param_cor = -0.75){
 #' @param param_cor Correlation of the covariates contributing to the joint
 #' probability distribution.
 #'
-#' @notes This function is currently specific to the joint pdf of \code{\link{ECS}} and
+#' @details This function is currently specific to the joint PDF of \code{\link{ECS}} and
 #' \code{\link{DIFFUSIVTIY}} and therefore uses a default parameter correlation
-#' specific to these parameters. The user can also defined their own parameter
+#' specific to these parameters. The user can also define their own parameter
 #' correlation \code{param_cor}. Correlation value is multiplied by the standard
 #' deviation of each parameter contributing to the joint probability distribution.
 #' The function \code{\link{mvnorm}} in the package \code{\link{MASS}} was used

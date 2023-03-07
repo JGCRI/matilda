@@ -28,3 +28,12 @@ inversely correlated parameters of \code{\link{ECS}} and \code{\link{DIFFUSIVITY
 This function builds a variance-covariance matrix to randomly sample from a multivariate
 distribution \href{link}{(Pressburger et al. 2023)}.
 }
+\details{
+This function is currently specific to the joint PDF of \code{\link{ECS}} and
+\code{\link{DIFFUSIVTIY}} and therefore uses a default parameter correlation
+specific to these parameters. The user can also define their own parameter
+correlation \code{param_cor}. Correlation value is multiplied by the standard
+deviation of each parameter contributing to the joint probability distribution.
+The function \code{\link{mvnorm}} in the package \code{\link{MASS}} was used
+to randomly sample the variance-covariance matrix.
+}
