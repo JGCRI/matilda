@@ -41,11 +41,9 @@ generate_params <- function(core, draws){
   q10 <- fetchvars(core, NA, Q10_RH())
   npp <- fetchvars(core, NA, NPP_FLUX0())
   aero <- fetchvars(core, NA, AERO_SCALE())
-  ecs <- fetchvars(core, NA, ECS())
-  diffusivity <- fetchvars(core, NA, DIFFUSIVITY())
 
-  # ecs and diffusivity values sampled form joint pdf
-  joint_ecs_diffusivity <- joint_pdf_sample(draws, ecs, diffusivity, param_cor = -0.75)
+  # Joint ecs-diffusivity
+  joint_values <- joint_pdf_sample(core, draws, param_cor = -0.75)
 
   # data frame of random parameter values drawn from normal or lognormal distributions
   data.frame(
@@ -53,7 +51,7 @@ generate_params <- function(core, draws){
     "Q10_RH" = rlnorm(draws,lognorm(q10$value, 1.0) [1], lognorm(q10$value, 1.0) [2]),
     "NPP_FLUX0" = rnorm(draws, mean = npp$value, sd = 14.3),
     "AERO_SCALE" = rnorm(draws, mean = aero$value, sd = 0.23),
-    "ECS" = joint_ecs_diffusivity$ECS,
-    "DIFFUSIVITY" = joint_ecs_diffusivity$DIFFUSIVITY
+    "ECS" = joint_values$ECS,
+    "DIFFUSIVITY" = joint_values$DIFFUSIVITY
   )
 }
