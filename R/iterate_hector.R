@@ -105,7 +105,9 @@ metric_calc_1run <- function(x, metric) {
 #' h_result <- iterate_hector(core, params)
 #' head(h_result)
 
-iterate_hector <- function(core, params) {
+iterate_hector <- function(core, params,
+                           save_years = 1745:2300,
+                           save_vars = NULL) {
   # store results
   result_list <- list()
 
@@ -126,9 +128,15 @@ iterate_hector <- function(core, params) {
       run(core)
 
       # fetch model results based on function arguments provided by the user
+      if (is.null(save_vars)){
       dat <- fetchvars(core = core,
                        dates = 1745:2300,
                        vars = NULL)
+      } else{
+        dat <- fetchvars(core = core,
+                         dates = save_years,
+                         vars = save_vars)
+      }
 
       # adding run_number column to metric_data
       dat$run_number <- i
