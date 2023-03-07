@@ -6,8 +6,9 @@
 #' This function builds a variance-covariance matrix to randomly sample from a multivariate
 #' distribution \href{link}{(Pressburger et al. 2023)}.
 #'
-#' @param core An initiated Hector core.
 #' @param draws Number of random draws for each parameter.
+#' @param esc Mean value for Equilibrium Climate Sensitivity.
+#' @param diffusivity Mean value for Ocean Heart Diffusivity.
 #' @param param_cor Correlation of the covariates contributing to the joint
 #' probability distribution.
 #'
@@ -24,7 +25,7 @@
 #'
 #' @examples
 #'
-joint_pdf_sample <- function(core, draws, param_cor = -0.75){
+joint_pdf_sample <- function(draws, esc, diffusivity, param_cor = -0.75){
 
   # building initial param distributions
   ## ecs lognormal distribution
