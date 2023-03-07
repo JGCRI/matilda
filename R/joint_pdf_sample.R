@@ -75,7 +75,7 @@ covariance_matrix <- function(dist1, dist2, param_cor = -0.75){
 joint_pdf_sample <- function(draws, dist1, dist2, param_cor = -0.75){
 
   # computing sigma
-  sigma = covariance_mat(dist1, dist2, param_cor)
+  sigma = covariance_matrix(dist1, dist2, param_cor)
 
   # sampling param values from joint pdf
   ## May want to separate this out? talk with Ben about options
