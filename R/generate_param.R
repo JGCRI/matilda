@@ -41,20 +41,12 @@ generate_params <- function(core, draws){
   q10 <- fetchvars(core, NA, Q10_RH())
   npp <- fetchvars(core, NA, NPP_FLUX0())
   aero <- fetchvars(core, NA, AERO_SCALE())
-  ecs <- fetchvars(core, NA, ECS())
-  ohd <- fetchvars(core, NA, DIFFUSIVITY())
 
   # data frame of random parameter values drawn from parameter distributions
   data.frame(
     "BETA" = rlnorm(draws, lognorm(beta$value, 0.1) [1], lognorm(beta$value, 0.1) [2]),
     "Q10_RH" = rlnorm(draws,lognorm(q10$value, 1.0) [1], lognorm(q10$value, 1.0) [2]),
     "NPP_FLUX0" = rnorm(draws, mean = npp$value, sd = 14.3),
-    "AERO_SCALE" = rnorm(draws, mean = aero$value, sd = 0.23),
-    "ECS" = joint_pdf_sample(draws,
-                             dist1 = lognorm_to_norm(draws, ecs$value, 0.65),
-                             dist2 = rnorm(draws, ohd$value, 0.23))[1],
-    "DIFFUSIVITY" = joint_pdf_sample(draws,
-                                     dist1 = lognorm_to_norm(draws, ecs$value, 0.65),
-                                     dist2 = rnorm(draws, ohd$value, 0.23))[2]
+    "AERO_SCALE" = rnorm(draws, mean = aero$value, sd = 0.23)
   )
 }
