@@ -51,6 +51,6 @@ generate_params <- function(core, draws){
     "NPP_FLUX0" = rnorm(draws, mean = npp$value, sd = 14.3),
     "AERO_SCALE" = rnorm(draws, mean = aero$value, sd = 0.23),
     "DIFFUSIVITY" = rnorm(draws, mean = ohd$value, sd = 0.118),
-    "ECS" = rlnorm(draws, lognorm(ecs$value, 0.65)[1], lognorm(ecs$value, 0.65)[2]),
+    "ECS" = rlnorm(draws, lognorm(ecs$value, 0.65) [1], lognorm(ecs$value, 0.65) [2])
   )
 }
