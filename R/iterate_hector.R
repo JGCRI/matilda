@@ -128,7 +128,7 @@ iterate_hector <- function(core, params,
       run(core)
 
       # fetch model results based on function arguments provided by the user
-      if (is.null(save_vars)){
+      if (is.null(save_vars) & is.na(save_years)){
       dat <- fetchvars(core = core)
       } else{
         dat <- fetchvars(core = core,
