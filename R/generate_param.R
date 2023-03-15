@@ -50,7 +50,7 @@ generate_params <- function(core, draws){
     "Q10_RH" = rlnorm(draws,lognorm(q10$value, 1.0) [1], lognorm(q10$value, 1.0) [2]),
     "NPP_FLUX0" = rnorm(draws, mean = npp$value, sd = 14.3),
     "AERO_SCALE" = rnorm(draws, mean = aero$value, sd = 0.23),
-    "DIFFUSIVITY" = rnorm(draws, mean = 1.18, sd = 0.118),
-    "ECS" = rlnorm(draws, lognorm(3.0, 0.65)[1], lognorm(3.0, 0.65)[2]),
+    "DIFFUSIVITY" = rnorm(draws, mean = ohd$value, sd = 0.118),
+    "ECS" = rlnorm(draws, lognorm(ecs$value, 0.65)[1], lognorm(ecs$value, 0.65)[2]),
   )
 }
