@@ -41,7 +41,7 @@ generate_params <- function(core, draws){
   q10 <- fetchvars(core, NA, Q10_RH())
   npp <- fetchvars(core, NA, NPP_FLUX0())
   aero <- fetchvars(core, NA, AERO_SCALE())
-  ohd <- ftechvars(core, NA, DIFFUSIVITY())
+  ohd <- fetchvars(core, NA, DIFFUSIVITY())
   ecs <- fetchvars(core, NA, ECS())
 
   # data frame of random parameter values drawn from normal or lognormal distributions
