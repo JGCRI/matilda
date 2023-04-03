@@ -4,7 +4,7 @@
 \alias{iterate_hector}
 \title{Iterate Hector Runs}
 \usage{
-iterate_hector(core, params)
+iterate_hector(core, params, save_years = 1745:2300, save_vars = NULL)
 }
 \arguments{
 \item{core}{A core object to initiate Hector runs.}
