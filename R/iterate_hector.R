@@ -105,7 +105,8 @@ metric_calc_1run <- function(x, metric) {
 #' h_result <- iterate_hector(core, params)
 #' head(h_result)
 
-iterate_hector <- function(core, params,
+iterate_hector <- function(core,
+                           params,
                            save_years = NULL,
                            save_vars = NULL) {
   # store results
@@ -114,13 +115,34 @@ iterate_hector <- function(core, params,
   # iterate hector across all param values
   for (i in seq_len(nrow(params))) {
 
+    # If ncol == 1, parameter names need to be added to establish correct input
+    # for set_params()
+    if (ncol(params) == 1) {
+
+      # convert params to numeric vector
+      single_param_values <- params[, 1]
+
+      # Get names associated with each value in the vector
+      # This is the name of the parameter
+      names(single_param_values) <-
+        rep(colnames(params), length(single_param_values))
+
+      # set variable values -- needs core and numeric param values
+      set_params(core, single_param_values)
+
+    # If ncol > 1, unlist parameters, names are correctly set in set_params()
+    } else {
+
       # convert params to numeric
-      params_i <- unlist(params [i, ])
+      params_i <- unlist(params [i,])
 
       # set variable values -- needs core and numeric param values
       set_params(core, params_i)
 
-      tryCatch({
+    }
+
+    # If an error is encounter, complete run and then produce message
+    tryCatch({
       # resets model after each run
       reset(core, date = 0)
 
@@ -128,15 +150,18 @@ iterate_hector <- function(core, params,
       run(core)
 
       # fetch model results based on function arguments provided by the user
+      # if save_years is null, fetch full date range in core
       if (is.null(save_years)) {
         save_years <- core$strtdate:core$enddate
       }
 
+      # if save_vars is null, fetch all variables
       if (is.null(save_vars)) {
         dat <- fetchvars(core = core,
                          dates = save_years)
       }
 
+      # otherwise fetch the years and variables specified by the user
       else {
         dat <- fetchvars(core = core,
                          dates = save_years,
@@ -156,4 +181,3 @@ iterate_hector <- function(core, params,
   # concatenate list entries into a data frame and return
   do.call("rbind", result_list)
 }
-
