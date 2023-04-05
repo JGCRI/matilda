@@ -113,29 +113,28 @@ iterate_hector <- function(core,
   # store results
   result_list <- list()
 
-  # iterate hector across all param values
   for (i in seq_len(nrow(params))) {
 
-    # If ncol == 1, parameter names need to be added to establish correct input
-    # for set_params()
+    # If ncol > 1, names are correctly set in set_params()
+    # If ncol == 1, parameter names need to be set to establish correct input
     if (ncol(params) == 1) {
 
-      # convert params to numeric vector
-      single_param_values <- params[, 1]
+    # create new vector of the i-th row of the params df
+    single_param_vals <- params[i, ]
 
-      # Get names associated with each value in the vector
-      # This is the name of the parameter
-      names(single_param_values) <-
-        rep(colnames(params), length(single_param_values))
+    # set names for single_param_vals
+    # names are needed for set_params() to recognize the function name of the
+    # parameter.
+    single_param_vals <- setNames(single_param_vals, colnames(params))
 
-      # set variable values -- needs core and numeric param values
-      set_params(core, single_param_values)
+    # set variable values -- needs core and numeric param values
+    set_params(core, single_param_vals)
 
     # If ncol > 1, unlist parameters, names are correctly set in set_params()
     } else {
 
-      # convert params to numeric
-      params_i <- unlist(params [i,])
+      # convert groups of param perturbations
+      params_i <- unlist(params [i, ])
 
       # set variable values -- needs core and numeric param values
       set_params(core, params_i)
