@@ -10,6 +10,14 @@ iterate_hector(core, params, save_years = NULL, save_vars = NULL)
 \item{core}{A core object to initiate Hector runs.}
 
 \item{params}{A data frame object containing parameter values.}
+
+\item{save_years}{Range of years to save in the output data frame. Default is
+set to save entire year range 1745:2300.}
+
+\item{save_vars}{Identifiers corresponding to variables to fetch and save in
+the output data frame. Variable identifiers are provided as functions. The
+default list of variables to fetch is CO2 concentration, total radiative forcing,
+CO2 forcing, and global mean air temperature anomaly.}
 }
 \value{
 A data frame with a column of \code{run_number} indicating the total
