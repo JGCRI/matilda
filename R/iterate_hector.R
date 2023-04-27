@@ -108,25 +108,47 @@ metric_calc_1run <- function(x, metric) {
 #' params
 #'
 #' # Iterate Hector runs with parameter uncertainty
-#' h_result <- iterate_hector(core, params)
+#' h_result <- iterate_hector(core, params, save_years = 1900:2100,
+#' save_vars = c(GLOBAL_TAS(), CONCENTRATIONS_CO2()))
 #' head(h_result)
 
-iterate_hector <- function(core, params,
+iterate_hector <- function(core,
+                           params,
                            save_years = NULL,
                            save_vars = NULL) {
   # store results
   result_list <- list()
 
-  # iterate hector across all param values
   for (i in seq_len(nrow(params))) {
 
-      # convert params to numeric
+    # If ncol > 1, names are correctly set in set_params()
+    # If ncol == 1, parameter names need to be set to establish correct input
+    if (ncol(params) == 1) {
+
+    # create new vector of the i-th row of the params df
+    single_param_vals <- params[i, ]
+
+    # set names for single_param_vals
+    # names are needed for set_params() to recognize the function name of the
+    # parameter.
+    single_param_vals <- setNames(single_param_vals, colnames(params))
+
+    # set variable values -- needs core and numeric param values
+    set_params(core, single_param_vals)
+
+    # If ncol > 1, unlist parameters, names are correctly set in set_params()
+    } else {
+
+      # convert groups of param perturbations
       params_i <- unlist(params [i, ])
 
       # set variable values -- needs core and numeric param values
       set_params(core, params_i)
 
-      tryCatch({
+    }
+
+    # If an error is encounter, complete run and then produce message
+    tryCatch({
       # resets model after each run
       reset(core, date = 0)
 
@@ -134,15 +156,18 @@ iterate_hector <- function(core, params,
       run(core)
 
       # fetch model results based on function arguments provided by the user
+      # if save_years is null, fetch full date range in core
       if (is.null(save_years)) {
         save_years <- core$strtdate:core$enddate
       }
 
+      # if save_vars is null, fetch all variables
       if (is.null(save_vars)) {
         dat <- fetchvars(core = core,
                          dates = save_years)
       }
 
+      # otherwise fetch the years and variables specified by the user
       else {
         dat <- fetchvars(core = core,
                          dates = save_years,
@@ -162,4 +187,3 @@ iterate_hector <- function(core, params,
   # concatenate list entries into a data frame and return
   do.call("rbind", result_list)
 }
-

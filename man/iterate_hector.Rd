@@ -32,6 +32,7 @@ params <- generate_params(core, 10)
 params
 
 # Iterate Hector runs with parameter uncertainty
-h_result <- iterate_hector(core, params)
+h_result <- iterate_hector(core, params, save_years = 1900:2100,
+save_vars = c(GLOBAL_TAS(), CONCENTRATIONS_CO2()))
 head(h_result)
 }
