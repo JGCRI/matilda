@@ -1,8 +1,12 @@
 # data - values as numeric
 y <- data.frame("BETA" = 1:2, "Q10_RH" = 2:3)
 
+# core for testing generate_params
+ini <- system.file("input/hector_ssp245.ini", package = "hector")
+core <- newcore(ini)
+
 # generating parameters
-params <- generate_params(5)
+params <- generate_params(core, 5)
 
 test_that("output has proper class, structure, and length", {
 

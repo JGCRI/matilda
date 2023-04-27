@@ -80,9 +80,13 @@ metric_calc_1run <- function(x, metric) {
 #' be filtered according to metric information.
 #'
 #' @param core A core object to initiate Hector runs.
-#' @param metric An object identifying a variable, year range, and operation
-#' (e.g. mean, median, max, min, etc.) to fetch from Hector result.
 #' @param params A data frame object containing parameter values.
+#' @param save_years Range of years to save in the output data frame. Default is
+#' set to save entire year range 1745:2300.
+#' @param save_vars Identifiers corresponding to variables to fetch and save in
+#' the output data frame. Variable identifiers are provided as functions. The
+#' default list of variables to fetch is CO2 concentration, total radiative forcing,
+#' CO2 forcing, and global mean air temperature anomaly.
 #'
 #' @import hector
 #'
@@ -90,7 +94,7 @@ metric_calc_1run <- function(x, metric) {
 #'
 #' @return A data frame with a column of \code{run_number} indicating the total
 #' number of Hector runs completed. Values for the variables and year ranges
-#' identified in the user defined \code{metric}.
+#' identified in the user defined \code{metric} and \code{criterion}.
 #'
 #' @export
 #'
@@ -99,54 +103,87 @@ metric_calc_1run <- function(x, metric) {
 #' ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
 #' core <- newcore(ssp245)
 #'
-#' # Create and new metric
-#' metric <- new_metric(GLOBAL_TAS(), years = 2000:2100, op = mean)
-#' print(metric)
-#'
 #' # Compute parameter values for Hector iterations
-#' params <- generate_params(10)
+#' params <- generate_params(core, 10)
 #' params
 #'
 #' # Iterate Hector runs with parameter uncertainty
-#' h_result <- iterate_hector(core, metric, params)
+#' h_result <- iterate_hector(core, params, save_years = 1900:2100,
+#' save_vars = c(GLOBAL_TAS(), CONCENTRATIONS_CO2()))
 #' head(h_result)
 
-iterate_hector <- function(core, metric, params) {
-
+iterate_hector <- function(core,
+                           params,
+                           save_years = NULL,
+                           save_vars = NULL) {
   # store results
   result_list <- list()
 
-  # set number of model iterations
-  for(i in seq_len(nrow(params))) {
+  for (i in seq_len(nrow(params))) {
 
+    # If ncol > 1, names are correctly set in set_params()
+    # If ncol == 1, parameter names need to be set to establish correct input
+    if (ncol(params) == 1) {
 
-    # convert params to numeric
-    params_i <- unlist(params [i, ])
+    # create new vector of the i-th row of the params df
+    single_param_vals <- params[i, ]
+
+    # set names for single_param_vals
+    # names are needed for set_params() to recognize the function name of the
+    # parameter.
+    single_param_vals <- setNames(single_param_vals, colnames(params))
 
     # set variable values -- needs core and numeric param values
-    set_params(core, params_i)
+    set_params(core, single_param_vals)
 
-    # resets model after each run
-    reset(core, date = 0)
+    # If ncol > 1, unlist parameters, names are correctly set in set_params()
+    } else {
 
-    # run the model
-    run(core)
+      # convert groups of param perturbations
+      params_i <- unlist(params [i, ])
 
-    # fetch model results based on function arguments provided by the user
-    dat <- fetchvars(core = core, dates = metric$years, vars = metric$var)
+      # set variable values -- needs core and numeric param values
+      set_params(core, params_i)
 
-    # adding run_number column
-    dat$run_number <- i
+    }
 
-    # stores results
-    result_list[[i]] <- dat
+    # If an error is encounter, complete run and then produce message
+    tryCatch({
+      # resets model after each run
+      reset(core, date = 0)
 
+      # run the model
+      run(core)
+
+      # fetch model results based on function arguments provided by the user
+      # if save_years is null, fetch full date range in core
+      if (is.null(save_years)) {
+        save_years <- core$strtdate:core$enddate
+      }
+
+      # if save_vars is null, fetch all variables
+      if (is.null(save_vars)) {
+        dat <- fetchvars(core = core,
+                         dates = save_years)
+      }
+
+      # otherwise fetch the years and variables specified by the user
+      else {
+        dat <- fetchvars(core = core,
+                         dates = save_years,
+                         vars = save_vars)
+      }
+
+      # adding run_number column to metric_data
+      dat$run_number <- i
+
+      # stores results
+      result_list[[i]] <- dat
+    },
+    error = function(e) {
+      message("An error occurred")
+    })
   }
-
-  # binds rows from result_list into df
-  df = as.data.frame(do.call("rbind", result_list))
-
-  # what to return?
-  return(df)
+  # concatenate list entries into a data frame and return
+  do.call("rbind", result_list)
 }
-

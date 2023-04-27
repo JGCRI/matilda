@@ -43,10 +43,7 @@ metric_calc <- function(x, metric) {
   # Adding cols for run_number
   df$run_number <- run_number
 
-  # Ordering columns
-  df <- df[,c(2, 1)]
-
-  # output
-  return(df)
+  # Reorder columns and return
+  df[,c(2, 1)]
 }
 

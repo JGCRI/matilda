@@ -66,13 +66,13 @@ score_ramp <- function(x, y, w1, w2, na.omit = FALSE) {
 #' @description This function uses any scoring function to screen Hector runs
 #' based on proximity of climate variable values to observed data. Internal scoring
 #' functions are provided in \code{matilda}, but users can also supply their own.
-#' Criteria (\code{crit}) used for scoring are also available in the package.
-#' Alternatively, users can also build their own scoring criteria with \code{\link{new_crit}}.
+#' Criterion used for scoring are also available in the package. Alternatively,
+#' users can build their own scoring criterion with \code{\link{new_criterion}}.
 #'
 #' @param x Result data frame from \code{\link{iterate_hector}}.
 #' @param score_function Scoring function to use for screening Hector model runs.
+#' @param criterion A scoring criterion to use for screening Hector runs.
 #' @param ... Additional arguments needed to run the selected scoring function.
-#' @param crit Criterion to use for screening Hector runs.
 #'
 #' @return Data frame with mean score for each Hector run
 #' @export
@@ -81,27 +81,27 @@ score_ramp <- function(x, y, w1, w2, na.omit = FALSE) {
 #'
 #' @examples
 #' # Score Hector using observed CO2 data with the score_ramp method
-#' score_hruns(hector_result, crit_co2_obs(), score_ramp, w1 = 2, w2 = 20)
+#' score_hruns(hector_result, criterion_co2_obs(), score_ramp, w1 = 2, w2 = 20)
 
-score_hruns <- function(x, crit, score_function,...) {
+score_hruns <- function(x, criterion, score_function,...) {
 
   # error if x is not a data frame
   if( !is.data.frame(x)) stop('user supplied x is not a data frame')
 
-  # error if crit is not a criterion
-  if( !is.crit(crit)) stop('user supplied crit is not a criterion')
+  # error if criterion object is not a criterion
+  if( !is.criterion(criterion)) stop('user supplied crit is not a criterion')
 
   # error if score_function is not a function
   if( !is.function(score_function)) stop('user supplied score_function is not a function')
 
   # subset to include years for CO2 screening
-  x_subset <- subset(x, x$year %in% crit$years & x$variable == crit$var)
+  x_subset <- subset(x, x$year %in% criterion$years & x$variable == criterion$var)
 
   # error if variable in x does not match variable in the criterion being used
   if( !nrow(x_subset)) stop('criterion year and variable combination not represented in data')
 
   # creates observed data frame
-  obs_dat <- data.frame(year = crit$years, value_obs = crit$obs_values)
+  obs_dat <- data.frame(year = criterion$years, value_obs = criterion$obs_values)
 
   # merge hector results with calibration data observed CO2 data
   x_merge <- merge(x_subset, obs_dat, by = 'year')

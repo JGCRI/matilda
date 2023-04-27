@@ -4,9 +4,11 @@
 \alias{generate_params}
 \title{Generating Parameter Values}
 \usage{
-generate_params(draws)
+generate_params(core, draws)
 }
 \arguments{
+\item{core}{An initiated Hector core.}
+
 \item{draws}{Number of random draws for each parameter.}
 }
 \value{
@@ -17,9 +19,29 @@ as an argument in the function.
 \description{
 This function will generate parameter values that will be set for
 multiple Hector iterations.Parameters are generated from random draws of a
-normal distribution.
+normal distribution. The mean of each distribution is set using values from
+a core object initiated using \code{\link{newcore}}.
+}
+\note{
+Mean values used to build parameter distributions are pulled from
+default values in \code{\link{hector}} v3.0.
+
+Standard deviation values for each parameter were pulled from peer-reviewed
+literature as follows:
+
+\code{BETA} ± 0.10 from Jones et al. (2018)
+
+\code{Q10} ± 1.0 from \href{https://doi.org/10.1038/nature04514}{Davidson and Janssens (2006)}
+
+\code{NPP} ± 14.3 from \href{https://doi.org/10.1111/j.1365-2486.2011.02450.x}{Ito et al. (2011)}
+
+\code{AERO_SCALE} ± 0.23 from \href{https://doi.org/10.5194/acp-20-9591-2020}{Smith et al. (2020)}
 }
 \examples{
+# Initiate a Hector core
+ssp_245 <- system.file("input/hector_ssp245.ini", package = "hector")
+core <- newcore(ssp_245)
+
 # Generate parameters for Hector iterations
-generate_params(10)
+generate_params(core, 10)
 }

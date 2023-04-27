@@ -4,12 +4,12 @@
 \alias{score_hruns}
 \title{Screen Hector outputs with observed data}
 \usage{
-score_hruns(x, crit, score_function, ...)
+score_hruns(x, criterion, score_function, ...)
 }
 \arguments{
 \item{x}{Result data frame from \code{\link{iterate_hector}}.}
 
-\item{crit}{Criterion to use for screening Hector runs.}
+\item{criterion}{A scoring criterion to use for screening Hector runs.}
 
 \item{score_function}{Scoring function to use for screening Hector model runs.}
 
@@ -22,10 +22,10 @@ Data frame with mean score for each Hector run
 This function uses any scoring function to screen Hector runs
 based on proximity of climate variable values to observed data. Internal scoring
 functions are provided in \code{matilda}, but users can also supply their own.
-Criteria (\code{crit}) used for scoring are also available in the package.
-Alternatively, users can also build their own scoring criteria with \code{\link{new_crit}}.
+Criterion used for scoring are also available in the package. Alternatively,
+users can build their own scoring criterion with \code{\link{new_criterion}}.
 }
 \examples{
 # Score Hector using observed CO2 data with the score_ramp method
-score_hruns(hector_result, crit_co2_obs(), score_ramp, w1 = 2, w2 = 20)
+score_hruns(hector_result, criterion_co2_obs(), score_ramp, w1 = 2, w2 = 20)
 }

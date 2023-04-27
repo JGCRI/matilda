@@ -1,6 +1,6 @@
 Package: matilda
 Type: Package
-Title: A probabilistic framework for the Hector simple climate model
+Title: A Probabilistic Framework for the Hector Simple Climate Model
 Version: 0.1.0
 Author: c(person("Joseph", "Brown",
     email = "joseph.brown@pnnl.gov",
@@ -14,7 +14,7 @@ Author: c(person("Joseph", "Brown",
     email = "leeya.pressburger@pnnl.gov",
     role = "aut",
     comment = c(ORCID = "0000-0002-6850-2504")))
-Maintainer: The package maintainer <yourself@somewhere.net>
+Maintainer: Joseph Brown <joseph.brown@pnnl.gov>
 Description: Provides a probabilistic framework for climate variable projections
     using the Hector simple climate model. Using this framework you can change 
     parameters, run the model, retrieve targeted model outputs, and quantify 
@@ -23,7 +23,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: 
-    hector,
+    hector (>= 3.0.0),
     R (>= 2.10)
 Suggests: 
     knitr,
@@ -31,7 +31,7 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0)
 Remotes:
-    github::JGCRI/hector@v3_dev
+    github::JGCRI/hector
 RoxygenNote: 7.2.3
 Config/testthat/edition: 3
 VignetteBuilder: knitr
