@@ -63,6 +63,17 @@ print(param_values)
 
 We now have a data frame object with 10 random values sampled for each parameter.
 
+It may be of interest to the user to only apply changes to a few model parameters while keeping the other static. We can easily enforce this type of control by manipulating which columns in our `param_values` data frame. For example, if we are only interested in perturbing CO~2~ fertilization and ocean heat diffusivity (parameters `BETA()` and `DIFFUSIVITY()`, respectively), we can simply drop all other columns in the `param_values` data frame.
+
+```{r}
+# producing data frame to only manipulate the BETA parameter
+alter_beta_diff <- param_values [c(1, 5)]
+
+print(alter_beta_diff)
+```
+
+In these cases, only the parameters included in the subsetted data frame will be altered during Hector runs. All other parameters will follow Hector defaults.
+
 # Running Hector iteratively
 
 The `iterate_hector()` runs Hector multiple times, setting new parameter values with each iteration, and combining the results for easy analysis.
