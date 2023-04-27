@@ -81,6 +81,12 @@ metric_calc_1run <- function(x, metric) {
 #'
 #' @param core A core object to initiate Hector runs.
 #' @param params A data frame object containing parameter values.
+#' @param save_years Range of years to save in the output data frame. Default is
+#' set to save entire year range 1745:2300.
+#' @param save_vars Identifiers corresponding to variables to fetch and save in
+#' the output data frame. Variable identifiers are provided as functions. The
+#' default list of variables to fetch is CO2 concentration, total radiative forcing,
+#' CO2 forcing, and global mean air temperature anomaly.
 #'
 #' @import hector
 #'
