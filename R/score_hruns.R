@@ -44,7 +44,7 @@ score_hruns <- function(x, criterion, score_function,...) {
     stop('criterion year and variable combination not represented in data')
 
   # converts x_subset to matrix - columns are vectors of values for each model iteration
-  model_matrix <- value_matrix(x_subset, columns = "value")
+  model_matrix <- hector_matrix(x_subset, columns = "value")
 
   # creates observed data frame
   obs_dat <- data.frame(value_obs = criterion$obs_values)

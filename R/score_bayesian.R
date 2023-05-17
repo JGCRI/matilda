@@ -10,7 +10,7 @@
 #' @param m A Matrix of values. The first column of the matrix should be
 #' a vector of observed data for a give variable. Subsequent vectors should be
 #' representative of modeled values for a given variable.
-#' @param e A values for 0-Inf. This value controls the decay rate. It controls
+#' @param e A value from 0-Inf. This value controls the decay rate. It controls
 #' how much models are penalized for deviation from observed data. The default is
 #' set to 2, larger values will increase rate of decay.
 #'
@@ -24,7 +24,7 @@
 #' mat <- matrix(data = 1:15, nrow = 5, ncol = 3)
 #'
 #' # scoring with a decay rate of 2
-#' score_Bayesian(mat, e = 2)
+#' score_bayesian(mat, e = 2)
 
 score_bayesian <- function(m, e = 2) {
 
