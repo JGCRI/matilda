@@ -74,7 +74,7 @@ score_ramp <- function(x, y, w1, w2, na.omit = FALSE) {
 #' @param criterion A scoring criterion to use for screening Hector runs.
 #' @param ... Additional arguments needed to run the selected scoring function.
 #'
-#' @return Data frame with mean score for each Hector run
+#' @return Data frame of scored for each Hector run
 #' @export
 #'
 #' @import stats
