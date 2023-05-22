@@ -3,6 +3,7 @@
 S3method(print,criterion)
 S3method(print,h_metric)
 export(criterion_co2_obs)
+export(criterion_tas_obs)
 export(generate_params)
 export(is.criterion)
 export(iterate_hector)

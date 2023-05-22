@@ -1,6 +1,7 @@
 ## Mauna Loa data as the observed CO2 values for scoring Hector runs.
 
-## Co2 data were download on DATE from (add URL)
+## Co2 data were download on 01/03/2023 from
+## https://gml.noaa.gov/ccgg/trends/data.html}{https://gml.noaa.gov/ccgg/trends/data.html
 
 # Reading in Mauna Loa annual mean CO2 data
 metricdata_co2 <- read.csv("data-raw/co2_annmean_maunaloa.csv")
