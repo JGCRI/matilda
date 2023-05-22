@@ -11,7 +11,7 @@
 #'
 #' @examples
 #' x = c(1:5)
-#' y = c(5:10)
+#' y = c(5:9)
 #'
 #' RMSE_calc(x, y)
 
