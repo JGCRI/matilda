@@ -1,33 +1,37 @@
 # testing df
 r <- data.frame(x = rep(1,3), y = 1:3)
 
-# df with NAs - for entire variable
-x_na <- data.frame(x = rep(NA, 3), y = 1:3)
-y_na <- data.frame(x = 1:3, y = rep(NA, 3))
+# sample matrix
+m <- matrix(data = 1:15, nrow = 5, ncol = 3)
 
-# Testing error cases
+# df with NAs - for entire variable
+m_2row <- matrix(data = c(1:2), nrow = 2, ncol = 2)
+m_NA_obs <- matrix(data = c(rep(NA, 5), 1:15), nrow = 5, ncol = 4)
+m_NA_dat <- matrix(data = c(1:5, rep(NA, 15)), nrow = 5, ncol = 4)
+
+# Testing error/warning cases
 
 test_that("function stops and produces error messages", {
 
-  # error when x and y not equal length
-  expect_error(score_ramp(1:5, 1:6, w1 = 1, w2 = 2),
-               regexp = "Length of x must be equal to length of y")
+  # error when matrix has less than two columns
+  expect_error(score_ramp(m_2row, w1 = 1, w2 = 2),
+               regexp = "More than 2 columns must be included in input matrix")
 
   # error when w1 not > 0
-  expect_error(score_ramp(1:5, 1:5, w1 = -1, w2 = 1),
+  expect_error(score_ramp(m, w1 = -1, w2 = 1),
                regexp = "w1 must be at least 0")
 
   # error when w2 not > w1
-  expect_error(score_ramp(1:5, 1:5, w1 = 1, w2 = 0),
+  expect_error(score_ramp(m, w1 = 1, w2 = 0),
                regexp = "w2 must be at least as big as w1")
 
-  # error when entire x is NA
-  expect_error(score_ramp(x = x_na$x, y = x_na$y, w1 = 0, w2 = 2),
-               regexp = "No non-NA values in x")
+  # error when entire m is NA
+  expect_error(score_ramp(m_NA_obs, w1 = 0, w2 = 2),
+               regexp = "No non-NA values in observed")
 
-  # error when entire y is NA
-  expect_error(score_ramp(x = y_na$x, y = y_na$y, w1 = 0, w2 = 2),
-               regexp = "No non-NA values in y")
+  # error when one row in m is NA
+  expect_error(score_ramp(m = m_NA_dat, w1 = 0, w2 = 2),
+               regexp = "No non-NA values in modeled")
 
 })
 
