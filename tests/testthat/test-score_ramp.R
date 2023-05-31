@@ -5,6 +5,7 @@ m <- matrix(c(rep(1, 6), rep(2, 3), rep(3, 3)), nrow = 3, ncol = 4)
 m_2row <- matrix(data = c(1:2), nrow = 2, ncol = 2)
 m_NA_obs <- matrix(data = c(rep(NA, 5), 1:15), nrow = 5, ncol = 4)
 m_NA_dat <- matrix(data = c(1:5, rep(NA, 15)), nrow = 5, ncol = 4)
+m_NA_case <- matrix(data = c(1:3, 2, NA, 4, 3:5, 4:6), nrow = 3, ncol = 4)
 
 # Testing error/warning cases
 
@@ -24,11 +25,15 @@ test_that("function stops and produces error messages", {
 
   # error when entire m is NA
   expect_error(score_ramp(m_NA_obs, w1 = 0, w2 = 2),
-               regexp = "No non-NA values in observed")
+               regexp = "No non-NA values in observed data")
 
   # error when one row in m is NA
   expect_error(score_ramp(m_NA_dat, w1 = 0, w2 = 2),
-               regexp = "No non-NA values in modeled")
+               regexp = "No non-NA values in modeled data")
+
+  # error when an NA is present anywhere in matrix array
+  expect_error(score_ramp(m_NA_case, w1 = 1, w2 = 2, na.omit = T),
+               regexp = "Number of elements in obs_data and model_data matrices are not equal. NAs likely present.")
 
 })
 
@@ -44,7 +49,7 @@ test_that("scores assessed correctly based on w1 and w2 values", {
   # diffs greater than 1, score = 0
   expect_equal(score_ramp(m, w1 = 1, w2 = 1), c(1, 1, 0))
 
-  # when w1 & w2 = 0 - all diffs > only diffs equal to 0 score = 1
+  # when w1 & w2 = 0 - only diffs equal to 0 score = 1
   expect_equal(score_ramp(m, w1 = 0, w2 = 0), c(1, 0, 0))
 
   })

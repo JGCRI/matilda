@@ -62,6 +62,10 @@ score_ramp <- function(m, w1, w2, na.omit = FALSE) {
       obs_data <- na.omit(obs_data)
       model_data <- na.omit(model_data)}
 
+    # Check the number of elements in obs_data and model_data matrices
+    if (length(obs_data) != length(model_data))
+      stop("Number of elements in obs_data and model_data matrices are not equal. NAs likely present.")
+
     # Take absolute difference between obs_data and model_data value
     abs_diffs <- abs(obs_data - model_data)
 
@@ -90,4 +94,5 @@ score_ramp <- function(m, w1, w2, na.omit = FALSE) {
   agg_scores <- colMeans(scores_matrix [, -1], na.rm = T)
 
   return(agg_scores)
+
 }
