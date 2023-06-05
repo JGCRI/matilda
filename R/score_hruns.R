@@ -34,6 +34,10 @@ score_hruns <- function(x, criterion, score_function,...) {
   if (!is.function(score_function))
     stop('user supplied score_function is not a function')
 
+  # error if x year range does not include criterion year range
+  if(!all(criterion$years %in% x$year))
+    stop('The year range in x must contain all years in criterion')
+
   # subset to include years for CO2 screening
   x_subset <-
     subset(x, x$year %in% criterion$years &
