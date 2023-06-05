@@ -65,13 +65,8 @@ score_bayesian <- function(m, e = 2) {
   # the same as 1 / # of runs.
   posterior = likelihood * (1 / length(likelihood))
 
-  # Computes posterior probabilities - normalized posterior weights.
-  # Will sum to 1 and there for get significantly smaller as number
-  # of runs increases.
-  posterior_probs = posterior / sum(posterior)
-
   # Create data frame of results - get run_numbers from the list where RMSE values
   # are computed (names of the split_list components)
-  return(posterior_probs)
+  return(posterior)
 
 }

@@ -55,7 +55,11 @@ score_hruns <- function(x, criterion, score_function,...) {
   # computing scores using the user specified score_function
   scores <- score_function(x_matrix, ...)
 
-  return(data.frame(weights = scores,
+  # normalize scores from the scoring function - normalized score weights.
+  # Will sum to 1.
+  score_norm <- scores/sum(scores)
+
+  return(data.frame(weights = score_norm,
                     run_number = 1:length(scores)))
 
 }
