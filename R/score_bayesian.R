@@ -26,23 +26,38 @@
 #' # scoring with a decay rate of 2
 #' score_bayesian(mat, e = 2)
 
-score_bayesian <- function(m, e = 2) {
+score_bayesian <- function(m, e = 2, na.omit = FALSE) {
 
   # initialize vector to store RMSE values from loop
   rmse_vector <- numeric()
 
   # Stop execution if number of columns in the matrix is less the 2
   # indicates that there is only one model result stored in matrix
-  stopifnot(ncol(m) > 2)
+  stopifnot("More than 2 columns must be included in input matrix" = ncol(m) > 2)
 
   # indicate that observed data are in first column of matrix
   obs_data <- m[, 1]
+
+  # throw and error if the modeled data is all NAs
+  if (all(is.na(obs_data))) stop("No non-NA values in observed data")
 
   # loop across columns of the matrix. For each column (i) after col 2
   for(i in 2:ncol(m)) {
 
     # indicate modeled data are in subsequent columns
     model_data <- m[, i]
+
+    # throw and error if the modeled data is all NAs
+    if (all(is.na(model_data))) stop("No non-NA values in model data")
+
+    # warn if NAs are detected in the modeled data
+    if (any(is.na(model_data))) warning("Check for NAs in model data")
+
+    # omit rows that have NA values in both obs_data and model_data
+    if (na.omit) {
+      obs_data <- na.omit(obs_data)
+      model_data <- na.omit(model_data)}
+    warning("NAs omitted. Omitting NAs ")
 
     # compute RMSE using obs_data and model_data
     rmse_vals = RMSE_calc(obs_data, model_data)
@@ -51,6 +66,9 @@ score_bayesian <- function(m, e = 2) {
     rmse_vector[i] <- rmse_vals
 
   }
+
+  # Warn if NAs were omitted
+  if(any(is.na(rmse_vector))) warning("NAs were detected in the data. Results may not be accurate.")
 
   # Compute likelihood using normal distribution likelihood function.
   # This is the probability of observing the modeled data given the

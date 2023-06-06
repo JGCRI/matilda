@@ -45,7 +45,7 @@ score_ramp <- function(m, w1, w2, na.omit = FALSE) {
   # indicate that observed data are in first column of matrix
   obs_data <- m[, 1]
 
-  # throw and error if the modeled data is all NAs
+  # throw and error if the observed data is all NAs
   if (all(is.na(obs_data))) stop("No non-NA values in observed data")
 
   # loop across columns of the matrix. For each column (i) after col 2
@@ -54,7 +54,7 @@ score_ramp <- function(m, w1, w2, na.omit = FALSE) {
     # indicate modeled data are in subsequent columns
     model_data <- m[, i]
 
-    # throw and error if the modeled data is all NAs
+    # throw error if the modeled data is all NAs
     if (all(is.na(model_data))) stop("No non-NA values in modeled data")
 
     # omit rows that have NA values in both obs_data and model_data
