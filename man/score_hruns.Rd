@@ -16,7 +16,7 @@ score_hruns(x, criterion, score_function, ...)
 \item{...}{Additional arguments needed to run the selected scoring function.}
 }
 \value{
-Data frame with mean score for each Hector run
+Data frame of scored for each Hector run
 }
 \description{
 This function uses any scoring function to screen Hector runs

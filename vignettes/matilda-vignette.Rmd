@@ -142,7 +142,7 @@ We can plot our scored Hector runs highlighting which runs were closest to obser
 results_scored <- merge(results, scores, by = "run_number")
 
 ggplot(data = results_scored) +
-  geom_line(aes(x = year, y = value, group = run_number, color = scores)) +
+  geom_line(aes(x = year, y = value, group = run_number, color = weights)) +
   scale_color_continuous() +
   facet_wrap(~variable, scales = "free_y")
 ```
@@ -196,7 +196,7 @@ bins <- c(0, 1, 2, 3)
 # Calculate probabilities for global_tas under 2C
 prob_calc(metric_values$metric_result, 
           bins = bins, 
-          scores = scores$scores)
+          scores = scores$weights)
 ```
 
 The `prob_calc()` function bins each metric and sums the scores of each Hector run as it is binned. Then, it uses the summed score of each bin to compute the probability of each climate variable outcome.
@@ -261,8 +261,8 @@ plot_co2 <- ggplot(subset(hector_merge,
                           & variable == CONCENTRATIONS_CO2())) +
   geom_line(aes(x = year, y = value,
                 group = run_number,
-                color = scores, 
-                alpha = scores),
+                color = weights, 
+                alpha = weights),
             linewidth = 1) +
   scale_color_gradient(high = "dodgerblue4", low = "lightblue1") +
   scale_alpha_continuous(range = c(0.1, 1)) +
@@ -300,7 +300,7 @@ probabilities <- function(h_result,
   metric_scores = merge(metrics, scores, by = "run_number")
   # calculating probability
   probability = prob_calc(metric_scores$metric_result, bins,
-                          metric_scores$scores)
+                          metric_scores$weights)
   # coercing probability to data frame for plotting
   probs = as.data.frame(probability)
   # return

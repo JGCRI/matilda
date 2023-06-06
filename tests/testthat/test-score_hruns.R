@@ -1,14 +1,17 @@
 # data occupied df
-test <- data.frame(year = 2001:2003,
-                   variable = rep(c("CO2_concentration"), each = 3),
-                   value = c(630, 635, 700),
-                   run_number = c(1:3))
+test <- hector_result
+
+# data to test for year error
+year_error <- data.frame(year = rep(1999:2059, each = 10),
+                   variable = rep(c("CO2_concentration")),
+                   value = runif(610, min = 350, max = 450),
+                   run_number = c(1:10))
 
 # var in df does not match var for criterion used
-wrong_var <- data.frame(year = 2001:2003,
-                        variable = rep(c("global_tas"), each = 3),
-                        value = c(3, 4, 5),
-                        run_number = c(1:3))
+wrong_var <- data.frame(year = rep(1959:2023, each = 10),
+                        variable = rep(c("global_tas"), each = 65),
+                        value = runif(65, min = 1, max = 10),
+                        run_number = c(1:10))
 
 # no years available in df
 no_year <- data.frame(year = NA,
@@ -35,7 +38,7 @@ test_that("result has proper class and structure", {
   expect_s3_class(result, "data.frame")
 
   # structure is correct
-  expect_true(is.numeric(result$scores))
+  expect_true(is.numeric(result$weights))
   expect_true(is.integer(result$run_number))
 
 })
@@ -44,9 +47,13 @@ test_that("result has proper class and structure", {
 
 test_that("Error messages are thrown in proper cases", {
 
+  # error when years in x don't include all years in criterion
+  expect_error(score_hruns(year_error, criterion_co2_obs(), score_ramp, 1, 20),
+               regexp = 'The year range in x must contain all years in criterion')
+
   # error when variable in data frame present, but years are not
   expect_error(score_hruns(no_year, x, score_ramp, w1 = 1, w2 = 2),
-               regexp = 'criterion year and variable combination not represented in data')
+               regexp = 'The year range in x must contain all years in criterion')
 
   # error when years in data from are present, but var is not
   expect_error(score_hruns(wrong_var, x, score_ramp, w1 = 1, w2 = 2),
@@ -65,3 +72,4 @@ test_that("Error messages are thrown in proper cases", {
                regexp = 'user supplied score_function is not a function')
 
 })
+
