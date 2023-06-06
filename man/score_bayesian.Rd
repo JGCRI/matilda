@@ -14,6 +14,9 @@ representative of modeled values for a given variable.}
 \item{e}{A value from 0-Inf. This value controls the decay rate. It controls
 how much models are penalized for deviation from observed data. The default is
 set to 2, larger values will increase rate of decay.}
+
+\item{na.omit}{How should \code{score_ramp} deal with rows in matrix that
+contain NAs? Defaults to \code{FALSE}, leaving NAs in the matrix.}
 }
 \value{
 Returns a vector of scores with a length equal to the number of
