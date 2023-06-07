@@ -28,4 +28,3 @@ test_that("print.h_metric prints the new metric accurately", {
 
 })
 
-metric

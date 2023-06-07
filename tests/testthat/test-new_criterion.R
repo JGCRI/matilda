@@ -21,3 +21,10 @@ test_that("output has correct data structure", {
 
 })
 
+# Testing message print is accurate
+
+test_that("print.criterion prints the criterion accurately", {
+
+  expect_equal(capture.output(print.criterion(co2_crit)), "Criterion for screening Hector:  CO2_concentration 1959  to  2021 ")
+
+})
