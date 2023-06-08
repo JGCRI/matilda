@@ -69,9 +69,6 @@ score_bayesian <- function(m, e = 2, na.omit = FALSE) {
 
   }
 
-  # Warn if NAs were omitted
-  if(any(is.na(rmse_vector))) warning("NAs were detected in the data. Results may not be accurate.")
-
   # Compute likelihood using normal distribution likelihood function.
   # This is the probability of observing the modeled data given the
   # observed data.
