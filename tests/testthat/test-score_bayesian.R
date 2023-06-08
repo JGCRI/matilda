@@ -11,3 +11,7 @@ m_NA_dat <- matrix(data = c(1:5, rep(NA, 15)), nrow = 5, ncol = 4)
 # NA present in model data
 m_NA_single_case <- matrix(data = c(1:3, 2, NA, 4, 3:5, 4:6), nrow = 3, ncol = 4)
 
+score_bayesian(m_NA_single_case, F)
+
+score_bayesian(m, T)
+score_bayesian(m)

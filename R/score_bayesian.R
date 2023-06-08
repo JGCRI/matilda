@@ -52,11 +52,12 @@ score_bayesian <- function(m, e = 2, na.omit = FALSE) {
     # throw and error if the modeled data is all NAs
     if (all(is.na(model_data))) stop("No non-NA values in model data")
 
-    # omit rows that have NA values in both obs_data and model_data
+    # Omit rows with NA values from obs_data and model_data outside the loop
     if (na.omit) {
-      obs_data <- na.omit(obs_data)
-      model_data <- na.omit(model_data)}
-    warning("NAs omitted. Omitting NAs ")
+      non_na_rows <- complete.cases(obs_data, model_data)
+      obs_data <- obs_data[non_na_rows]
+      model_data <- model_data[non_na_rows]
+    }
 
     # compute RMSE using obs_data and model_data
     rmse_vals = RMSE_calc(obs_data, model_data)
