@@ -74,14 +74,8 @@ score_bayesian <- function(m, e = 2, na.omit = FALSE) {
   # it represented obs_data)
   likelihood = exp(-0.5 * (rmse_vector[-1]) ^ e)
 
-  # Computing unnormalized posterior scores
-  # Currently only computing posterior scores using uniform prior.
-  # uniform prior is calculated as 1/length(likelihood) which is
-  # the same as 1 / # of runs.
-  posterior = likelihood * (1 / length(likelihood))
-
   # Create data frame of results - get run_numbers from the list where RMSE values
   # are computed (names of the split_list components)
-  return(posterior)
+  return(likelihood)
 
 }
