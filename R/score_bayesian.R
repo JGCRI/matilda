@@ -52,9 +52,6 @@ score_bayesian <- function(m, e = 2, na.omit = FALSE) {
     # throw and error if the modeled data is all NAs
     if (all(is.na(model_data))) stop("No non-NA values in model data")
 
-    # warn if NAs are detected in the modeled data
-    if (any(is.na(model_data))) warning("Check for NAs in model data")
-
     # omit rows that have NA values in both obs_data and model_data
     if (na.omit) {
       obs_data <- na.omit(obs_data)
