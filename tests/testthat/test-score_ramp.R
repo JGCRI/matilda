@@ -1,25 +1,18 @@
 # sample matrix
 m <- matrix(c(rep(1, 6), rep(2, 3), rep(3, 3)), nrow = 3, ncol = 4)
 
-## Error sample matrices
-# m with only 2 cols
-m_2row <- matrix(data = c(1:2), nrow = 2, ncol = 2)
-# No non-NAs in obs col
-m_NA_obs <- matrix(data = c(rep(NA, 5), 1:15), nrow = 5, ncol = 4)
-# No non-NAs in any model data
-m_NA_dat <- matrix(data = c(1:5, rep(NA, 15)), nrow = 5, ncol = 4)
-# NA present in model data
-m_NA_single_case <- matrix(data = c(1:3, 2, NA, 4, 3:5, 4:6), nrow = 3, ncol = 4)
-
 # Testing error/warning cases
 
 test_that("function stops and produces error messages", {
 
   # error when matrix has less than two columns
+  # # m with only 2 cols
+  m_2row <- matrix(data = c(1:2), nrow = 2, ncol = 2)
   expect_error(score_ramp(m_2row, w1 = 1, w2 = 2),
                regexp = "More than 2 columns must be included in input matrix")
 
   # error when w1 not > 0
+
   expect_error(score_ramp(m, w1 = -1, w2 = 1),
                regexp = "w1 must be at least 0")
 
@@ -27,17 +20,23 @@ test_that("function stops and produces error messages", {
   expect_error(score_ramp(m, w1 = 1, w2 = 0),
                regexp = "w2 must be at least as big as w1")
 
-  # error when entire m is NA
+  # error when entire obs data col is NA
+  # No non-NAs in obs col
+  m_NA_obs <- matrix(data = c(rep(NA, 5), 1:15), nrow = 5, ncol = 4)
   expect_error(score_ramp(m_NA_obs, w1 = 0, w2 = 2),
                regexp = "No non-NA values in observed data")
 
-  # error when one row in m is NA
+  # error when entire model data col is NA
+  # No non-NAs in any model data matrix
+  m_NA_dat <- matrix(data = c(1:5, rep(NA, 15)), nrow = 5, ncol = 4)
   expect_error(score_ramp(m_NA_dat, w1 = 0, w2 = 2),
-               regexp = "No non-NA values in modeled data")
+               regexp = "NAs detected in data. Analysis halted to prevent bad result.")
 
   # error when an NA is present anywhere in matrix array
+  # NA present in model data
+  m_NA_single_case <- matrix(data = c(1:3, 2, NA, 4, 3:5, 4:6), nrow = 3, ncol = 4)
   expect_error(score_ramp(m_NA_single_case, w1 = 1, w2 = 2, na.omit = T),
-               regexp = "Number of elements in obs_data and model_data matrices are not equal. NAs likely present.")
+               regexp = "NAs detected in data. Analysis halted to prevent bad result.")
 
 })
 

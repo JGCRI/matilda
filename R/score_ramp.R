@@ -54,17 +54,8 @@ score_ramp <- function(m, w1, w2, na.omit = FALSE) {
     # indicate modeled data are in subsequent columns
     model_data <- m[, i]
 
-    # throw error if the modeled data is all NAs
-    if (all(is.na(model_data))) stop("No non-NA values in modeled data")
-
-    # omit rows that have NA values in both obs_data and model_data
-    if (na.omit) {
-      obs_data <- na.omit(obs_data)
-      model_data <- na.omit(model_data)}
-
-    # Check the number of elements in obs_data and model_data matrices
-    if (length(obs_data) != length(model_data))
-      stop("Number of elements in obs_data and model_data matrices are not equal. NAs likely present.")
+    # throw error if the modeled data has NAs
+    if (any(is.na(model_data))) stop("NAs detected in data. Analysis halted to prevent bad result.")
 
     # Take absolute difference between obs_data and model_data value
     abs_diffs <- abs(obs_data - model_data)
