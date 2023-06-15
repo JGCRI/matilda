@@ -103,8 +103,8 @@ criterion_co2_obs <- function() {
 #' are presented as temperature anomalies relative to 1961-1990.
 #'
 #' @return A criterion identifier using HadCRUT5 global temperature anomaly
-#' @note This function uses the HadCRUT global annual mean temperature anomaly data
-#' from \href{https://www.metoffice.gov.uk/hadobs/hadcrut5/data/current/download.html}
+#' @note This function uses the HadCRUT global annual mean temperature anomaly data from
+#' \href{https://www.metoffice.gov.uk/hadobs/hadcrut5/data/current/download.html}{https://www.metoffice.gov.uk/hadobs/hadcrut5/data/current/download.html}
 #' @export
 #'
 #' @examples

@@ -15,8 +15,8 @@ observed global temperature anomaly (C) from the HadCRUT5 data set. These data
 are presented as temperature anomalies relative to 1961-1990.
 }
 \note{
-This function uses the HadCRUT global annual mean temperature anomaly data
-from \href{https://www.metoffice.gov.uk/hadobs/hadcrut5/data/current/download.html}
+This function uses the HadCRUT global annual mean temperature anomaly data from
+\href{https://www.metoffice.gov.uk/hadobs/hadcrut5/data/current/download.html}{https://www.metoffice.gov.uk/hadobs/hadcrut5/data/current/download.html}
 }
 \examples{
 criterion_tas_obs()
