@@ -35,7 +35,7 @@ test_that("function stops and produces error messages", {
 
 })
 
-# testing output accuracy
+# Testing output accuracy
 
 test_that("scores assessed correctly", {
 

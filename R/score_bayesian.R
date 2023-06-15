@@ -13,8 +13,6 @@
 #' @param e A value from 0-Inf. This value controls the decay rate. It controls
 #' how much models are penalized for deviation from observed data. The default is
 #' set to 2, larger values will increase rate of decay.
-#' @param na.omit How should \code{score_ramp} deal with rows in matrix that
-#' contain NAs? Defaults to \code{FALSE}, leaving NAs in the matrix.
 #'
 #' @return Returns a vector of scores with a length equal to the number of
 #' model iterations in the input matrix. Or, if the input matrix has K columns,
