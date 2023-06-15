@@ -4,7 +4,7 @@
 \alias{score_bayesian}
 \title{Computing Model Scores as Posterior Probabilities using Bayesian Inference}
 \usage{
-score_bayesian(m, e = 2, na)
+score_bayesian(m, e = 2)
 }
 \arguments{
 \item{m}{A Matrix of values. The first column of the matrix should be
