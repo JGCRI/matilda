@@ -26,7 +26,7 @@
 #' # scoring with a decay rate of 2
 #' score_bayesian(mat, e = 2)
 
-score_bayesian <- function(m, e = 2, na) {
+score_bayesian <- function(m, e = 2) {
 
   # initialize vector to store RMSE values from loop
   rmse_vector <- numeric()
