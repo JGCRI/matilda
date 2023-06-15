@@ -13,8 +13,6 @@
 #' @param e A value from 0-Inf. This value controls the decay rate. It controls
 #' how much models are penalized for deviation from observed data. The default is
 #' set to 2, larger values will increase rate of decay.
-#' @param na.omit How should \code{score_ramp} deal with rows in matrix that
-#' contain NAs? Defaults to \code{FALSE}, leaving NAs in the matrix.
 #'
 #' @return Returns a vector of scores with a length equal to the number of
 #' model iterations in the input matrix. Or, if the input matrix has K columns,
@@ -28,7 +26,7 @@
 #' # scoring with a decay rate of 2
 #' score_bayesian(mat, e = 2)
 
-score_bayesian <- function(m, e = 2, na.omit = FALSE) {
+score_bayesian <- function(m, e = 2) {
 
   # initialize vector to store RMSE values from loop
   rmse_vector <- numeric()
@@ -36,6 +34,9 @@ score_bayesian <- function(m, e = 2, na.omit = FALSE) {
   # Stop execution if number of columns in the matrix is less the 2
   # indicates that there is only one model result stored in matrix
   stopifnot("More than 2 columns must be included in input matrix" = ncol(m) > 2)
+
+  # Stop if user attempts to supply negative value for e
+  if (e < 0) stop("e must be value greater than 0.")
 
   # indicate that observed data are in first column of matrix
   obs_data <- m[, 1]
@@ -50,16 +51,7 @@ score_bayesian <- function(m, e = 2, na.omit = FALSE) {
     model_data <- m[, i]
 
     # throw and error if the modeled data is all NAs
-    if (all(is.na(model_data))) stop("No non-NA values in model data")
-
-    # warn if NAs are detected in the modeled data
-    if (any(is.na(model_data))) warning("Check for NAs in model data")
-
-    # omit rows that have NA values in both obs_data and model_data
-    if (na.omit) {
-      obs_data <- na.omit(obs_data)
-      model_data <- na.omit(model_data)}
-    warning("NAs omitted. Omitting NAs ")
+    if (any(is.na(model_data))) stop("NAs detected in data. Analysis halted to prevent bad result.")
 
     # compute RMSE using obs_data and model_data
     rmse_vals = RMSE_calc(obs_data, model_data)
@@ -68,9 +60,6 @@ score_bayesian <- function(m, e = 2, na.omit = FALSE) {
     rmse_vector[i] <- rmse_vals
 
   }
-
-  # Warn if NAs were omitted
-  if(any(is.na(rmse_vector))) warning("NAs were detected in the data. Results may not be accurate.")
 
   # Compute likelihood using normal distribution likelihood function.
   # This is the probability of observing the modeled data given the

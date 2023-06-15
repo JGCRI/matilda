@@ -94,3 +94,25 @@ criterion_co2_obs <- function() {
            obs_values = metricdata_co2$co2_ppm)
 
 }
+
+
+#' Screening criterion using HadCRUT5 mean global temperature anomaly
+#'
+#' @description This is a criterion identifier for screening Hector runs using
+#' observed global temperature anomaly (C) from the HadCRUT5 data set. These data
+#' are presented as temperature anomalies relative to 1961-1990.
+#'
+#' @return A criterion identifier using HadCRUT5 global temperature anomaly
+#' @note This function uses the HadCRUT global annual mean temperature anomaly data from
+#' \href{https://www.metoffice.gov.uk/hadobs/hadcrut5/data/current/download.html}{https://www.metoffice.gov.uk/hadobs/hadcrut5/data/current/download.html}
+#' @export
+#'
+#' @examples
+#' criterion_tas_obs()
+
+criterion_tas_obs <- function() {
+
+  new_criterion(GLOBAL_TAS(),
+                years = metricdata_tas$year,
+                obs_values = metricdata_tas$anomaly_C)
+}
