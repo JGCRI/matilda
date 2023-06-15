@@ -28,7 +28,7 @@
 #' # scoring with a decay rate of 2
 #' score_bayesian(mat, e = 2)
 
-score_bayesian <- function(m, e = 2, na.omit = FALSE) {
+score_bayesian <- function(m, e = 2, na) {
 
   # initialize vector to store RMSE values from loop
   rmse_vector <- numeric()
@@ -50,14 +50,7 @@ score_bayesian <- function(m, e = 2, na.omit = FALSE) {
     model_data <- m[, i]
 
     # throw and error if the modeled data is all NAs
-    if (all(is.na(model_data))) stop("No non-NA values in model data")
-
-    # Omit rows with NA values from obs_data and model_data outside the loop
-    if (na.omit) {
-      non_na_rows <- complete.cases(obs_data, model_data)
-      obs_data <- obs_data[non_na_rows]
-      model_data <- model_data[non_na_rows]
-    }
+    if (any(is.na(model_data))) stop("NAs detected in data. Analysis halted to prevent bad result.")
 
     # compute RMSE using obs_data and model_data
     rmse_vals = RMSE_calc(obs_data, model_data)
@@ -74,8 +67,14 @@ score_bayesian <- function(m, e = 2, na.omit = FALSE) {
   # it represented obs_data)
   likelihood = exp(-0.5 * (rmse_vector[-1]) ^ e)
 
+  # Computing unnormalized posterior scores
+  # Currently only computing posterior scores using uniform prior.
+  # uniform prior is calculated as 1/length(likelihood) which is
+  # the same as 1 / # of runs.
+  posterior = likelihood * (1 / length(likelihood))
+
   # Create data frame of results - get run_numbers from the list where RMSE values
   # are computed (names of the split_list components)
-  return(likelihood)
+  return(posterior)
 
 }
