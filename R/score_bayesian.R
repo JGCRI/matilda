@@ -37,6 +37,9 @@ score_bayesian <- function(m, e = 2, na) {
   # indicates that there is only one model result stored in matrix
   stopifnot("More than 2 columns must be included in input matrix" = ncol(m) > 2)
 
+  # Stop if user attempts to supply negative value for e
+  if (e < 0) stop("e must be value greater than 0.")
+
   # indicate that observed data are in first column of matrix
   obs_data <- m[, 1]
 
