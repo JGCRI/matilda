@@ -73,6 +73,10 @@ score_bayesian <- function(m, sigma = NULL) {
     sigma <- sd(rmse_vector[-1])  # Calculate sigma as the standard deviation of RMSE values
   }
 
+  # Check if sigma is negative, if so throw error
+  if (sigma < 0)
+    stop("sigma value cannot be negative.")
+
   # Compute likelihood using normal distribution likelihood function.
   # This is the probability of observing the modeled data given the
   # observed data.
