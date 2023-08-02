@@ -78,7 +78,7 @@ score_bayesian <- function(m, sigma = NULL) {
   # observed data.
   # Remove first value when calling rmse_vector (first values should be NA because
   # it represented obs_data)
-  likelihood = exp((-1 / sigma ^ 2) * ((rmse_vector[-1]) ^ 2))
+  likelihood = exp(-0.5 * ((rmse_vector[-1]) / sigma)^2)
 
   # Computing unnormalized posterior scores
   # Currently only computing posterior scores using uniform prior.
