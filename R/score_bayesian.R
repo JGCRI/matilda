@@ -15,10 +15,6 @@
 #' function will automatically compute it as the standard deviation of the
 #' Root Mean Square Error (RMSE). A smaller value of `sigma` will make the
 #' Bayesian analysis give more weight to models with lower RMSE values.
-#' On the other hand, a larger value of `sigma` will distribute the weight more
-#' evenly among different models, expressing less certainty about the model
-#' selection. Users may choose to provide their own value for `sigma` based on
-#' their prior beliefs or domain knowledge.
 #'
 #' @note Note: In Bayesian statistics, the choice of `sigma` can significantly
 #' impact the results and conclusions of the analysis. Users are encouraged to
