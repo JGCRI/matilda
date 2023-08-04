@@ -90,8 +90,8 @@ is.criterion <- function(x) {
 criterion_co2_obs <- function() {
 
   new_criterion(CONCENTRATIONS_CO2(),
-           years = metricdata_co2$year,
-           obs_values = metricdata_co2$co2_ppm)
+           years = observed_data_co2$year,
+           obs_values = observed_data_co2$co2_ppm)
 
 }
 
