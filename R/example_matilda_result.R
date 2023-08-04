@@ -1,4 +1,4 @@
-#' Example Hector result data
+#' Example Matilda result data
 #'
 #' @description This is a data set representing the results of an output from
 #' \code{\link{iterate_hector}}. The data were produced by an analysis that
@@ -7,8 +7,7 @@
 #' This ensures that data being saved from the core includes the data needed to
 #' score the Hector runs.
 #'
-#' @format \code{hector_data}
-#' is a data frame with 2820 rows and 6 columns:
+#' @format \code{matilda_result} {is a data frame with 2820 rows and 6 columns:}
 #' \describe{
 #'   \item{scenario}{Scenario being used for the analysis}
 #'   \item{year}{Years}
@@ -17,4 +16,4 @@
 #'   \item{units}{Units of the variable}
 #'   \item{run_number}{Iteration number of each model output}
 #' }
-"hector_result"
+"matilda_result"
