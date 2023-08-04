@@ -55,7 +55,6 @@ normalize_temperature <- function(observed_data, modeled_data, reference_start_y
   return(normalized_data)
 }
 
-metricdata_gmst <-
 
 # Add metric data for internal use
 usethis::use_data(metricdata_co2, metricdata_tas, overwrite = TRUE, internal = TRUE)
