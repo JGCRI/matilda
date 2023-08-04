@@ -12,6 +12,3 @@ colnames(observed_data_co2)[colnames(observed_data_co2) == "mean"] = "co2_ppm"
 # remove 'unc' (standard deviation) column
 observed_data_co2$unc <- NULL
 
-# Add CO2 observed data for internal use
-usethis::use_data(observed_data_co2, overwrite = TRUE, internal = TRUE)
-

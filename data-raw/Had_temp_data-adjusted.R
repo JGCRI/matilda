@@ -51,4 +51,4 @@ normalize_temperature <- function(observed_data, modeled_data, reference_start_y
 adjusted_gmst_data <- normalize_temperature(subset_observed_gmst, hector_result, 1961, 1990)
 
 # Add observed gmst data (adjusted) for internal use
-usethis::use_data(adjusted_gmst_data, overwrite = TRUE, internal = TRUE)
+usethis::use_data(adjusted_gmst_data, observed_data_co2, overwrite = TRUE, internal = TRUE)

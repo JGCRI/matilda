@@ -17,7 +17,7 @@ multi_criteria_weighting <- function(scores_list, criterion_weights = NULL) {
 
   # compute new scores based on weight of each df
   # using mapply to pair dfs with corresponding weight
-  weighted_new_scores <- mapply(function(df, weight) df$scores * weight,
+  weighted_new_scores <- mapply(function(df, weight) df$weights * weight,
                                 scores_list,
                                 criterion_weights)
 
