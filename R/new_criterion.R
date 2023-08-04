@@ -108,11 +108,11 @@ criterion_co2_obs <- function() {
 #' @export
 #'
 #' @examples
-#' criterion_tas_obs()
+#' criterion_gmst_obs()
 
-criterion_tas_obs <- function() {
+criterion_gmst_obs <- function() {
 
-  new_criterion(GLOBAL_TAS(),
-                years = metricdata_tas$year,
-                obs_values = metricdata_tas$anomaly_C)
+  new_criterion(GMST(),
+                years = adjusted_gmst_data$year,
+                obs_values = adjusted_gmst_data$anomaly_C)
 }
