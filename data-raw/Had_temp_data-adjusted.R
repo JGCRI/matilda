@@ -1,31 +1,23 @@
-## Mauna Loa data as the observed CO2 values for scoring Hector runs.
-
-## Co2 data were download on 01/03/2023 from
-## https://gml.noaa.gov/ccgg/trends/data.html}{https://gml.noaa.gov/ccgg/trends/data.html
-
-# Reading in Mauna Loa annual mean CO2 data
-metricdata_co2 <- read.csv("data-raw/co2_annmean_maunaloa.csv")
-
-# rename 'mean' to co2_ppm to represent unit of original CO2 measurements
-colnames(metricdata_co2)[colnames(metricdata_co2) == "mean"] = "co2_ppm"
-
-# remove 'unc' (standard deviation) column
-metricdata_co2$unc <- NULL
+## code to prepare 'adjusted_gmst_data'
 
 ## HADCRUT data as observed temperature anomaly values for scoring Hector runs.
-
 ## Temperature anomaly data were downloaded on 05/22/2023 from
 ## https://www.metoffice.gov.uk/hadobs/hadcrut5/data/current/download.html
 
 # Reading in HADCRUT5 global temperature anomaly data
-metricdata_gmst <- read.csv("data-raw/temp_anomaly_annmean_hadcrut5.csv")
+observed_data_gmst <- read.csv("data-raw/temp_anomaly_annmean_hadcrut5.csv")
 
 # rename 'anomaly' to anomaly_C' to give unit information
-colnames(metricdata_gmst)[colnames(metricdata_gmst) == 'anomaly'] = "temperature_C"
+colnames(observed_data_gmst)[colnames(observed_data_gmst) == 'anomaly'] = "temperature_C"
 
 # remove confidence bounds in df - leaving only year and mean anomaly cols
-metricdata_gmst$Lower.confidence.limit..2.5.. <- NULL
-metricdata_gmst$Upper.confidence.limit..97.5.. <- NULL
+observed_data_gmst$Lower.confidence.limit..2.5.. <- NULL
+observed_data_gmst$Upper.confidence.limit..97.5.. <- NULL
+
+# Subset temperature data to include data from 1959-2023
+subset_observed_gmst <- subset(observed_data_gmst,
+                               year >= 1959,
+                               year <= 2023)
 
 #' Normalizing variables to reflect specific reference period
 #'
@@ -41,13 +33,13 @@ normalize_temperature <- function(observed_data, modeled_data, reference_start_y
   # Filter modeled data for the reference period
   modeled_reference_period <- subset(modeled_data,
                                      year >= reference_start_year &
-                                       year <= reference_end_year)
+                                     year <= reference_end_year)
 
   # Calculate the mean anomaly_C for the modeled reference period
   mean_modeled_anomaly <- mean(modeled_reference_period$value)
 
   # Calculate normalized anomaly_C for each year in the observed data
-  normalized_anomaly <- observed_data$anomaly_C - mean_modeled_anomaly
+  normalized_anomaly <- observed_data$temperature_C + mean_modeled_anomaly
 
   # Create a new data frame with the normalized data
   normalized_data <- data.frame(year = observed_data$year, anomaly_C = normalized_anomaly)
@@ -55,6 +47,8 @@ normalize_temperature <- function(observed_data, modeled_data, reference_start_y
   return(normalized_data)
 }
 
+# producing adjusted gmst values using a hector result
+adjusted_gmst_data <- normalize_temperature(subset_observed_gmst, hector_result, 1961, 1990)
 
-# Add metric data for internal use
-usethis::use_data(metricdata_co2, metricdata_tas, overwrite = TRUE, internal = TRUE)
+# Add observed gmst data (adjusted) for internal use
+usethis::use_data(adjusted_gmst_data, overwrite = TRUE, internal = TRUE)

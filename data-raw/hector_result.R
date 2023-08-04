@@ -1,7 +1,4 @@
-## code to prepare `obs_gmst` dataset
-
-## computing Hector result (single run) for use in observed temperature
-## data adjustment.
+## code to prepare a Hector result (single run).
 
 # initiating a new core with the SSP 245 ini file
 ini <- system.file("input/hector_ssp245.ini", package = "hector")
