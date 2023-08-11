@@ -51,7 +51,7 @@ test_that("scores assessed correctly", {
   # expected output of function matches gaussian likelihood
   m4 <- matrix(data = c(1, 2, 2), nrow = 1, ncol = 3)
   sigma4 <- 2
-  expected_likelihood <- (exp((-1 / sigma4^2) * ((1^2))) * (1/m4[-1]))
+  expected_likelihood <- exp(-0.5 * (m4[1]^2) / sigma4^2) / m4[1, -1]
   expect_equal(score_bayesian(m4, sigma4),
                expected_likelihood)
 
