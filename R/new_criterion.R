@@ -90,8 +90,8 @@ is.criterion <- function(x) {
 criterion_co2_obs <- function() {
 
   new_criterion(CONCENTRATIONS_CO2(),
-           years = metricdata_co2$year,
-           obs_values = metricdata_co2$co2_ppm)
+           years = observed_data_co2$year,
+           obs_values = observed_data_co2$co2_ppm)
 
 }
 
@@ -108,11 +108,11 @@ criterion_co2_obs <- function() {
 #' @export
 #'
 #' @examples
-#' criterion_tas_obs()
+#' criterion_gmst_obs()
 
-criterion_tas_obs <- function() {
+criterion_gmst_obs <- function() {
 
-  new_criterion(GLOBAL_TAS(),
-                years = metricdata_tas$year,
-                obs_values = metricdata_tas$anomaly_C)
+  new_criterion(GMST(),
+                years = adjusted_gmst_data$year,
+                obs_values = adjusted_gmst_data$anomaly_C)
 }

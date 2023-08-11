@@ -4,16 +4,18 @@
 \alias{score_bayesian}
 \title{Computing Model Scores as Posterior Probabilities using Bayesian Inference}
 \usage{
-score_bayesian(m, e = 2)
+score_bayesian(m, sigma = NULL)
 }
 \arguments{
 \item{m}{A Matrix of values. The first column of the matrix should be
 a vector of observed data for a give variable. Subsequent vectors should be
 representative of modeled values for a given variable.}
 
-\item{e}{A value from 0-Inf. This value controls the decay rate. It controls
-how much models are penalized for deviation from observed data. The default is
-set to 2, larger values will increase rate of decay.}
+\item{sigma}{Numeric value (optional). The standard deviation parameter for
+the normal distribution used in the Bayesian analysis. If not provided, the
+function will automatically compute it as the standard deviation of the
+Root Mean Square Error (RMSE). A smaller value of `sigma` will make the
+Bayesian analysis give more weight to models with lower RMSE values.}
 }
 \value{
 Returns a vector of scores with a length equal to the number of
@@ -28,10 +30,16 @@ of observing modeled values given observed values, assuming normal distribution
 of errors. Likelihood values are used to compute posterior probabilities which
 are used as scores for each model iteration.
 }
+\note{
+Note: In Bayesian statistics, the choice of `sigma` can significantly
+impact the results and conclusions of the analysis. Users are encouraged to
+experiment with different values and understand the implications for their
+specific use case.
+}
 \examples{
 # creating sample matrix
 mat <- matrix(data = 1:15, nrow = 5, ncol = 3)
 
 # scoring with a decay rate of 2
-score_bayesian(mat, e = 2)
+score_bayesian(mat, sigma = 2)
 }

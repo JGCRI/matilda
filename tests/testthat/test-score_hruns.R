@@ -1,5 +1,5 @@
 # data occupied df
-test <- hector_result
+test <- matilda_result
 
 # data to test for year error
 year_error <- data.frame(year = rep(1999:2059, each = 10),

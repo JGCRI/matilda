@@ -27,5 +27,5 @@ users can build their own scoring criterion with \code{\link{new_criterion}}.
 }
 \examples{
 # Score Hector using observed CO2 data with the score_ramp method
-score_hruns(hector_result, criterion_co2_obs(), score_ramp, w1 = 2, w2 = 20)
+score_hruns(matilda_result, criterion_co2_obs(), score_ramp, w1 = 2, w2 = 20)
 }

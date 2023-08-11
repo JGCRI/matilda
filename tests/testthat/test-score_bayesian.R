@@ -29,9 +29,9 @@ test_that("function stops and produces error messages", {
   expect_error(score_bayesian(m_NA_single_case),
                regexp = "NAs detected in data. Analysis halted to prevent bad result.")
 
-  # error when user supplies negative e values
+  # error when user supplies negative sigma values
   expect_error(score_bayesian(m, -1),
-              regexp = "e must be value greater than 0.")
+               regexp = "sigma value cannot be negative.")
 
 })
 
@@ -41,15 +41,18 @@ test_that("scores assessed correctly", {
 
   # scores equal when RMSE = 0
   m2 = matrix(data = c(1, 1, 1), nrow = 1, ncol = 3)
-  expect_equal(score_bayesian(m2), c(0.5, 0.5))
+  expect_equal(score_bayesian(m2, 2), c(0.5, 0.5))
 
-  # when e = 0 all scores are identical
+  # when sigma = 0 all scores are identical
   m3 = matrix(data = c(1:3), nrow = 1, ncol = 3)
   result <- score_bayesian(m3, 0)
   expect_identical(result, c(rep(result[1], length(result))))
 
-  # expect the output to be ex(-0.5 * (RMSE_calc)^2/ncol(m)-1
-  m4 = matrix(data = c(1, 2, 2), nrow = 1, ncol = 3)
-  expect_equal(score_bayesian(m4, 2), rep(exp(-0.5 * c(1, 1) ^ 2)/(ncol(m4)-1)))
+  # expected output of function matches gaussian likelihood
+  m4 <- matrix(data = c(1, 2, 2), nrow = 1, ncol = 3)
+  sigma4 <- 2
+  expected_likelihood <- exp(-0.5 * (m4[1]^2) / sigma4^2) / m4[1, -1]
+  expect_equal(score_bayesian(m4, sigma4),
+               expected_likelihood)
 
 })

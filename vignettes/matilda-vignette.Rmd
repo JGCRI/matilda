@@ -244,10 +244,10 @@ ini_585 <- system.file("input/hector_ssp585.ini", package = "hector")
 
 # Running hector for each scenario
 set.seed(1)
-hector_126 <- scored_hector_runs(ini_126, ssp_name = "ssp126", 50, criterion_co2_obs())
-hector_245 <- scored_hector_runs(ini_245, ssp_name = "ssp245", 50, criterion_co2_obs())
-hector_370 <- scored_hector_runs(ini_370, ssp_name = "ssp370", 50, criterion_co2_obs())
-hector_585 <- scored_hector_runs(ini_585, ssp_name = "ssp585", 50, criterion_co2_obs())
+hector_126 <- scored_hector_runs(ini_126, ssp_name = "ssp126", 20, criterion_co2_obs())
+hector_245 <- scored_hector_runs(ini_245, ssp_name = "ssp245", 20, criterion_co2_obs())
+hector_370 <- scored_hector_runs(ini_370, ssp_name = "ssp370", 20, criterion_co2_obs())
+hector_585 <- scored_hector_runs(ini_585, ssp_name = "ssp585", 20, criterion_co2_obs())
 
 # Merging hector results for plotting
 hector_merge <- rbind(hector_126,
@@ -266,7 +266,7 @@ plot_co2 <- ggplot(subset(hector_merge,
             linewidth = 1) +
   scale_color_gradient(high = "dodgerblue4", low = "lightblue1") +
   scale_alpha_continuous(range = c(0.1, 1)) +
-  geom_line(data = matilda:::metricdata_co2,
+  geom_line(data = matilda:::observed_data_co2,
             aes(year, co2_ppm),
             color = "red",
             linewidth = 1) +

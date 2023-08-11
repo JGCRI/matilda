@@ -10,9 +10,16 @@
 #' @param m A Matrix of values. The first column of the matrix should be
 #' a vector of observed data for a give variable. Subsequent vectors should be
 #' representative of modeled values for a given variable.
-#' @param e A value from 0-Inf. This value controls the decay rate. It controls
-#' how much models are penalized for deviation from observed data. The default is
-#' set to 2, larger values will increase rate of decay.
+#' @param sigma Numeric value (optional). The standard deviation parameter for
+#' the normal distribution used in the Bayesian analysis. If not provided, the
+#' function will automatically compute it as the standard deviation of the
+#' Root Mean Square Error (RMSE). A smaller value of `sigma` will make the
+#' Bayesian analysis give more weight to models with lower RMSE values.
+#'
+#' @note Note: In Bayesian statistics, the choice of `sigma` can significantly
+#' impact the results and conclusions of the analysis. Users are encouraged to
+#' experiment with different values and understand the implications for their
+#' specific use case.
 #'
 #' @return Returns a vector of scores with a length equal to the number of
 #' model iterations in the input matrix. Or, if the input matrix has K columns,
@@ -24,49 +31,54 @@
 #' mat <- matrix(data = 1:15, nrow = 5, ncol = 3)
 #'
 #' # scoring with a decay rate of 2
-#' score_bayesian(mat, e = 2)
+#' score_bayesian(mat, sigma = 2)
 
-score_bayesian <- function(m, e = 2) {
+score_bayesian <- function(m, sigma = NULL) {
 
-  # initialize vector to store RMSE values from loop
-  rmse_vector <- numeric()
+    # initialize vector to store RMSE values from loop
+    rmse_vector <- numeric()
 
-  # Stop execution if number of columns in the matrix is less the 2
-  # indicates that there is only one model result stored in matrix
-  stopifnot("More than 2 columns must be included in input matrix" = ncol(m) > 2)
+    # Stop execution if number of columns in the matrix is less than 2
+    # indicates that there is only one model result stored in matrix
+    stopifnot("More than 2 columns must be included in input matrix" = ncol(m) > 2)
 
-  # Stop if user attempts to supply negative value for e
-  if (e < 0) stop("e must be value greater than 0.")
+    # indicate that observed data are in the first column of the matrix
+    obs_data <- m[, 1]
 
-  # indicate that observed data are in first column of matrix
-  obs_data <- m[, 1]
+    # throw an error if the modeled data is all NAs
+    if (all(is.na(obs_data))) stop("No non-NA values in observed data")
 
-  # throw and error if the modeled data is all NAs
-  if (all(is.na(obs_data))) stop("No non-NA values in observed data")
+    # loop across columns of the matrix. For each column (i) after col 2
+    for(i in 2:ncol(m)) {
 
-  # loop across columns of the matrix. For each column (i) after col 2
-  for(i in 2:ncol(m)) {
+      # indicate modeled data are in subsequent columns
+      model_data <- m[, i]
 
-    # indicate modeled data are in subsequent columns
-    model_data <- m[, i]
+      # throw an error if the modeled data is all NAs
+      if (any(is.na(model_data))) stop("NAs detected in data. Analysis halted to prevent bad result.")
 
-    # throw and error if the modeled data is all NAs
-    if (any(is.na(model_data))) stop("NAs detected in data. Analysis halted to prevent bad result.")
+      # compute RMSE using obs_data and model_data
+      rmse_vals <- RMSE_calc(obs_data, model_data)
 
-    # compute RMSE using obs_data and model_data
-    rmse_vals = RMSE_calc(obs_data, model_data)
+      # vector of RMSE value for each model iteration
+      rmse_vector[i] <- rmse_vals
+    }
 
-    # vector of RMSE value for each model iteration
-    rmse_vector[i] <- rmse_vals
-
+  # Compute sigma if not provided by the user
+  if (is.null(sigma)) {
+    sigma <- sd(rmse_vector[-1])  # Calculate sigma as the standard deviation of RMSE values
   }
+
+  # Check if sigma is negative, if so throw error
+  if (sigma < 0)
+    stop("sigma value cannot be negative.")
 
   # Compute likelihood using normal distribution likelihood function.
   # This is the probability of observing the modeled data given the
   # observed data.
   # Remove first value when calling rmse_vector (first values should be NA because
   # it represented obs_data)
-  likelihood = exp(-0.5 * (rmse_vector[-1]) ^ e)
+  likelihood = exp(-0.5 * ((rmse_vector[-1]) / sigma)^2)
 
   # Computing unnormalized posterior scores
   # Currently only computing posterior scores using uniform prior.
