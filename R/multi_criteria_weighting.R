@@ -6,7 +6,8 @@
 #' based on importance of each criterion. These weights default to apply uniform weight
 #' across scoring criteria.
 #'
-#' @return
+#' @return A data frame with a column of run_numbers and a column of weights computed
+#' using multiple scoring criterion (mc_weight).
 #' @export
 #'
 #' @examples
@@ -24,8 +25,8 @@
 #' # Call the multi_criteria_weighting function
 #' result <- multi_criteria_weighting(scores_list, criterion_weights)
 #'
-#' # Print the resulting data frame
-#' print(result)
+#' # Resulting data frame
+#' result
 #'
 multi_criteria_weighting <- function(scores_list, criterion_weights = NULL) {
 

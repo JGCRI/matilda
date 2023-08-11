@@ -10,7 +10,7 @@
 #'
 #' @examples
 #' # Matrix hector result using model values
-#' hector_matrix(hector_result, columns = "value")
+#' hector_matrix(matilda_result, columns = "value")
 
 hector_matrix <- function(df, columns = "value") {
 

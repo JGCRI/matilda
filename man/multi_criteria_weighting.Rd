@@ -14,6 +14,10 @@ different scoring criteria.}
 based on importance of each criterion. These weights default to apply uniform weight
 across scoring criteria.}
 }
+\value{
+A data frame with a column of run_numbers and a column of weights computed
+using multiple scoring criterion (mc_weight).
+}
 \description{
 Weighting ensemble members using multiple criterion
 }
@@ -32,7 +36,7 @@ criterion_weights <- c(0.4, 0.3, 0.3)
 # Call the multi_criteria_weighting function
 result <- multi_criteria_weighting(scores_list, criterion_weights)
 
-# Print the resulting data frame
-print(result)
+# Resulting data frame
+result
 
 }

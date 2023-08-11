@@ -26,5 +26,5 @@ Hector runs. Metrics to be calculated from Hector runs are defined using
 metric <- new_metric(var = "global_tas", years = 2000:2100, op = mean)
 
 # Calculate metric values for each Hector run
-metric_calc(hector_result, metric)
+metric_calc(matilda_result, metric)
 }
