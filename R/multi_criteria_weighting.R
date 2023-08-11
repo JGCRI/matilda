@@ -10,6 +10,22 @@
 #' @export
 #'
 #' @examples
+#' # Data frames representing scored ensemble using different scoring criterion
+#' score_df1 <- data.frame(weights = c(0.8, 0.6, 0.9))
+#' score_df2 <- data.frame(weights = c(0.7, 0.5, 0.8))
+#' score_df3 <- data.frame(weights = c(0.9, 0.8, 0.7))
+#'
+#' # List of score data frames
+#' scores_list <- list(score_df1, score_df2, score_df3)
+#'
+#' # Define weights for each criterion
+#' criterion_weights <- c(0.4, 0.3, 0.3)
+#'
+#' # Call the multi_criteria_weighting function
+#' result <- multi_criteria_weighting(scores_list, criterion_weights)
+#'
+#' # Print the resulting data frame
+#' print(result)
 #'
 multi_criteria_weighting <- function(scores_list, criterion_weights = NULL) {
 
