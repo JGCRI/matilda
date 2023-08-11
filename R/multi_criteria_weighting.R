@@ -10,6 +10,7 @@
 #' @export
 #'
 #' @examples
+#'
 multi_criteria_weighting <- function(scores_list, criterion_weights = NULL) {
 
   # Check to make sure a score list is provided
