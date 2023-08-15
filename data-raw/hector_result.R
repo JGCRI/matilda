@@ -11,4 +11,4 @@ hector_run <- run(core)
 hector_result <- fetchvars(core, dates = 1745:2300, vars = GMST())
 
 # Save data
-usethis::use_data(hector_result, overwrite = TRUE, internal = TRUE)
+usethis::use_data(hector_result, overwrite = TRUE)

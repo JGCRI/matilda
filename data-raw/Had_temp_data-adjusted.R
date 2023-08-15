@@ -16,7 +16,7 @@ observed_data_gmst$Upper.confidence.limit..97.5.. <- NULL
 
 # Subset temperature data to include data from 1959-2023
 subset_observed_gmst <- subset(observed_data_gmst,
-                               year >= 1850,
+                               year >= 1950,
                                year <= 2023)
 
 #' Normalizing variables to reflect specific reference period
