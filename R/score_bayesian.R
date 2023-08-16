@@ -11,10 +11,13 @@
 #' a vector of observed data for a give variable. Subsequent vectors should be
 #' representative of modeled values for a given variable.
 #' @param sigma Numeric value (optional). The standard deviation parameter for
-#' the normal distribution used in the Bayesian analysis. If not provided, the
-#' function will automatically compute it as the standard deviation of the
-#' Root Mean Square Error (RMSE). A smaller value of `sigma` will make the
-#' Bayesian analysis give more weight to models with lower RMSE values.
+#' the normal distribution used in the likelihood function. If not provided, the
+#' function will automatically computed as the standard deviation observed data.
+#' @param multiplier Numeric value (optional). A multiplier that can be applied
+#' to adjust the value of `sigma`. If not provided, `sigma` will be calculated
+#' based on one standard deviation of the observed data. Applying a `multiplier`
+#' will increase (`multiplier` > 1) or decrease (`multiplier` < 1) the units of
+#' standard deviation applied to scoring.
 #'
 #' @note Note: In Bayesian statistics, the choice of `sigma` can significantly
 #' impact the results and conclusions of the analysis. Users are encouraged to
@@ -30,10 +33,10 @@
 #' # creating sample matrix
 #' mat <- matrix(data = 1:15, nrow = 5, ncol = 3)
 #'
-#' # scoring with a decay rate of 2
-#' score_bayesian(mat, sigma = 2)
+#' # scoring to two units of standard deviation
+#' score_bayesian(mat, multiplier = 2)
 
-score_bayesian <- function(m, sigma = NULL) {
+score_bayesian <- function(m, sigma = NULL, multiplier = 1) {
 
     # initialize vector to store RMSE values from loop
     rmse_vector <- numeric()
@@ -66,7 +69,7 @@ score_bayesian <- function(m, sigma = NULL) {
 
   # Compute sigma if not provided by the user
   if (is.null(sigma)) {
-    sigma <- sd(rmse_vector[-1])  # Calculate sigma as the standard deviation of RMSE values
+    sigma <- sd(obs_data) * multiplier  # Calculate sigma as the standard deviation of RMSE values
   }
 
   # Check if sigma is negative, if so throw error
