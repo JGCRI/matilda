@@ -1,7 +1,7 @@
 #' Example Matilda result data
 #'
 #' @description This is a data set representing the results of an output from
-#' \code{\link{iterate_hector}}. The data were produced by an analysis that
+#' \code{\link{iterate_model}}. The data were produced by an analysis that
 #' includes ten iterations of the Hector model. The model results include all
 #' Hector variable outputs from the years 1745:2300.
 #' This ensures that data being saved from the core includes the data needed to

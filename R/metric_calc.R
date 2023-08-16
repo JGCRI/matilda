@@ -4,7 +4,7 @@
 #' Hector runs. Metrics to be calculated from Hector runs are defined using
 #' \code{\link{new_metric}}.
 #'
-#' @param x A data frame object from \code{\link{iterate_hector}} output.
+#' @param x A data frame object from \code{\link{iterate_model}} output.
 #' @param metric An object identifying a variable, year range, and operation
 #' (e.g. mean, median, max, min, etc.) to fetch from Hector result.
 #'
@@ -19,14 +19,12 @@
 #'
 #' # Calculate metric values for each Hector run
 #' metric_calc(matilda_result, metric)
-
 metric_calc <- function(x, metric) {
-
   # error code if x is empty
-  if( length(x) == 0) stop('x has no data')
+  if (length(x) == 0) stop("x has no data")
 
   # error code if year arg exceeds years in x
-  if( any(metric$years > max(x$year)) ) stop('year range exceeds years in x')
+  if (any(metric$years > max(x$year))) stop("year range exceeds years in x")
 
   # Splitting x (df of hector output) by run number
   result_split <- split(x, x$run_number)
@@ -44,6 +42,5 @@ metric_calc <- function(x, metric) {
   df$run_number <- run_number
 
   # Reorder columns and return
-  df[,c(2, 1)]
+  df[, c(2, 1)]
 }
-

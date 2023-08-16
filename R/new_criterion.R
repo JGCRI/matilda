@@ -14,22 +14,22 @@
 #' @examples
 #' # Assign observed data to an object
 #' my_criterion <- new_criterion(GLOBAL_TAS(),
-#'                              years = 1951:2000,
-#'                              obs_values = seq(0.4, 1.0, length.out = 50))
+#'   years = 1951:2000,
+#'   obs_values = seq(0.4, 1.0, length.out = 50)
+#' )
 #'
 #' # View printed criterion
 #' my_criterion
-
 new_criterion <- function(var, years, obs_values) {
-
-  crit <- list(var = var,
-               years = years,
-               obs_values = obs_values)
+  crit <- list(
+    var = var,
+    years = years,
+    obs_values = obs_values
+  )
 
   class(crit) <- "criterion"
 
   return(crit)
-
 }
 
 #' Print new criterion
@@ -43,10 +43,10 @@ new_criterion <- function(var, years, obs_values) {
 #' @export
 
 print.criterion <- function(x, ...) {
-
-  cat("Criterion for screening Hector: ",
-      x$var, min(x$years), " to ", max(x$years), "\n")
-
+  cat(
+    "Criterion for screening Hector: ",
+    x$var, min(x$years), " to ", max(x$years), "\n"
+  )
 }
 
 #' Is an object of type criterion?
@@ -64,11 +64,8 @@ print.criterion <- function(x, ...) {
 #'
 #' # Is x of class 'criterion'?
 #' is.criterion(x)
-
 is.criterion <- function(x) {
-
   isa(x, "criterion")
-
 }
 
 #' Screening criterion using Mauna Loa atmospheric CO2
@@ -86,13 +83,11 @@ is.criterion <- function(x) {
 #'
 #' @examples
 #' criterion_co2_obs()
-
 criterion_co2_obs <- function() {
-
   new_criterion(CONCENTRATIONS_CO2(),
-           years = observed_data_co2$year,
-           obs_values = observed_data_co2$co2_ppm)
-
+    years = observed_data_co2$year,
+    obs_values = observed_data_co2$co2_ppm
+  )
 }
 
 
@@ -109,10 +104,9 @@ criterion_co2_obs <- function() {
 #'
 #' @examples
 #' criterion_gmst_obs()
-
 criterion_gmst_obs <- function() {
-
   new_criterion(GMST(),
-                years = adjusted_gmst_data$year,
-                obs_values = adjusted_gmst_data$anomaly_C)
+    years = adjusted_gmst_data$year,
+    obs_values = adjusted_gmst_data$anomaly_C
+  )
 }

@@ -7,7 +7,7 @@
 metric_calc(x, metric)
 }
 \arguments{
-\item{x}{A data frame object from \code{\link{iterate_hector}} output.}
+\item{x}{A data frame object from \code{\link{iterate_model}} output.}
 
 \item{metric}{An object identifying a variable, year range, and operation
 (e.g. mean, median, max, min, etc.) to fetch from Hector result.}

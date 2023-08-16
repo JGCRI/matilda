@@ -10,17 +10,14 @@
 #' @export
 #'
 #' @examples
-#' x = c(1:5)
-#' y = c(5:9)
+#' x <- c(1:5)
+#' y <- c(5:9)
 #'
 #' RMSE_calc(x, y)
-
 RMSE_calc <- function(x, y) {
-
   # compute RMSE
-  rmse_vals = sqrt(mean((x - y)^2))
+  rmse_vals <- sqrt(mean((x - y)^2))
 
   # return a vector of RMSE values
   return(rmse_vals)
-
 }

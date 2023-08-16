@@ -13,7 +13,7 @@ example, an output from \code{\link{metric_calc}}.}
 \item{bins}{A vector of variable ranges used to bin metric data.}
 
 \item{scores}{A vector of scores calculated for each model run. For
-example, an output from \code{\link{score_hruns}}.}
+example, an output from \code{\link{score_runs}}.}
 }
 \value{
 A data frame object of bins, the summed scores of model runs producing

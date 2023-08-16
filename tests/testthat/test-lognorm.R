@@ -6,5 +6,4 @@ test_that("lognorm returns two numeric values", {
 
   expect_equal(length(x), 2)
   expect_true(is.numeric(x))
-
 })

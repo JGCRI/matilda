@@ -7,7 +7,7 @@
 hector_matrix(df, columns = "value")
 }
 \arguments{
-\item{df}{Result data frame from \code{\link{iterate_hector}}.}
+\item{df}{Result data frame from \code{\link{iterate_model}}.}
 
 \item{columns}{Column name to select for inclusion in the matrix. Defaults to
 "value" which will use the values for each model iteration.}

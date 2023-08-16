@@ -67,7 +67,7 @@ It may be of interest to the user to only apply changes to a few model parameter
 
 ```{r}
 # producing data frame to only manipulate the BETA parameter
-alter_beta_diff <- param_values [c(1, 5)]
+alter_beta_diff <- param_values[c(1, 5)]
 
 print(alter_beta_diff)
 ```
@@ -82,8 +82,10 @@ Running `iterate_hector()` requires a Hector core and a data frame of parameter 
 
 ```{r, message=FALSE}
 # Run Hector repeatedly over all parameter values
-results <-iterate_hector(core = c_ssp245,
-                         params = param_values)
+results <- iterate_hector(
+  core = c_ssp245,
+  params = param_values
+)
 head(results)
 ```
 
@@ -94,8 +96,10 @@ We can plot the results easily in `ggplot2`.
 ```{r fig1, fig.align='center', fig.height=4, fig.width=6}
 library(ggplot2)
 
-ggplot(data = results, 
-       aes(x = year, y = value, group = run_number)) +
+ggplot(
+  data = results,
+  aes(x = year, y = value, group = run_number)
+) +
   geom_line() +
   facet_wrap(~variable, scales = "free_y")
 ```
@@ -113,9 +117,10 @@ Scoring Hector runs requires a **scoring criterion**. Scoring criterion are obje
 # Create a new criterion that can be used to screen Hector runs
 # In this case, we set up a global temperature criterion, with the 'observations'
 # running from 1951 to 2000
-my_criterion<- new_criterion(GLOBAL_TAS(), 
-                    years = 1951:2000, 
-                    obs_values = seq(0.4, 1.0, length.out = 50))
+my_criterion <- new_criterion(GLOBAL_TAS(),
+  years = 1951:2000,
+  obs_values = seq(0.4, 1.0, length.out = 50)
+)
 
 my_criterion
 ```
@@ -194,9 +199,10 @@ For example, we may be interested in the probability that mean `global_tas` will
 bins <- c(0, 1, 2, 3)
 
 # Calculate probabilities for global_tas under 2C
-prob_calc(metric_values$metric_result, 
-          bins = bins, 
-          scores = scores$weights)
+prob_calc(metric_values$metric_result,
+  bins = bins,
+  scores = scores$weights
+)
 ```
 
 The `prob_calc()` function bins each metric and sums the scores of each Hector run as it is binned. Then, it uses the summed score of each bin to compute the probability of each climate variable outcome.
@@ -223,17 +229,17 @@ The overall procedure for this example is the same as presented in the previous 
 #' @return Hector results with added column scoring each run.
 scored_hector_runs <- function(inifile, ssp_name, draws, crit) {
   # initiate and core
-  core = newcore(inifile, name = ssp_name)
+  core <- newcore(inifile, name = ssp_name)
   # generate parameters
-  params = generate_params(core, draws)
+  params <- generate_params(core, draws)
   # running Hector
-  h_result = iterate_hector(core, params)
-  # score Hector runs 
-  scores = score_hruns(h_result, crit, score_ramp, w1 = 2, w2 = 20)
+  h_result <- iterate_hector(core, params)
+  # score Hector runs
+  scores <- score_hruns(h_result, crit, score_ramp, w1 = 2, w2 = 20)
   # merge scores with Hector Results
-  scored_hector = merge(h_result, scores, "run_number")
+  scored_hector <- merge(h_result, scores, "run_number")
   # return
-  return(scored_hector)  
+  return(scored_hector)
 }
 
 # Establishing ini files for each scenario
@@ -250,59 +256,70 @@ hector_370 <- scored_hector_runs(ini_370, ssp_name = "ssp370", 20, criterion_co2
 hector_585 <- scored_hector_runs(ini_585, ssp_name = "ssp585", 20, criterion_co2_obs())
 
 # Merging hector results for plotting
-hector_merge <- rbind(hector_126,
-                      hector_245,
-                      hector_370,
-                      hector_585)
+hector_merge <- rbind(
+  hector_126,
+  hector_245,
+  hector_370,
+  hector_585
+)
 
 # Plotting CO2 projections
-plot_co2 <- ggplot(subset(hector_merge,
-                          year > 1990 & year < 2100
-                          & variable == CONCENTRATIONS_CO2())) +
-  geom_line(aes(x = year, y = value,
-                group = run_number,
-                color = weights, 
-                alpha = weights),
-            linewidth = 1) +
+plot_co2 <- ggplot(subset(
+  hector_merge,
+  year > 1990 & year < 2100 &
+    variable == CONCENTRATIONS_CO2()
+)) +
+  geom_line(
+    aes(
+      x = year, y = value,
+      group = run_number,
+      color = weights,
+      alpha = weights
+    ),
+    linewidth = 1
+  ) +
   scale_color_gradient(high = "dodgerblue4", low = "lightblue1") +
   scale_alpha_continuous(range = c(0.1, 1)) +
-  geom_line(data = matilda:::observed_data_co2,
-            aes(year, co2_ppm),
-            color = "red",
-            linewidth = 1) +
-  facet_wrap(~variable + scenario) +
-  ylab(expression(CO[2]~Concentration~(ppm))) +
+  geom_line(
+    data = matilda:::observed_data_co2,
+    aes(year, co2_ppm),
+    color = "red",
+    linewidth = 1
+  ) +
+  facet_wrap(~ variable + scenario) +
+  ylab(expression(CO[2] ~ Concentration ~ (ppm))) +
   theme_light() +
   guides(alpha = "none")
 
 plot_co2
-
 ```
 
 ```{r fig4, fig.align='center', fig.height=3, fig.width=8, echo=FALSE}
-#' Calculating probabilities 
+#' Calculating probabilities
 #'
 #' @param h_result A hector result
 #' @param metric A metric to filter results of interest
 #' @param criterionA criterion used to score Hector runs
 #' @param bins Bins for computing probabilities - defaults for global_tas
 #'
-#' @return A data frame of probabilities 
+#' @return A data frame of probabilities
 probabilities <- function(h_result,
                           metric,
                           crit,
                           bins = c(1, 1.5, 2, 3, 4, Inf)) {
   # calculating metrics
-  metrics = metric_calc(h_result, metric)
+  metrics <- metric_calc(h_result, metric)
   # calculating scores
-  scores = score_hruns(h_result, crit, score_ramp, w1 = 2, w2 = 20)
+  scores <- score_hruns(h_result, crit, score_ramp, w1 = 2, w2 = 20)
   # merging metrics and scores
-  metric_scores = merge(metrics, scores, by = "run_number")
+  metric_scores <- merge(metrics, scores, by = "run_number")
   # calculating probability
-  probability = prob_calc(metric_scores$metric_result, bins,
-                          metric_scores$weights)
+  probability <- prob_calc(
+    metric_scores$metric_result, bins,
+    metric_scores$weights
+  )
   # coercing probability to data frame for plotting
-  probs = as.data.frame(probability)
+  probs <- as.data.frame(probability)
   # return
   return(probs)
 }
@@ -320,24 +337,29 @@ probs_370$scenario <- rep("ssp_370")
 probs_585 <- probabilities(hector_585, metric_global_tas, criterion_co2_obs())
 probs_585$scenario <- rep("ssp_585")
 
-#combining dfs with scenario types and probs
-results_all <- rbind(probs_126,
-                     probs_245,
-                     probs_370,
-                     probs_585)
-colnames(results_all) <- c("Warming", "Score" ,"Probability", "Scenario")
+# combining dfs with scenario types and probs
+results_all <- rbind(
+  probs_126,
+  probs_245,
+  probs_370,
+  probs_585
+)
+colnames(results_all) <- c("Warming", "Score", "Probability", "Scenario")
 
 # Plotting probabilities as stacked bar graph
 ggplot(results_all, aes(fill = Warming, y = Probability, x = Scenario)) +
-  geom_bar(position = position_fill(reverse = T), 
-           stat = "identity",
-           width = 0.6) +
+  geom_bar(
+    position = position_fill(reverse = T),
+    stat = "identity",
+    width = 0.6
+  ) +
   scale_y_continuous(breaks = seq(0, 1.0, 0.1)) +
-  scale_fill_manual(values = c("dark grey", "light coral", "dark red", "black"),
-                    labels = c("1 to 1.5 C", "1.5 to 2 C", "2 to 3 C", "3 to 4 C")) +
+  scale_fill_manual(
+    values = c("dark grey", "light coral", "dark red", "black"),
+    labels = c("1 to 1.5 C", "1.5 to 2 C", "2 to 3 C", "3 to 4 C")
+  ) +
   coord_flip() +
-  theme_light() 
-
+  theme_light()
 ```
 
 This analysis shows how different SSP scenarios impact future CO~2~ concentration projections. The inclusion of a probabilistic framework with parameter uncertainty provides the capability to establish a "cone of uncertainty" for possible futures under each pathway (top panel). These possible futures are weighted by how well the model runs resulting in each projection align with observed data (darker blue indicating a better fit to historic data). 
