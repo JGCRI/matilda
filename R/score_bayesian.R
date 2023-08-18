@@ -35,43 +35,43 @@
 
 score_bayesian <- function(m, sigma = NULL) {
 
-    # initialize vector to store RMSE values from loop
-    rmse_vector <- numeric()
+  # initialize vector to store RMSE values from loop
+  rmse_vector <- numeric()
 
-    # Stop execution if number of columns in the matrix is less than 2
-    # indicates that there is only one model result stored in matrix
-    stopifnot("More than 2 columns must be included in input matrix" = ncol(m) > 2)
+  # Stop execution if number of columns in the matrix is less than 2
+  # indicates that there is only one model result stored in matrix
+  stopifnot("More than 2 columns must be included in input matrix" = ncol(m) > 2)
 
-    # indicate that observed data are in the first column of the matrix
-    obs_data <- m[, 1]
+  # indicate that observed data are in the first column of the matrix
+  obs_data <- m[, 1]
+
+  # loop across columns of the matrix. For each column (i) after col 2
+  for(i in 2:ncol(m)) {
+
+    # indicate modeled data are in subsequent columns
+    model_data <- m[, i]
 
     # throw an error if the modeled data is all NAs
-    if (all(is.na(obs_data))) stop("No non-NA values in observed data")
-
-    # loop across columns of the matrix. For each column (i) after col 2
-    for(i in 2:ncol(m)) {
-
-      # indicate modeled data are in subsequent columns
-      model_data <- m[, i]
-
-      # throw an error if the modeled data is all NAs
-      if (any(is.na(model_data))) stop("NAs detected in data. Analysis halted to prevent bad result.")
-
-      # compute RMSE using obs_data and model_data
-      rmse_vals <- RMSE_calc(obs_data, model_data)
-
-      # vector of RMSE value for each model iteration
-      rmse_vector[i] <- rmse_vals
+    if (all(is.na(model_data))) {
+      rmse_vals <- NA  # Set RMSE to NA for this column
     }
+
+    else {
+      rmse_vals <- RMSE_calc(obs_data, model_data)
+    }
+
+    # vector of RMSE value for each model iteration
+    rmse_vector[i] <- rmse_vals
+  }
 
   # Compute sigma if not provided by the user
   if (is.null(sigma)) {
-    sigma <- sd(rmse_vector[-1])  # Calculate sigma as the standard deviation of RMSE values
+    sigma <- sd(obs_data)  # Calculate sigma as the standard deviation of RMSE values
   }
 
   # Check if sigma is negative, if so throw error
   if (sigma < 0)
-    stop("sigma value cannot be negative.")
+    warning("sigma value cannot be negative.")
 
   # Compute likelihood using normal distribution likelihood function.
   # This is the probability of observing the modeled data given the
@@ -89,5 +89,6 @@ score_bayesian <- function(m, sigma = NULL) {
   # Create data frame of results - get run_numbers from the list where RMSE values
   # are computed (names of the split_list components)
   return(posterior)
-
 }
+
+
