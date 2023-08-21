@@ -4,39 +4,39 @@ m <- matrix(c(rep(1, 6), rep(2, 3), rep(3, 3)), nrow = 3, ncol = 4)
 # Testing error/warning cases
 
 test_that("function stops and produces error messages", {
-
   # error when matrix has less than two columns
   # m with only 2 cols
   m_2row <- matrix(data = c(1:2), nrow = 2, ncol = 2)
   expect_error(score_bayesian(m_2row),
-               regexp = "More than 2 columns must be included in input matrix")
+    regexp = "More than 2 columns must be included in input matrix"
+  )
 
   # error when entire m is NA
   # No non-NAs in obs col
   m_NA_obs <- matrix(data = c(rep(NA, 5), 1:15), nrow = 5, ncol = 4)
   expect_error(score_bayesian(m_NA_obs),
-               regexp = "No non-NA values present in observed data")
+    regexp = "No non-NA values present in observed data"
+  )
 
   # warning when user supplies negative sigma values
   expect_warning(score_bayesian(m, -1),
-                 regexp = "sigma value cannot be negative.")
-
+    regexp = "sigma value cannot be negative."
+  )
 })
 
 # Testing output accuracy
 
 test_that("scores assessed correctly", {
-
   # If entire column of modeled data is NA, set RMSE value to NA
-  m_NA = matrix(data = c(rep(1, 3), rep(1, 3), rep(NA, 3)), nrow = 3, ncol = 3)
+  m_NA <- matrix(data = c(rep(1, 3), rep(1, 3), rep(NA, 3)), nrow = 3, ncol = 3)
   expect_equal(score_bayesian(m_NA, 2), c(0.5, NA))
 
   # scores equal when calculated RMSE = 0
-  m2 = matrix(data = c(1, 1, 1), nrow = 1, ncol = 3)
+  m2 <- matrix(data = c(1, 1, 1), nrow = 1, ncol = 3)
   expect_equal(score_bayesian(m2, 2), c(0.5, 0.5))
 
   # when sigma = 0 all scores are identical
-  m3 = matrix(data = c(1:3), nrow = 1, ncol = 3)
+  m3 <- matrix(data = c(1:3), nrow = 1, ncol = 3)
   result <- score_bayesian(m3, 0)
   expect_identical(result, c(rep(result[1], length(result))))
 
@@ -44,7 +44,8 @@ test_that("scores assessed correctly", {
   m4 <- matrix(data = c(1, 2, 2), nrow = 1, ncol = 3)
   sigma4 <- 2
   expected_likelihood <- exp(-0.5 * (m4[1]^2) / sigma4^2) / m4[1, -1]
-  expect_equal(score_bayesian(m4, sigma4),
-               expected_likelihood)
-
+  expect_equal(
+    score_bayesian(m4, sigma4),
+    expected_likelihood
+  )
 })

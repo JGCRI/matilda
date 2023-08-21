@@ -32,9 +32,7 @@
 #'
 #' # scoring with a decay rate of 2
 #' score_bayesian(mat, sigma = 2)
-
 score_bayesian <- function(m, sigma = NULL) {
-
   # initialize vector to store RMSE values from loop
   rmse_vector <- numeric()
 
@@ -46,20 +44,17 @@ score_bayesian <- function(m, sigma = NULL) {
   obs_data <- m[, 1]
 
   # error if the observed data has no non-NA values
-  if (all(is.na(obs_data))) stop ("No non-NA values present in observed data.")
+  if (all(is.na(obs_data))) stop("No non-NA values present in observed data.")
 
   # loop across columns of the matrix. For each column (i) after col 2
-  for(i in 2:ncol(m)) {
-
+  for (i in 2:ncol(m)) {
     # indicate modeled data are in subsequent columns
     model_data <- m[, i]
 
     # If an entire model is NA result - set RMSE value to NA
     if (all(is.na(model_data))) {
-      rmse_vals <- NA  # Set RMSE to NA for this column
-    }
-
-    else {
+      rmse_vals <- NA # Set RMSE to NA for this column
+    } else {
       rmse_vals <- RMSE_calc(obs_data, model_data)
     }
 
@@ -69,7 +64,7 @@ score_bayesian <- function(m, sigma = NULL) {
 
   # Compute sigma if not provided by the user
   if (is.null(sigma)) {
-    sigma <- sd(obs_data)  # Calculate sigma as the standard deviation of RMSE values
+    sigma <- sd(obs_data) # Calculate sigma as the standard deviation of RMSE values
   }
 
   # Check if sigma is negative, if so throw error
@@ -80,17 +75,15 @@ score_bayesian <- function(m, sigma = NULL) {
   # observed data.
   # Remove first value when calling rmse_vector (first values should be NA because
   # it represented obs_data)
-  likelihood = exp(-0.5 * ((rmse_vector[-1]) / sigma)^2)
+  likelihood <- exp(-0.5 * ((rmse_vector[-1]) / sigma)^2)
 
   # Computing unnormalized posterior scores
   # Currently only computing posterior scores using uniform prior.
   # uniform prior is calculated as 1/length(likelihood) which is
   # the same as 1 / # of runs.
-  posterior = likelihood * (1 / length(likelihood))
+  posterior <- likelihood * (1 / length(likelihood))
 
   # Create data frame of results - get run_numbers from the list where RMSE values
   # are computed (names of the split_list components)
   return(posterior)
 }
-
-

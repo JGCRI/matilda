@@ -104,12 +104,12 @@ metric_calc_1run <- function(x, metric) {
 #' params
 #'
 #' # Iterate Hector runs with parameter uncertainty
-#' h_result <- iterate_hector(core, params,
+#' h_result <- iterate_model(core, params,
 #'   save_years = 1900:2100,
 #'   save_vars = c(GLOBAL_TAS(), CONCENTRATIONS_CO2())
 #' )
 #' head(h_result)
-iterate_hector <- function(core, params, save_years = NULL, save_vars = NULL) {
+iterate_model <- function(core, params, save_years = NULL, save_vars = NULL) {
   # Store results
   result_list <- list()
 
