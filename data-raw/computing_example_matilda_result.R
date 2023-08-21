@@ -6,7 +6,7 @@ core <- newcore(ini)
 
 # generating params and running Hector with param uncertainty
 params <- generate_params(core, 10)
-matilda_result <- iterate_hector(core, params)
+matilda_result <- iterate_model(core, params)
 
 # Adding the new example Hector output as a data set in data/
 usethis::use_data(matilda_result, overwrite = TRUE)

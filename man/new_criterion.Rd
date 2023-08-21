@@ -24,8 +24,9 @@ observed data values.
 \examples{
 # Assign observed data to an object
 my_criterion <- new_criterion(GLOBAL_TAS(),
-                             years = 1951:2000,
-                             obs_values = seq(0.4, 1.0, length.out = 50))
+  years = 1951:2000,
+  obs_values = seq(0.4, 1.0, length.out = 50)
+)
 
 # View printed criterion
 my_criterion

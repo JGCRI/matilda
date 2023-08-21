@@ -33,39 +33,36 @@
 #' # creating sample matrix
 #' mat <- matrix(data = 1:15, nrow = 5, ncol = 3)
 #'
+
 #' # scoring to two units of standard deviation
 #' score_bayesian(mat, multiplier = 2)
 
 score_bayesian <- function(m, sigma = NULL, multiplier = 1) {
 
-    # initialize vector to store RMSE values from loop
-    rmse_vector <- numeric()
+  # Stop execution if number of columns in the matrix is less than 2
+  # indicates that there is only one model result stored in matrix
+  stopifnot("More than 2 columns must be included in input matrix" = ncol(m) > 2)
 
-    # Stop execution if number of columns in the matrix is less than 2
-    # indicates that there is only one model result stored in matrix
-    stopifnot("More than 2 columns must be included in input matrix" = ncol(m) > 2)
+  # indicate that observed data are in the first column of the matrix
+  obs_data <- m[, 1]
 
-    # indicate that observed data are in the first column of the matrix
-    obs_data <- m[, 1]
+  # throw an error if the modeled data is all NAs
+  if (all(is.na(obs_data))) stop("No non-NA values in observed data")
+
+  # loop across columns of the matrix. For each column (i) after col 2
+  for (i in 2:ncol(m)) {
+    # indicate modeled data are in subsequent columns
+    model_data <- m[, i]
 
     # throw an error if the modeled data is all NAs
-    if (all(is.na(obs_data))) stop("No non-NA values in observed data")
+    if (any(is.na(model_data))) stop("NAs detected in data. Analysis halted to prevent bad result.")
 
-    # loop across columns of the matrix. For each column (i) after col 2
-    for(i in 2:ncol(m)) {
+    # compute RMSE using obs_data and model_data
+    rmse_vals <- RMSE_calc(obs_data, model_data)
 
-      # indicate modeled data are in subsequent columns
-      model_data <- m[, i]
-
-      # throw an error if the modeled data is all NAs
-      if (any(is.na(model_data))) stop("NAs detected in data. Analysis halted to prevent bad result.")
-
-      # compute RMSE using obs_data and model_data
-      rmse_vals <- RMSE_calc(obs_data, model_data)
-
-      # vector of RMSE value for each model iteration
-      rmse_vector[i] <- rmse_vals
-    }
+    # vector of RMSE value for each model iteration
+    rmse_vector[i] <- rmse_vals
+  }
 
   # Compute sigma if not provided by the user
   if (is.null(sigma)) {
@@ -73,24 +70,24 @@ score_bayesian <- function(m, sigma = NULL, multiplier = 1) {
   }
 
   # Check if sigma is negative, if so throw error
-  if (sigma < 0)
+  if (sigma < 0) {
     stop("sigma value cannot be negative.")
+  }
 
   # Compute likelihood using normal distribution likelihood function.
   # This is the probability of observing the modeled data given the
   # observed data.
   # Remove first value when calling rmse_vector (first values should be NA because
   # it represented obs_data)
-  likelihood = exp(-0.5 * ((rmse_vector[-1]) / sigma)^2)
+  likelihood <- exp(-0.5 * ((rmse_vector[-1]) / sigma)^2)
 
   # Computing unnormalized posterior scores
   # Currently only computing posterior scores using uniform prior.
   # uniform prior is calculated as 1/length(likelihood) which is
   # the same as 1 / # of runs.
-  posterior = likelihood * (1 / length(likelihood))
+  posterior <- likelihood * (1 / length(likelihood))
 
   # Create data frame of results - get run_numbers from the list where RMSE values
   # are computed (names of the split_list components)
   return(posterior)
-
 }

@@ -18,7 +18,7 @@ Prints \code{R} object containing metric parameters.
 }
 \description{
 This function creates and stores a new set of metric parameters
-for running \code{\link{iterate_hector}} and other functions in \code{matilda}.
+for running \code{\link{iterate_model}} and other functions in \code{matilda}.
 }
 \examples{
 # Creating a new metric to produce an output for mean global temperature increase

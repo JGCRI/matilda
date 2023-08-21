@@ -24,9 +24,7 @@
 #'
 #' # scoring columns where scores <= 5 will score 1 and scores >= 10 will score 0
 #' score_ramp(mat, w1 = 5, w2 = 10)
-
 score_ramp <- function(m, w1, w2, na.omit = FALSE) {
-
   # ensure that w1 argument is a value of at least 0 - no negative values
   if (w1 < 0) stop("w1 must be at least 0")
 
@@ -50,7 +48,6 @@ score_ramp <- function(m, w1, w2, na.omit = FALSE) {
 
   # loop across columns of the matrix. For each column (i) after col 2
   for (i in 2:ncol(m)) {
-
     # indicate modeled data are in subsequent columns
     model_data <- m[, i]
 
@@ -66,24 +63,23 @@ score_ramp <- function(m, w1, w2, na.omit = FALSE) {
 
     # the order of the following two statements matters, because
     # we want a diff exactly equal to w1 to get a score of 1, even when w1 = w2
-    scores [abs_diffs >= w2] <- 0
-    scores [abs_diffs <= w1] <- 1
+    scores[abs_diffs >= w2] <- 0
+    scores[abs_diffs <= w1] <- 1
 
     # for abs_diffs between w1 and w2 - compute how far between w1 and w2 the
     # abs_diff value is
     between_w1_w2 <- abs_diffs > w1 & abs_diffs < w2
-    w1_w2_frac <- (abs_diffs [between_w1_w2] - w1) / (w2 - w1)
+    w1_w2_frac <- (abs_diffs[between_w1_w2] - w1) / (w2 - w1)
 
     # for scores between w1 and w2 use (1 - computed distance) as score value
-    scores [between_w1_w2] <- 1 - w1_w2_frac
+    scores[between_w1_w2] <- 1 - w1_w2_frac
 
     # store score values
-    scores_matrix [, i] <- scores
+    scores_matrix[, i] <- scores
   }
 
   # calculates means scores for each column (model iteration)
-  agg_scores <- colMeans(scores_matrix [, -1], na.rm = T)
+  agg_scores <- colMeans(scores_matrix[, -1], na.rm = T)
 
   return(agg_scores)
-
 }

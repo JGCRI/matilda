@@ -34,9 +34,7 @@
 #'
 #' # Generate parameters for Hector iterations
 #' generate_params(core, 10)
-
-generate_params <- function(core, draws){
-
+generate_params <- function(core, draws) {
   beta <- fetchvars(core, NA, BETA())
   q10 <- fetchvars(core, NA, Q10_RH())
   npp <- fetchvars(core, NA, NPP_FLUX0())
@@ -47,10 +45,10 @@ generate_params <- function(core, draws){
   # data frame of random parameter values drawn from normal or lognormal distributions
   data.frame(
     "BETA" = rnorm(draws, mean = beta$value, sd = 0.1),
-    "Q10_RH" = rlnorm(draws,lognorm(q10$value, 1.0) [1], lognorm(q10$value, 1.0) [2]),
+    "Q10_RH" = rlnorm(draws, lognorm(q10$value, 1.0)[1], lognorm(q10$value, 1.0)[2]),
     "NPP_FLUX0" = rnorm(draws, mean = npp$value, sd = 14.3),
     "AERO_SCALE" = rnorm(draws, mean = aero$value, sd = 0.23),
     "DIFFUSIVITY" = rnorm(draws, mean = ohd$value, sd = 0.118),
-    "ECS" = rlnorm(draws, lognorm(ecs$value, 0.65) [1], lognorm(ecs$value, 0.65) [2])
+    "ECS" = rlnorm(draws, lognorm(ecs$value, 0.65)[1], lognorm(ecs$value, 0.65)[2])
   )
 }

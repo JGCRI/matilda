@@ -8,7 +8,7 @@
 observed_data_gmst <- read.csv("data-raw/temp_anomaly_annmean_hadcrut5.csv")
 
 # rename 'anomaly' to anomaly_C' to give unit information
-colnames(observed_data_gmst)[colnames(observed_data_gmst) == 'anomaly'] = "temperature_C"
+colnames(observed_data_gmst)[colnames(observed_data_gmst) == "anomaly"] <- "temperature_C"
 
 # remove confidence bounds in df - leaving only year and mean anomaly cols
 observed_data_gmst$Lower.confidence.limit..2.5.. <- NULL
@@ -29,11 +29,12 @@ subset_observed_gmst <- subset(observed_data_gmst,
 #' @return A data frame of normalized temperature values
 #'
 normalize_temperature <- function(observed_data, modeled_data, reference_start_year, reference_end_year) {
-
   # Filter modeled data for the reference period
-  modeled_reference_period <- subset(modeled_data,
-                                     year >= reference_start_year &
-                                     year <= reference_end_year)
+  modeled_reference_period <- subset(
+    modeled_data,
+    year >= reference_start_year &
+      year <= reference_end_year
+  )
 
   # Calculate the mean anomaly_C for the modeled reference period
   mean_modeled_anomaly <- mean(modeled_reference_period$value)

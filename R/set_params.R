@@ -15,24 +15,21 @@
 #' ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
 #' core <- newcore(ssp245)
 #' params <- generate_params(core, 10)
-#' param_vals <- unlist(params [1, ])
+#' param_vals <- unlist(params[1, ])
 #' set_params(core, param_vals)
-
 set_params <- function(core, param_values) {
-
   # If parameters values are not numeric - stop and send error
-  if( length(param_values) == 0) {
+  if (length(param_values) == 0) {
     warning("no parameters")
     return()
   }
 
-  if( !is.numeric(param_values)) stop("not numeric")
+  if (!is.numeric(param_values)) stop("not numeric")
 
-  if( is.null(names(param_values))) stop("no names")
+  if (is.null(names(param_values))) stop("no names")
 
   # for each parameter along the sequence of parameters in param_values do action
   for (i in seq_along(param_values)) {
-
     # use param_values names to create fn_name - storing the function names for
     # variables
     fn_name <- names(param_values)[i]
@@ -50,6 +47,5 @@ set_params <- function(core, param_values) {
 
     # set variables to be passed to
     setvar(core, NA, var = var, values = param_values[i], unit = var_units)
-
   }
 }

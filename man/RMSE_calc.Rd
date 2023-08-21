@@ -19,8 +19,8 @@ Function takes vectors of modeled data values and compares them
 to observed data values to report the RMSE.
 }
 \examples{
-x = c(1:5)
-y = c(5:9)
+x <- c(1:5)
+y <- c(5:9)
 
 RMSE_calc(x, y)
 }

@@ -9,21 +9,17 @@ core <- newcore(ini)
 params <- generate_params(core, 5)
 
 test_that("output has proper class, structure, and length", {
-
-# make sure output is data.frame
+  # make sure output is data.frame
   expect_s3_class(y, "data.frame")
 
-# make sure all values are numeric
+  # make sure all values are numeric
   expect_true(all(sapply(y, is.numeric)))
 
-# make sure the output is a proper length
-  expect_equal(nrow(params),5)
-
+  # make sure the output is a proper length
+  expect_equal(nrow(params), 5)
 })
 
 test_that("no NAs are produced", {
-
   # make sure params output has no NAs
   expect_false(any(is.na(params)))
-
 })
