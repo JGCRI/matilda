@@ -18,8 +18,8 @@
 #'
 #' @examples
 #' # Score Hector using observed CO2 data with the score_ramp method
-#' score_hruns(matilda_result, criterion_co2_obs(), score_ramp, w1 = 2, w2 = 20)
-score_hruns <- function(x, criterion, score_function, ...) {
+#' score_runs(matilda_result, criterion_co2_obs(), score_ramp, w1 = 2, w2 = 20)
+score_runs <- function(x, criterion, score_function, ...) {
   # error if x is not a data frame
   if (!is.data.frame(x)) {
     stop("user supplied x is not a data frame")
