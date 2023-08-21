@@ -15,22 +15,10 @@ test_that("function stops and produces error messages", {
   # No non-NAs in obs col
   m_NA_obs <- matrix(data = c(rep(NA, 5), 1:15), nrow = 5, ncol = 4)
   expect_error(score_bayesian(m_NA_obs),
-               regexp = "No non-NA values in observed data")
+               regexp = "No non-NA values present in observed data")
 
-  # error when one row in m is NA
-  # No non-NAs in any model data
-  m_NA_dat <- matrix(data = c(1:5, rep(NA, 15)), nrow = 5, ncol = 4)
-  expect_error(score_bayesian(m_NA_dat),
-               regexp = "NAs detected in data. Analysis halted to prevent bad result.")
-
-  # error when an NA is present anywhere in matrix array
-  # NA present in model data
-  m_NA_single_case <- matrix(data = c(1:3, 2, NA, 4, 3:5, 4:6), nrow = 3, ncol = 4)
-  expect_error(score_bayesian(m_NA_single_case),
-               regexp = "NAs detected in data. Analysis halted to prevent bad result.")
-
-  # error when user supplies negative sigma values
-  expect_error(score_bayesian(m, -1),
+  # warning when user supplies negative sigma values
+  expect_warning(score_bayesian(m, -1),
                regexp = "sigma value cannot be negative.")
 
 })
@@ -39,7 +27,11 @@ test_that("function stops and produces error messages", {
 
 test_that("scores assessed correctly", {
 
-  # scores equal when RMSE = 0
+  # If entire column of modeled data is NA, set RMSE value to NA
+  m_NA = matrix(data = c(rep(1, 3), rep(1, 3), rep(NA, 3)), nrow = 3, ncol = 3)
+  expect_equal(score_bayesian(m_NA, 2), c(0.5, NA))
+
+  # scores equal when calculated RMSE = 0
   m2 = matrix(data = c(1, 1, 1), nrow = 1, ncol = 3)
   expect_equal(score_bayesian(m2, 2), c(0.5, 0.5))
 

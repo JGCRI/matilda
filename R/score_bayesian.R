@@ -45,13 +45,16 @@ score_bayesian <- function(m, sigma = NULL) {
   # indicate that observed data are in the first column of the matrix
   obs_data <- m[, 1]
 
+  # error if the observed data has no non-NA values
+  if (all(is.na(obs_data))) stop ("No non-NA values present in observed data.")
+
   # loop across columns of the matrix. For each column (i) after col 2
   for(i in 2:ncol(m)) {
 
     # indicate modeled data are in subsequent columns
     model_data <- m[, i]
 
-    # throw an error if the modeled data is all NAs
+    # If an entire model is NA result - set RMSE value to NA
     if (all(is.na(model_data))) {
       rmse_vals <- NA  # Set RMSE to NA for this column
     }
@@ -70,8 +73,7 @@ score_bayesian <- function(m, sigma = NULL) {
   }
 
   # Check if sigma is negative, if so throw error
-  if (sigma < 0)
-    warning("sigma value cannot be negative.")
+  if (!is.na(sigma) && sigma < 0) warning("sigma value cannot be negative.")
 
   # Compute likelihood using normal distribution likelihood function.
   # This is the probability of observing the modeled data given the
