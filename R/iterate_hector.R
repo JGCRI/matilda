@@ -127,16 +127,6 @@ iterate_hector <- function(core, params, save_years = NULL, save_vars = NULL) {
       set_params(core, params_i)
     }
 
-    # Create a placeholder dataframe for the run
-    dat <- data.frame(
-      scenario = core$name[i],
-      year = save_years,
-      variable = save_vars,
-      value = NA,
-      units = NA,
-      run_number = i
-    )
-
     tryCatch({
       reset(core, date = 0)
       run(core)
@@ -152,14 +142,30 @@ iterate_hector <- function(core, params, save_years = NULL, save_vars = NULL) {
       }
 
       dat$run_number <- i
-    }, error = function(e) {
+      result_list[[i]] <- dat
+    },
+
+    error = function(e) {
       message("An error occurred")
+
     })
 
-    result_list[[i]] <- dat
+    # Create a placeholder dataframe for the run if there's no data collected
+    if (length(result_list) < i) {
+      dat <- data.frame(
+        scenario = core$name,
+        year = save_years,
+        variable = save_vars,
+        value = NA,
+        units = NA,
+        run_number = i
+      )
+      result_list[[i]] <- dat
+    }
   }
 
   # Concatenate list entries into a data frame and return
   final_result <- do.call("rbind", result_list)
   return(final_result)
 }
+
