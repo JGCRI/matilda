@@ -16,7 +16,7 @@ observed_data_gmst$Upper.confidence.limit..97.5.. <- NULL
 
 # Subset temperature data to include data from 1959-2023
 subset_observed_gmst <- subset(observed_data_gmst,
-                               year >= 1959,
+                               year >= 1950,
                                year <= 2023)
 
 #' Normalizing variables to reflect specific reference period
@@ -48,7 +48,7 @@ normalize_temperature <- function(observed_data, modeled_data, reference_start_y
 }
 
 # producing adjusted gmst values using a hector result
-adjusted_gmst_data <- normalize_temperature(subset_observed_gmst, hector_result, 1961, 1990)
+adjusted_gmst_data <- normalize_temperature(subset_observed_gmst, matilda:::hector_result, 1961, 1990)
 
 # Add observed gmst data (adjusted) for internal use
 usethis::use_data(adjusted_gmst_data, observed_data_co2, overwrite = TRUE, internal = TRUE)
