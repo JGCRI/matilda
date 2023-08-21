@@ -15,6 +15,11 @@
 #'
 #' RMSE_calc(x, y)
 RMSE_calc <- function(x, y) {
+  # Check if all values are NA
+  if (all(is.na(x)) || all(is.na(y))) {
+    return(NA)
+  }
+
   # compute RMSE
   rmse_vals <- sqrt(mean((x - y)^2))
 
