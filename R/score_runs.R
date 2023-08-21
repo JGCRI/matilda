@@ -40,7 +40,7 @@ score_runs <- function(x, criterion, score_function, ...) {
     stop("The year range in x must contain all years in criterion")
   }
 
-  # subset to include years for CO2 screening
+  # subset to include years for criterion screening
   x_subset <-
     subset(x, x$year %in% criterion$years &
       x$variable == criterion$var)
@@ -62,9 +62,10 @@ score_runs <- function(x, criterion, score_function, ...) {
   # computing scores using the user specified score_function
   scores <- score_function(x_matrix, ...)
 
-  # normalize scores from the scoring function - normalized score weights.
+  # Normalize scores from the scoring function - normalized score weights.
   # Will sum to 1.
-  score_norm <- scores / sum(scores)
+  sum_non_na <- sum(scores, na.rm = TRUE)
+  score_norm <- ifelse(is.na(scores), NA, scores / sum_non_na)
 
   return(data.frame(
     weights = score_norm,
