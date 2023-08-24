@@ -1,7 +1,7 @@
 # Sample data
-score_df1 <- data.frame(weights = c(0.8, 0.6, 0.9))
-score_df2 <- data.frame(weights = c(0.7, 0.5, 0.8))
-score_df3 <- data.frame(weights = c(0.9, 0.8, 0.7))
+score_df1 <- data.frame(weights = c(0.6, 0.4))
+score_df2 <- data.frame(weights = c(0.5, 0.5))
+score_df3 <- data.frame(weights = c(0.9, 0.1))
 
 # Sample lists
 L1 <- list()
@@ -24,7 +24,23 @@ test_that("Function stops and publishes correct error messages.", {
 
 })
 
-test_that("Function weights criterion weights evenly as a default.", {
+test_that("Function weights scores appropriately.", {
 
+  # when using default, criterion_weights are even
+  result_default <- multi_criteria_weighting(L2)
+  expect_equal(result_default$mc_weight, c(score_df1$weights * 0.5 + score_df2$weights * 0.5))
+
+  # when weights are supplied they are used to adjust multi-criterion weights
+  result_W1 <- multi_criteria_weighting(L2, W1)
+  expect_equal(result_W1$mc_weight, c(score_df1$weights * 0.4 + score_df2$weights * 0.6))
 
 })
+
+test_that("Function returns a dataframe.", {
+
+  result <- multi_criteria_weighting(L2)
+
+  expect_s3_class(result, "data.frame")
+
+})
+
