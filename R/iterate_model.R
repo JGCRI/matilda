@@ -110,9 +110,13 @@ metric_calc_1run <- function(x, metric) {
 #' )
 #' head(h_result)
 iterate_model <- function(core, params, save_years = NULL, save_vars = NULL) {
+
   # Store results
   result_list <- list()
 
+  # for each parameter set, run Hector for the years and variables specified in
+  # the argument.
+  # If no years or variables are supplied in the argument, use Hector default return.
   for (i in seq_len(nrow(params))) {
     if (ncol(params) == 1) {
       single_param_vals <- params[i, ]
@@ -141,6 +145,7 @@ iterate_model <- function(core, params, save_years = NULL, save_vars = NULL) {
         dat$run_number <- i
         result_list[[i]] <- dat
       },
+      # if Hector crashes because of parameter combinations, send error message
       error = function(e) {
         message("An error occurred")
       }
