@@ -28,20 +28,6 @@ test_that("function stops and produces error messages", {
   expect_error(score_ramp(m_NA_obs, w1 = 0, w2 = 2),
     regexp = "No non-NA values in observed data"
   )
-
-  # error when entire model data col is NA
-  # No non-NAs in any model data matrix
-  m_NA_dat <- matrix(data = c(1:5, rep(NA, 15)), nrow = 5, ncol = 4)
-  expect_error(score_ramp(m_NA_dat, w1 = 0, w2 = 2),
-    regexp = "NAs detected in data. Analysis halted to prevent bad result."
-  )
-
-  # error when an NA is present anywhere in matrix array
-  # NA present in model data
-  m_NA_single_case <- matrix(data = c(1:3, 2, NA, 4, 3:5, 4:6), nrow = 3, ncol = 4)
-  expect_error(score_ramp(m_NA_single_case, w1 = 1, w2 = 2, na.omit = T),
-    regexp = "NAs detected in data. Analysis halted to prevent bad result."
-  )
 })
 
 # Testing edge cases
@@ -66,6 +52,10 @@ test_that("differences between w1 & w2 are computed accurately", {
   # Here, difference in [2] = 0.5
   expect_gt(score_ramp(m, w1 = 0, w2 = 2)[2], 0)
   expect_lt(score_ramp(m, w1 = 0, w2 = 2)[2], 1)
+
+  # If entire model model column is NA, set resulting difference to NA
+  m_NA <- matrix(data = c(rep(1, 3), rep(1, 3), rep(NA, 3)), nrow = 3, ncol = 3)
+  expect_equal(score_ramp(m_NA, w1 = 1, w2 = 10), c(1, NA))
 
   # when diff is between w1 & w2 expect computed score to equal
   # 1 - (abs_diff - w1) / (w2-w1)
