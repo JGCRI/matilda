@@ -51,11 +51,15 @@ score_ramp <- function(m, w1, w2, na.omit = FALSE) {
     # indicate modeled data are in subsequent columns
     model_data <- m[, i]
 
-    # throw error if the modeled data has NAs
-    if (any(is.na(model_data))) stop("NAs detected in data. Analysis halted to prevent bad result.")
+    # If an entire model is NA result - set abs_diff value to NA
+    if (all(is.na(model_data))) {
+      abs_diffs <- NA
+    }
 
-    # Take absolute difference between obs_data and model_data value
-    abs_diffs <- abs(obs_data - model_data)
+    else {
+      # Take absolute difference between obs_data and model_data value
+      abs_diffs <- abs(obs_data - model_data)
+    }
 
     # Initializes vector that will be occupied with scores should be same length
     # as observed data
