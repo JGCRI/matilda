@@ -54,9 +54,7 @@ score_ramp <- function(m, w1, w2, na.omit = FALSE) {
     # If an entire model is NA result - set abs_diff value to NA
     if (all(is.na(model_data))) {
       abs_diffs <- NA
-    }
-
-    else {
+    } else {
       # Take absolute difference between obs_data and model_data value
       abs_diffs <- abs(obs_data - model_data)
     }
