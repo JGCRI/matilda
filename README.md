@@ -18,5 +18,5 @@ You can install the development version of `matilda` from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("jk-brown/matilda")
+devtools::install_github("jgcri/matilda")
 ```
