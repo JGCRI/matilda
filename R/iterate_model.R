@@ -147,7 +147,7 @@ iterate_model <- function(core, params, save_years = NULL, save_vars = NULL) {
       },
       # if Hector crashes because of parameter combinations, send error message
       error = function(e) {
-        message("An error occurred")
+        message("An error occurred", i)
       }
     )
 
