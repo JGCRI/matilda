@@ -32,7 +32,7 @@
 #'
 #' # scoring with a decay rate of 2
 #' score_bayesian(mat, sigma = 2)
-score_bayesian <- function(m, sigma = NULL) {
+score_bayesian <- function(m, sigma = NULL, sensitivity = NULL) {
   # initialize vector to store RMSE values from loop
   rmse_vector <- numeric()
 
@@ -62,26 +62,31 @@ score_bayesian <- function(m, sigma = NULL) {
     rmse_vector[i] <- rmse_vals
   }
 
-  # Compute sigma if not provided by the user
-  if (is.null(sigma)) {
-    sigma <- sd(obs_data) # Calculate sigma as the standard deviation of RMSE values
+  # Compute likelihood sensitivity using multiplier provided by the user
+  if (is.null(sensitivity)) {
+    sensitivity_value <- sd(obs_data) # Calculate sensitivity as the standard deviation of the observed data
+  } else {
+    sensitivity_value <- sensitivity * sd(obs_data)
+    if (length(sigma) != 1)
+        stop( "Sensitivity must be a single value.")
   }
 
+
   # Check if sigma is negative, if so throw error
-  if (!is.na(sigma) && sigma < 0) warning("sigma value cannot be negative.")
+  if (any(!is.na(sensitivity) & (sensitivity < 0))) stop("Sensitivity cannot be negative.")
 
   # Compute likelihood using normal distribution likelihood function.
   # This is the probability of observing the modeled data given the
   # observed data.
   # Remove first value when calling rmse_vector (first values should be NA because
   # it represented obs_data)
-  likelihood <- exp(-0.5 * ((rmse_vector[-1]) / sigma)^2)
+  likelihood <- exp(-0.5 * ((rmse_vector[-1]) / sensitivity_value)^2)
 
   # Computing unnormalized posterior scores
   # Currently only computing posterior scores using uniform prior.
   # uniform prior is calculated as 1/length(likelihood) which is
   # the same as 1 / # of runs.
-  posterior <- likelihood * (1 / length(likelihood))
+  posterior <- likelihood * (1 / length(likelihood)) ### DONT THINK THIS IS A NECESSARY STEP MAY JUST WANT TO RETURN "LIKELIHOOD" ###
 
   # Create data frame of results - get run_numbers from the list where RMSE values
   # are computed (names of the split_list components)
