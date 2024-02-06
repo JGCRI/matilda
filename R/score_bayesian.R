@@ -55,7 +55,7 @@ score_bayesian <- function(m, sigma = NULL, sensitivity = NULL) {
     if (all(is.na(model_data))) {
       rmse_vals <- NA # Set RMSE to NA for this column
     } else {
-      rmse_vals <- RMSE_calc(obs_data, model_data)
+      rmse_vals <- RMSE_calc(obs_data, model_data, sigma = sigma)
     }
 
     # vector of RMSE value for each model iteration
