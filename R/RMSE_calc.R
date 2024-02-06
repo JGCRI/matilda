@@ -18,7 +18,7 @@
 #'
 #' # constant error
 #' RMSE_calc(x, y)
-RMSE_calc <- function(x, y, sigma) {
+RMSE_calc <- function(x, y, sigma = NULL) {
   # Check if all values are NA
   if (all(is.na(x)) || all(is.na(y))) {
     return(NA)
@@ -26,16 +26,17 @@ RMSE_calc <- function(x, y, sigma) {
 
   # set sigma to default if not provided by the user
   if( is.null(sigma)) {
-    sigma = sd(y) # if sigma is NULL compute as sd of observed data (y)
+    # if sigma = NULL compute RMSE without error term
+    rmse_vals <- sqrt(mean((x - y)^2))
   } else {
-    # if user provides sigma values it should be length = 1 or same length as the obs data.
+    # if user provides sigma values compute RMSE with error.
+    # sigma should be length = 1 or same length as the obs data.
     required_length <- length(y)
     if(length(sigma) != 1 && length(sigma) != required_length)
       stop(paste("Length of sigma must be a single value or a vector matching the length of ", required_length, ".", sep = ""))
-  }
 
-  # compute RMSE
-  rmse_vals <- sqrt(mean((x - y)^2) / sigma)
+    rmse_vals <- sqrt(mean((x - y)^2) / sigma)
+  }
 
   # return a vector of RMSE values
   return(rmse_vals)
