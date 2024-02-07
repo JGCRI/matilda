@@ -55,24 +55,24 @@ score_bayesian <- function(m, sigma = NULL, sensitivity = NULL) {
     if (all(is.na(model_data))) {
       rmse_vals <- NA # Set RMSE to NA for this column
     } else {
-      rmse_vals <- RMSE_calc(obs_data, model_data, sigma = sigma)
+      rmse_vals <- RMSE_calc(model_data, obs_data, sigma = sigma)
     }
 
     # vector of RMSE value for each model iteration
-    rmse_vector[i] <- rmse_vals
+    rmse_vector[i - 1] <- rmse_vals
   }
 
   # Compute likelihood sensitivity using multiplier provided by the user
   if (is.null(sensitivity)) {
-    sensitivity_value <- sd(obs_data) # Calculate sensitivity as the standard deviation of the observed data
+    sensitivity_value <- sd(rmse_vector) # Calculate sensitivity as the standard deviation of the RMSE results
   } else {
-    sensitivity_value <- sensitivity * sd(obs_data)
-    if (length(sigma) != 1)
-        stop( "Sensitivity must be a single value.")
+    if (length(sensitivity) != 1)
+      stop( "Sensitivity must be a single value.")
+    sensitivity_value <- sensitivity * sd(rmse_vector)
   }
 
 
-  # Check if sigma is negative, if so throw error
+  # Check if sensitivity is negative, if so throw error
   if (any(!is.na(sensitivity) & (sensitivity < 0))) stop("Sensitivity cannot be negative.")
 
   # Compute likelihood using normal distribution likelihood function.
@@ -80,7 +80,7 @@ score_bayesian <- function(m, sigma = NULL, sensitivity = NULL) {
   # observed data.
   # Remove first value when calling rmse_vector (first values should be NA because
   # it represented obs_data)
-  likelihood <- exp(-0.5 * ((rmse_vector[-1]) / sensitivity_value)^2)
+  likelihood <- exp(-0.5 * (rmse_vector / sensitivity_value)^2)
 
   # Computing unnormalized posterior scores
   # Currently only computing posterior scores using uniform prior.

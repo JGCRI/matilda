@@ -26,16 +26,17 @@ RMSE_calc <- function(x, y, sigma = NULL) {
 
   # set sigma to default if not provided by the user
   if( is.null(sigma)) {
-    # if sigma = NULL compute RMSE without error term
-    rmse_vals <- sqrt(mean((x - y)^2))
+    # if sigma = NULL compute RMSE with sd(y)
+    sigma = sd(y)
+    rmse_vals <- sqrt(mean(((x - y) / sigma)^2))
   } else {
     # if user provides sigma values compute RMSE with error.
     # sigma should be length = 1 or same length as the obs data.
     required_length <- length(y)
-    if(length(sigma) != 1 && length(sigma) != required_length)
-      stop(paste("Length of sigma must be a single value or a vector matching the length of ", required_length, ".", sep = ""))
+    if( length(sigma) != 1 && length(sigma) != required_length)
+      stop( paste("Length of sigma must be a single value or a vector matching the length of ", required_length, ".", sep = ""))
 
-    rmse_vals <- sqrt(mean((x - y)^2) / sigma)
+    rmse_vals <- sqrt(mean(((x - y) / sigma)^2))
   }
 
   # return a vector of RMSE values
