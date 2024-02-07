@@ -32,7 +32,9 @@
 #'
 #' # scoring with a decay rate of 2
 #' score_bayesian(mat, sensitivity = 2)
-score_bayesian <- function(m, sigma = NULL, sensitivity = NULL) {
+score_bayesian <- function(m,
+                           sigma = NULL,
+                           sensitivity = NULL) {
   # initialize vector to store RMSE values from loop
   rmse_vector <- rep(NA_real_, ncol(m))
 
@@ -44,7 +46,8 @@ score_bayesian <- function(m, sigma = NULL, sensitivity = NULL) {
   obs_data <- m[, 1]
 
   # error if the observed data has no non-NA values
-  if (all(is.na(obs_data))) stop("No non-NA values present in observed data.")
+  if (all(is.na(obs_data)))
+    stop("No non-NA values present in observed data.")
 
   # loop across columns of the matrix. For each column (i) after col 2
   for (i in 2:ncol(m)) {
@@ -64,16 +67,19 @@ score_bayesian <- function(m, sigma = NULL, sensitivity = NULL) {
 
   # Compute likelihood sensitivity using multiplier provided by the user
   if (is.null(sensitivity)) {
-    sensitivity_value <- sd(rmse_vector, na.rm = TRUE) # Calculate sensitivity as the standard deviation of the RMSE results
+    sensitivity_value <-
+      sd(rmse_vector, na.rm = TRUE) # Calculate sensitivity as the standard deviation of the RMSE results
   } else {
     if (length(sensitivity) != 1)
-      stop( "Sensitivity must be a single value.")
+      stop("Sensitivity must be a single value.")
     sensitivity_value <- sensitivity * sd(rmse_vector, na.rm = TRUE)
   }
 
 
   # Check if sensitivity is negative, if so throw error
-  if (any(!is.na(sensitivity) & (sensitivity < 0))) stop("Sensitivity cannot be negative.")
+  if (any(!is.na(sensitivity) &
+          (sensitivity < 0)))
+    stop("Sensitivity cannot be negative.")
 
   # Compute likelihood using normal distribution likelihood function.
   # This is the probability of observing the modeled data given the
@@ -81,13 +87,14 @@ score_bayesian <- function(m, sigma = NULL, sensitivity = NULL) {
   # Remove first value when calling rmse_vector (first values should be NA because
   # it represented obs_data)
   rmse_vector <- rmse_vector[-1]
-  likelihood <- exp(-0.5 * (rmse_vector / sensitivity_value)^2)
+  likelihood <- exp(-0.5 * (rmse_vector / sensitivity_value) ^ 2)
 
   # Computing unnormalized posterior scores
   # Currently only computing posterior scores using uniform prior.
   # uniform prior is calculated as 1/length(likelihood) which is
   # the same as 1 / # of runs.
-  posterior <- likelihood * (1 / length(likelihood)) ### DONT THINK THIS IS A NECESSARY STEP MAY JUST WANT TO RETURN "LIKELIHOOD" ###
+  posterior <-
+    likelihood * (1 / length(likelihood)) ### DONT THINK THIS IS A NECESSARY STEP MAY JUST WANT TO RETURN "LIKELIHOOD" ###
 
   # Create data frame of results - get run_numbers from the list where RMSE values
   # are computed (names of the split_list components)
