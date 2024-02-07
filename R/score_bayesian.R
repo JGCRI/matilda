@@ -34,7 +34,7 @@
 #' score_bayesian(mat, sensitivity = 2)
 score_bayesian <- function(m, sigma = NULL, sensitivity = NULL) {
   # initialize vector to store RMSE values from loop
-  rmse_vector <- numeric()
+  rmse_vector <- rep(NA_real_, ncol(m))
 
   # Stop execution if number of columns in the matrix is less than 2
   # indicates that there is only one model result stored in matrix
@@ -59,16 +59,16 @@ score_bayesian <- function(m, sigma = NULL, sensitivity = NULL) {
     }
 
     # vector of RMSE value for each model iteration
-    rmse_vector[i - 1] <- rmse_vals
+    rmse_vector[i] <- rmse_vals
   }
 
   # Compute likelihood sensitivity using multiplier provided by the user
   if (is.null(sensitivity)) {
-    sensitivity_value <- sd(rmse_vector) # Calculate sensitivity as the standard deviation of the RMSE results
+    sensitivity_value <- sd(rmse_vector, na.rm = TRUE) # Calculate sensitivity as the standard deviation of the RMSE results
   } else {
     if (length(sensitivity) != 1)
       stop( "Sensitivity must be a single value.")
-    sensitivity_value <- sensitivity * sd(rmse_vector)
+    sensitivity_value <- sensitivity * sd(rmse_vector, na.rm = TRUE)
   }
 
 
@@ -80,6 +80,7 @@ score_bayesian <- function(m, sigma = NULL, sensitivity = NULL) {
   # observed data.
   # Remove first value when calling rmse_vector (first values should be NA because
   # it represented obs_data)
+  rmse_vector <- rmse_vector[-1]
   likelihood <- exp(-0.5 * (rmse_vector / sensitivity_value)^2)
 
   # Computing unnormalized posterior scores
