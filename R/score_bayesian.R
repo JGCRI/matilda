@@ -49,6 +49,11 @@ score_bayesian <- function(m,
   if (all(is.na(obs_data)))
     stop("No non-NA values present in observed data.")
 
+  # If sigma is not provided, use sd(y) as default
+  if (is.null(sigma)) {
+    sigma <- sd(obs_data)
+  }
+
   # loop across columns of the matrix. For each column (i) after col 2
   for (i in 2:ncol(m)) {
     # indicate modeled data are in subsequent columns
@@ -93,10 +98,10 @@ score_bayesian <- function(m,
   # Currently only computing posterior scores using uniform prior.
   # uniform prior is calculated as 1/length(likelihood) which is
   # the same as 1 / # of runs.
-  posterior <-
-    likelihood * (1 / length(likelihood)) ### DONT THINK THIS IS A NECESSARY STEP MAY JUST WANT TO RETURN "LIKELIHOOD" ###
+ # posterior <-
+  #  likelihood * (1 / length(likelihood)) ### DONT THINK THIS IS A NECESSARY STEP MAY JUST WANT TO RETURN "LIKELIHOOD" ###
 
   # Create data frame of results - get run_numbers from the list where RMSE values
   # are computed (names of the split_list components)
-  return(posterior)
+  return(likelihood)
 }
