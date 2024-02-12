@@ -98,7 +98,7 @@ score_bayesian <- function(m,
   # Currently only computing posterior scores using uniform prior.
   # uniform prior is calculated as 1/length(likelihood) which is
   # the same as 1 / # of runs.
- # posterior <-
+  # posterior <-
   #  likelihood * (1 / length(likelihood)) ### DONT THINK THIS IS A NECESSARY STEP MAY JUST WANT TO RETURN "LIKELIHOOD" ###
 
   # Create data frame of results - get run_numbers from the list where RMSE values
