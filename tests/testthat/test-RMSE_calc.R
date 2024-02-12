@@ -7,7 +7,7 @@ test_that("NAs passed to function are treated correctly", {
 # test RMSE functionality
 
 test_that("RMSE is computed accurately", {
-  expect_equal(RMSE_calc(1, 5), sqrt(mean(1 - 5)^2))
+  expect_equal(RMSE_calc(1, 5), sqrt((mean(1-5)/sd(5)^2)))
 })
 
 # test return is vector
