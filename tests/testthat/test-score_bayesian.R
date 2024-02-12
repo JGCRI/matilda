@@ -18,10 +18,14 @@ test_that("function stops and produces error messages", {
     regexp = "No non-NA values present in observed data"
   )
 
-  # warning when user supplies negative sigma values
-  expect_warning(score_bayesian(m, -1),
-    regexp = "sigma value cannot be negative."
+  # error when user supplies negative sensitivity value
+  expect_error(score_bayesian(m, sensitivity = -1),
+    regexp = "Sensitivity cannot be negative."
   )
+
+  # error when user supplies more than one sensitivity value
+  expect_error(score_bayesian(m, sensitivity = c(1, 2)),
+               regexp = "Sensitivity must be a single value.")
 })
 
 # Testing output accuracy

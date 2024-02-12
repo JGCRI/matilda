@@ -15,3 +15,13 @@ test_that("RMSE is computed accurately", {
 test_that("RMSE return is a vector", {
   expect_vector(RMSE_calc(x = 1:3, y = 3:5))
 })
+
+# tests for sigma
+test_that("sigma is a single value", {
+  expect_equal(RMSE_calc(1, 5, sigma = 1), sqrt(((mean(1-5)/1)^2)))
+})
+
+test_that("error if sigma is a vector of a different length than y", {
+  expect_error(RMSE_calc(1, 5, sigma = c(1, 2, 3)),
+               regexp = "Length of sigma must be a single value or a vector matching the length of observed data = 1")
+})
