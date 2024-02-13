@@ -10,11 +10,17 @@
 #' @param m A Matrix of values. The first column of the matrix should be
 #' a vector of observed data for a give variable. Subsequent vectors should be
 #' representative of modeled values for a given variable.
-#' @param sigma Numeric value (optional). The standard deviation parameter for
-#' the normal distribution used in the Bayesian analysis. If not provided, the
-#' function will automatically compute it as the standard deviation of the
-#' Root Mean Square Error (RMSE). A smaller value of `sigma` will make the
-#' Bayesian analysis give more weight to models with lower RMSE values.
+#' @param sigma Numeric value (optional). A single value or vector of error terms
+#' the same length as y. A single value will apply a constant error term. User
+#' can provide a vector of error terms to incorporate time-varying error
+#' to the RMSE calculation. `sigma` default assume homoscedasticity of residuals
+#' and applies a constant error term equal to the standard deviation of observed
+#' data (scoring criterion).
+#' @param sensitivity A multiplier that adjusts the sensitivity of the likelihood
+#' values to increasing RMSE. If not provided, the function will automatically
+#' calculate the sensitivity as one unit of standard deviation of the RMSE results.
+#' A smaller sensitivity value will make the Bayesian analysis give more weight
+#' to models with lower RMSE values.
 #'
 #' @note Note: In Bayesian statistics, the choice of `sigma` can significantly
 #' impact the results and conclusions of the analysis. Users are encouraged to
@@ -28,7 +34,7 @@
 #'
 #' @examples
 #' # creating sample matrix
-#' mat <- matrix(data = 1:15, nrow = 5, ncol = 3)
+#' mat <- matrix(data = 1:20, nrow = 5, ncol = 4)
 #'
 #' # scoring with a decay rate of 2
 #' score_bayesian(mat, sensitivity = 2)
@@ -40,7 +46,7 @@ score_bayesian <- function(m,
 
   # Stop execution if number of columns in the matrix is less than 2
   # indicates that there is only one model result stored in matrix
-  stopifnot("More than 2 columns must be included in input matrix" = ncol(m) > 2)
+  stopifnot("More than 3 columns must be included in input matrix" = ncol(m) > 3)
 
   # indicate that observed data are in the first column of the matrix
   obs_data <- m[, 1]
@@ -54,7 +60,7 @@ score_bayesian <- function(m,
     sigma <- sd(obs_data)
   }
 
-  # loop across columns of the matrix. For each column (i) after col 2
+  # loop across columns of the matrix. For each column (i) starting with col 2
   for (i in 2:ncol(m)) {
     # indicate modeled data are in subsequent columns
     model_data <- m[, i]
@@ -70,6 +76,11 @@ score_bayesian <- function(m,
     rmse_vector[i] <- rmse_vals
   }
 
+  # Check if sensitivity is negative, if so throw error
+  if (any(!is.na(sensitivity) &
+          (sensitivity < 0)))
+    stop("Sensitivity cannot be negative.")
+
   # Compute likelihood sensitivity using multiplier provided by the user
   if (is.null(sensitivity)) {
     sensitivity_value <-
@@ -79,12 +90,10 @@ score_bayesian <- function(m,
       stop("Sensitivity must be a single value.")
     sensitivity_value <- sensitivity * sd(rmse_vector, na.rm = TRUE)
   }
-
-
-  # Check if sensitivity is negative, if so throw error
-  if (any(!is.na(sensitivity) &
-          (sensitivity < 0)))
-    stop("Sensitivity cannot be negative.")
+  if (!is.na(sensitivity_value) && sensitivity_value == 0) {
+    likelihood <- rep(1, length(rmse_vector[-1]))
+    return(likelihood)
+  }
 
   # Compute likelihood using normal distribution likelihood function.
   # This is the probability of observing the modeled data given the
@@ -98,7 +107,7 @@ score_bayesian <- function(m,
   # Currently only computing posterior scores using uniform prior.
   # uniform prior is calculated as 1/length(likelihood) which is
   # the same as 1 / # of runs.
- # posterior <-
+  # posterior <-
   #  likelihood * (1 / length(likelihood)) ### DONT THINK THIS IS A NECESSARY STEP MAY JUST WANT TO RETURN "LIKELIHOOD" ###
 
   # Create data frame of results - get run_numbers from the list where RMSE values

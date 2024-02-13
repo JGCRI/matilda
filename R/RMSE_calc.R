@@ -8,7 +8,9 @@
 #' @param sigma A single value or vector of error terms the same length as y.
 #' A single value will apply a constant error term. User can provide a vector
 #' of error terms to incorporate time-varying error into the RMSE calculation.
-#'
+#' `sigma` default assume homoscedasticity of residuals and applies a constant
+#' error term equal to the standard deviation of observed data (scoring criterion).
+
 #' @return Returns a vector of RMSE values
 #' @export
 #'
@@ -16,7 +18,6 @@
 #' x <- c(1:5)
 #' y <- c(5:9)
 #'
-#' # constant error
 #' RMSE_calc(x, y)
 RMSE_calc <- function(x, y, sigma = sd(y)) {
   # Check if all values are NA
