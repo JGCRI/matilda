@@ -10,11 +10,17 @@
 #' @param m A Matrix of values. The first column of the matrix should be
 #' a vector of observed data for a give variable. Subsequent vectors should be
 #' representative of modeled values for a given variable.
-#' @param sigma Numeric value (optional). The standard deviation parameter for
-#' the normal distribution used in the Bayesian analysis. If not provided, the
-#' function will automatically compute it as the standard deviation of the
-#' Root Mean Square Error (RMSE). A smaller value of `sigma` will make the
-#' Bayesian analysis give more weight to models with lower RMSE values.
+#' @param sigma Numeric value (optional). A single value or vector of error terms
+#' the same length as y. A single value will apply a constant error term. User
+#' can provide a vector of error terms to incorporate time-varying error
+#' to the RMSE calculation. `sigma` default assume homoscedasticity of residuals
+#' and applies a constant error term equal to the standard deviation of observed
+#' data (scoring criterion).
+#' @param sensitivity A multiplier that adjusts the sensitivity of the likelihood
+#' values to increasing RMSE. If not provided, the function will automatically
+#' calculate the sensitivity as one unit of standard deviation of the RMSE results.
+#' A smaller sensitivity value will make the Bayesian analysis give more weight
+#' to models with lower RMSE values.
 #'
 #' @note Note: In Bayesian statistics, the choice of `sigma` can significantly
 #' impact the results and conclusions of the analysis. Users are encouraged to

@@ -4,12 +4,18 @@
 \alias{RMSE_calc}
 \title{Calculating Root Mean Square Error (RMSE)}
 \usage{
-RMSE_calc(x, y)
+RMSE_calc(x, y, sigma = sd(y))
 }
 \arguments{
 \item{x}{A vector of modeled data values}
 
 \item{y}{A vector of observed data values}
+
+\item{sigma}{A single value or vector of error terms the same length as y.
+A single value will apply a constant error term. User can provide a vector
+of error terms to incorporate time-varying error into the RMSE calculation.
+`sigma` default assume homoscedasticity of residuals and applies a constant
+error term equal to the standard deviation of observed data (scoring criterion).}
 }
 \value{
 Returns a vector of RMSE values
