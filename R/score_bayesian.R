@@ -40,7 +40,7 @@ score_bayesian <- function(m,
 
   # Stop execution if number of columns in the matrix is less than 2
   # indicates that there is only one model result stored in matrix
-  stopifnot("More than 2 columns must be included in input matrix" = ncol(m) > 2)
+  stopifnot("More than 2 columns must be included in input matrix" = ncol(m) > 3)
 
   # indicate that observed data are in the first column of the matrix
   obs_data <- m[, 1]
@@ -54,7 +54,7 @@ score_bayesian <- function(m,
     sigma <- sd(obs_data)
   }
 
-  # loop across columns of the matrix. For each column (i) after col 2
+  # loop across columns of the matrix. For each column (i) starting with col 2
   for (i in 2:ncol(m)) {
     # indicate modeled data are in subsequent columns
     model_data <- m[, i]
