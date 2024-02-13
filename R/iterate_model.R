@@ -147,16 +147,16 @@ iterate_model <- function(core, params, save_years = NULL, save_vars = NULL) {
       },
       # if Hector crashes because of parameter combinations, send error message
       error = function(e) {
-        message("An error occurred")
+        message("An error occurred", i)
       }
     )
 
     # Create a placeholder dataframe for the run if there's no data collected
     if (length(result_list) < i) {
       dat <- data.frame(
-        scenario = core$name,
+        scenario = rep(core$name, each = length(save_years)),
         year = save_years,
-        variable = save_vars,
+        variable = rep(save_vars, each = length(save_years)),
         value = NA,
         units = NA,
         run_number = i

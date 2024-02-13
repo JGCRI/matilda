@@ -4,18 +4,25 @@
 \alias{score_bayesian}
 \title{Computing Model Scores as Posterior Probabilities using Bayesian Inference}
 \usage{
-score_bayesian(m, sigma = NULL)
+score_bayesian(m, sigma = NULL, sensitivity = NULL)
 }
 \arguments{
 \item{m}{A Matrix of values. The first column of the matrix should be
 a vector of observed data for a give variable. Subsequent vectors should be
 representative of modeled values for a given variable.}
 
-\item{sigma}{Numeric value (optional). The standard deviation parameter for
-the normal distribution used in the Bayesian analysis. If not provided, the
-function will automatically compute it as the standard deviation of the
-Root Mean Square Error (RMSE). A smaller value of `sigma` will make the
-Bayesian analysis give more weight to models with lower RMSE values.}
+\item{sigma}{Numeric value (optional). A single value or vector of error terms
+the same length as y. A single value will apply a constant error term. User
+can provide a vector of error terms to incorporate time-varying error
+to the RMSE calculation. `sigma` default assume homoscedasticity of residuals
+and applies a constant error term equal to the standard deviation of observed
+data (scoring criterion).}
+
+\item{sensitivity}{A multiplier that adjusts the sensitivity of the likelihood
+values to increasing RMSE. If not provided, the function will automatically
+calculate the sensitivity as one unit of standard deviation of the RMSE results.
+A smaller sensitivity value will make the Bayesian analysis give more weight
+to models with lower RMSE values.}
 }
 \value{
 Returns a vector of scores with a length equal to the number of
@@ -38,8 +45,8 @@ specific use case.
 }
 \examples{
 # creating sample matrix
-mat <- matrix(data = 1:15, nrow = 5, ncol = 3)
+mat <- matrix(data = 1:20, nrow = 5, ncol = 4)
 
 # scoring with a decay rate of 2
-score_bayesian(mat, sigma = 2)
+score_bayesian(mat, sensitivity = 2)
 }

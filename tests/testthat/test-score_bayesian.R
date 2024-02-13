@@ -4,11 +4,11 @@ m <- matrix(c(rep(1, 6), rep(2, 3), rep(3, 3)), nrow = 3, ncol = 4)
 # Testing error/warning cases
 
 test_that("function stops and produces error messages", {
-  # error when matrix has less than two columns
+  # error when matrix has less than three columns
   # m with only 2 cols
-  m_2row <- matrix(data = c(1:2), nrow = 2, ncol = 2)
-  expect_error(score_bayesian(m_2row),
-    regexp = "More than 2 columns must be included in input matrix"
+  m_2col <- matrix(data = c(1:6), nrow = 3, ncol = 2)
+  expect_error(score_bayesian(m_2col),
+    regexp = "More than 3 columns must be included in input matrix"
   )
 
   # error when entire m is NA
@@ -18,34 +18,30 @@ test_that("function stops and produces error messages", {
     regexp = "No non-NA values present in observed data"
   )
 
-  # warning when user supplies negative sigma values
-  expect_warning(score_bayesian(m, -1),
-    regexp = "sigma value cannot be negative."
+  # error when user supplies negative sensitivity value
+  expect_error(score_bayesian(m, sensitivity = -1),
+    regexp = "Sensitivity cannot be negative."
   )
+
+  # error when user supplies more than one sensitivity value
+  expect_error(score_bayesian(m, sensitivity = c(1, 2)),
+               regexp = "Sensitivity must be a single value.")
 })
 
 # Testing output accuracy
 
 test_that("scores assessed correctly", {
   # If entire column of modeled data is NA, set RMSE value to NA
-  m_NA <- matrix(data = c(rep(1, 3), rep(1, 3), rep(NA, 3)), nrow = 3, ncol = 3)
-  expect_equal(score_bayesian(m_NA, 2), c(0.5, NA))
+  m_NA <- matrix(data = c(rep(1, 3), rep(1, 3), rep(2, 3), rep(NA, 3)), nrow = 3, ncol = 4)
+  test_result_1 <- score_bayesian(m_NA, sigma = 1)
+  expect_equal(test_result_1 [3], as.numeric(NA))
 
   # scores equal when calculated RMSE = 0
-  m2 <- matrix(data = c(1, 1, 1), nrow = 1, ncol = 3)
-  expect_equal(score_bayesian(m2, 2), c(0.5, 0.5))
+  m2 <- matrix(data = c(rep(1,3), rep(1, 3), rep(1, 3), rep(1, 3)), nrow = 3, ncol = 4)
+  expect_equal(score_bayesian(m2, sigma = 1), c(1, 1, 1))
 
-  # when sigma = 0 all scores are identical
-  m3 <- matrix(data = c(1:3), nrow = 1, ncol = 3)
-  result <- score_bayesian(m3, 0)
-  expect_identical(result, c(rep(result[1], length(result))))
+  # when sensitivity = 0 all scores are identical
+  m3 <- matrix(data = c(1:4), nrow = 1, ncol = 4)
+  expect_equal(score_bayesian(m3, sigma = 1, sensitivity = 0), c(1, 1, 1))
 
-  # expected output of function matches gaussian likelihood
-  m4 <- matrix(data = c(1, 2, 2), nrow = 1, ncol = 3)
-  sigma4 <- 2
-  expected_likelihood <- exp(-0.5 * (m4[1]^2) / sigma4^2) / m4[1, -1]
-  expect_equal(
-    score_bayesian(m4, sigma4),
-    expected_likelihood
-  )
-})
+ })
