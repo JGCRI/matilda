@@ -20,7 +20,7 @@
 set_params <- function(core, param_values) {
   # If parameters values are not numeric - stop and send error
   if (length(param_values) == 0) {
-    warning("no parameters")
+    matilda_warning("no parameters")
     return()
   }
 
@@ -43,7 +43,7 @@ set_params <- function(core, param_values) {
     var_units <- getunits(var)
 
     # send a message for what each var is being set to
-    message("setting ", var, " to ", param_values[i])
+    matilda_message("setting ", var, " to ", param_values[i])
 
     # set variables to be passed to
     setvar(core, NA, var = var, values = param_values[i], unit = var_units)
