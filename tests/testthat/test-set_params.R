@@ -4,6 +4,9 @@ y <- c("BETA" = 1, "Q10_RH" = 2)
 # core
 core <- newcore(system.file("input/hector_ssp245.ini", package = "hector"))
 
+# set verbose option to TRUE
+options(matilda.verbose = TRUE)
+
 # Checking message printed - may not be necessary
 test_that("function returns message", {
   expect_message(set_params(
