@@ -1,10 +1,17 @@
-# Quiet messages
-
 # Set an option to control whether messages and warning are suppressed.
 # Defaults to verbose messaging.
 options("matilda.verbose" = FALSE)
 
-# Function to suppress messages
+# Quiet messages
+
+#' Suppressing messages in Matilda functions
+#'
+#' @param ...
+#'
+#' @return
+#' @export
+#'
+#' @examples
 matilda_message <- function(...) {
 
   # Get the current verbose option setting
@@ -21,7 +28,14 @@ matilda_message <- function(...) {
 
 # Quiet warnings
 
-# Function to suppress messages
+#' Suppressing warnings in Matilda functions
+#'
+#' @param ...
+#'
+#' @return
+#' @export
+#'
+#' @examples
 matilda_warning <- function(...) {
 
   # Get the current verbose option setting
