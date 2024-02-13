@@ -31,6 +31,7 @@ the \code{\link{generate_params}} function. Output of model iterations will
 be filtered according to metric information.
 }
 \examples{
+options("matilda.verbose" = TRUE)
 # Load scenario file and initiate a new Hector core
 ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
 core <- newcore(ssp245)
