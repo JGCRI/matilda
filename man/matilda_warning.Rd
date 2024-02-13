@@ -7,7 +7,7 @@
 matilda_warning(...)
 }
 \arguments{
-\item{...}{}
+\item{...}{Warning to print if verbosity option is set to TRUE.}
 }
 \description{
 Suppressing warnings in Matilda functions

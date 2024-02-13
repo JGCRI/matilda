@@ -7,7 +7,7 @@
 matilda_message(...)
 }
 \arguments{
-\item{...}{}
+\item{...}{Message to print if verbosity option is set to TRUE.}
 }
 \description{
 Suppressing messages in Matilda functions
