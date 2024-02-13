@@ -37,6 +37,10 @@ First, load the `matilda` package
 library(matilda)
 ```
 
+```{r, echo=FALSE}
+options("matilda.verbose" = FALSE)
+```
+
 Next, we will initialize a "core" for a new Hector instance. 
 More information about establishing a new core for running Hector can be found in the tutorial for using the [Hector R interface](https://jgcri.github.io/hector/articles/intro-to-hector.html).
 
@@ -80,7 +84,7 @@ The `iterate_model()` runs Hector multiple times, setting new parameter values w
 
 Running `iterate_model()` requires a Hector core and a data frame of parameter values.
 
-```{r, message=FALSE}
+```{r}
 # Run Hector repeatedly over all parameter values
 results <- iterate_model(
   core = c_ssp245,
