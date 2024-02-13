@@ -28,7 +28,7 @@
 #'
 #' @examples
 #' # creating sample matrix
-#' mat <- matrix(data = 1:15, nrow = 5, ncol = 3)
+#' mat <- matrix(data = 1:20, nrow = 5, ncol = 4)
 #'
 #' # scoring with a decay rate of 2
 #' score_bayesian(mat, sensitivity = 2)
@@ -40,7 +40,7 @@ score_bayesian <- function(m,
 
   # Stop execution if number of columns in the matrix is less than 2
   # indicates that there is only one model result stored in matrix
-  stopifnot("More than 2 columns must be included in input matrix" = ncol(m) > 3)
+  stopifnot("More than 3 columns must be included in input matrix" = ncol(m) > 3)
 
   # indicate that observed data are in the first column of the matrix
   obs_data <- m[, 1]
@@ -70,6 +70,11 @@ score_bayesian <- function(m,
     rmse_vector[i] <- rmse_vals
   }
 
+  # Check if sensitivity is negative, if so throw error
+  if (any(!is.na(sensitivity) &
+          (sensitivity < 0)))
+    stop("Sensitivity cannot be negative.")
+
   # Compute likelihood sensitivity using multiplier provided by the user
   if (is.null(sensitivity)) {
     sensitivity_value <-
@@ -79,12 +84,10 @@ score_bayesian <- function(m,
       stop("Sensitivity must be a single value.")
     sensitivity_value <- sensitivity * sd(rmse_vector, na.rm = TRUE)
   }
-
-
-  # Check if sensitivity is negative, if so throw error
-  if (any(!is.na(sensitivity) &
-          (sensitivity < 0)))
-    stop("Sensitivity cannot be negative.")
+  if (!is.na(sensitivity_value) && sensitivity_value == 0) {
+    likelihood <- rep(1, length(rmse_vector[-1]))
+    return(likelihood)
+  }
 
   # Compute likelihood using normal distribution likelihood function.
   # This is the probability of observing the modeled data given the
