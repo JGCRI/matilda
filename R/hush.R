@@ -6,7 +6,7 @@ options("matilda.verbose" = FALSE)
 
 #' Suppressing messages in Matilda functions
 #'
-#' @param ...
+#' @param ... Message to print if verbosity option is set to TRUE.
 #'
 #' @export
 #'
@@ -28,7 +28,7 @@ matilda_message <- function(...) {
 
 #' Suppressing warnings in Matilda functions
 #'
-#' @param ...
+#' @param ... Warning to print if verbosity option is set to TRUE.
 #'
 #' @export
 #'
