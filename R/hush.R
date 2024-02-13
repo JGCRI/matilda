@@ -8,10 +8,8 @@ options("matilda.verbose" = FALSE)
 #'
 #' @param ...
 #'
-#' @return
 #' @export
 #'
-#' @examples
 matilda_message <- function(...) {
 
   # Get the current verbose option setting
@@ -32,10 +30,8 @@ matilda_message <- function(...) {
 #'
 #' @param ...
 #'
-#' @return
 #' @export
 #'
-#' @examples
 matilda_warning <- function(...) {
 
   # Get the current verbose option setting
