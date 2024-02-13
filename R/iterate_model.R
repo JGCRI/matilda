@@ -95,6 +95,7 @@ metric_calc_1run <- function(x, metric) {
 #' @export
 #'
 #' @examples
+#' options("matilda.verbose" = TRUE)
 #' # Load scenario file and initiate a new Hector core
 #' ssp245 <- system.file("input/hector_ssp245.ini", package = "hector")
 #' core <- newcore(ssp245)
