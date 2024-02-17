@@ -13,7 +13,7 @@ options(matilda.verbose = TRUE)
 matilda_message <- function(...) {
 
   # Get the current verbose option setting
-  verbose <- getOption(matilda.verbose, default = TRUE)
+  verbose <- getOption("matilda.verbose", default = TRUE)
 
   # Check if verbose
   if (verbose) {
@@ -35,7 +35,7 @@ matilda_message <- function(...) {
 matilda_warning <- function(...) {
 
   # Get the current verbose option setting
-  verbose <- getOption(matilda.verbose, default = TRUE)
+  verbose <- getOption("matilda.verbose", default = TRUE)
 
   # Check if verbose
   if (verbose) {
