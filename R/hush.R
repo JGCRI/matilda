@@ -1,6 +1,6 @@
 # Set an option to control whether messages and warning are suppressed.
 # Defaults to verbose messaging.
-options("matilda.verbose" = TRUE)
+options(matilda.verbose = TRUE)
 
 # Quiet messages
 
@@ -13,7 +13,7 @@ options("matilda.verbose" = TRUE)
 matilda_message <- function(...) {
 
   # Get the current verbose option setting
-  verbose <- getOption("matilda.verbose", default = TRUE)
+  verbose <- getOption(matilda.verbose, default = TRUE)
 
   # Check if verbose
   if (verbose) {
@@ -35,7 +35,7 @@ matilda_message <- function(...) {
 matilda_warning <- function(...) {
 
   # Get the current verbose option setting
-  verbose <- getOption("matilda.verbose", default = TRUE)
+  verbose <- getOption(matilda.verbose, default = TRUE)
 
   # Check if verbose
   if (verbose) {
