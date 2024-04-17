@@ -60,9 +60,12 @@ multi_criteria_weighting <- function(scores_list, criterion_weights = NULL) {
   # normalize the combined weights to sum to 1
   normalized_combined_scores <- combined_scores / sum(combined_scores)
 
+  # extract run_numbers from one of the data frames in scores_list
+  run_numbers <- scores_list[[1]]$run_number
+
   # return a df with run number and normalized multi-criteria weights
   return(data.frame(
-    run_number = 1:length(normalized_combined_scores),
+    run_number = run_numbers,
     mc_weight = normalized_combined_scores
   ))
 }
