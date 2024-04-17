@@ -36,7 +36,7 @@ metric_calc <- function(x, metric) {
   df <- as.data.frame(metric_result)
 
   # producing run numbers
-  run_number <- 1:nrow(df)
+  run_number <- unique(x$run_number)
 
   # Adding cols for run_number
   df$run_number <- run_number
