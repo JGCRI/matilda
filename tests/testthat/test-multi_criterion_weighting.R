@@ -1,7 +1,10 @@
 # Sample data
-score_df1 <- data.frame(weights = c(0.6, 0.4))
-score_df2 <- data.frame(weights = c(0.5, 0.5))
-score_df3 <- data.frame(weights = c(0.9, 0.1))
+score_df1 <- data.frame(run_number = c(1, 2),
+                        weights = c(0.6, 0.4))
+score_df2 <- data.frame(run_number = c(1, 2),
+                        weights = c(0.5, 0.5))
+score_df3 <- data.frame(run_number = c(1, 2),
+                        weights = c(0.9, 0.1))
 
 # Sample lists
 L1 <- list()

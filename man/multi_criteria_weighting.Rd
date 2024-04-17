@@ -23,9 +23,9 @@ Weighting ensemble members using multiple criterion
 }
 \examples{
 # Data frames representing scored ensemble using different scoring criterion
-score_df1 <- data.frame(weights = c(0.8, 0.6, 0.9))
-score_df2 <- data.frame(weights = c(0.7, 0.5, 0.8))
-score_df3 <- data.frame(weights = c(0.9, 0.8, 0.7))
+score_df1 <- data.frame(run_number = c(1, 2, 3), weights = c(0.8, 0.6, 0.9))
+score_df2 <- data.frame(run_number = c(1, 2, 3), weights = c(0.7, 0.5, 0.8))
+score_df3 <- data.frame(run_number = c(1, 2, 3), weights = c(0.9, 0.8, 0.7))
 
 # List of score data frames
 scores_list <- list(score_df1, score_df2, score_df3)
