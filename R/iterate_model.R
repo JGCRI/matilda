@@ -123,9 +123,11 @@ iterate_model <- function(core, params, save_years = NULL, save_vars = NULL) {
       single_param_vals <- params[i, ]
       single_param_vals <- setNames(single_param_vals, colnames(params))
       set_params(core, single_param_vals)
+
     } else {
       params_i <- unlist(params[i, ])
       set_params(core, params_i)
+
     }
 
     tryCatch(
@@ -148,16 +150,16 @@ iterate_model <- function(core, params, save_years = NULL, save_vars = NULL) {
       },
       # if Hector crashes because of parameter combinations, send error message
       error = function(e) {
-        message("An error occurred", i)
+        message("An error occurred run_number: ", i)
       }
     )
 
     # Create a placeholder dataframe for the run if there's no data collected
     if (length(result_list) < i) {
       dat <- data.frame(
-        scenario = rep(core$name, each = length(save_years)),
-        year = save_years,
-        variable = rep(save_vars, each = length(save_years)),
+        scenario = core$name,
+        year = NA,
+        variable = NA,
         value = NA,
         units = NA,
         run_number = i
