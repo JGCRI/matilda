@@ -50,6 +50,9 @@ score_runs <- function(x, criterion, score_function, ...) {
     stop("criterion year and variable combination not represented in data")
   }
 
+  # retains run_number from x
+  run_numbers <- unique(x_subset$run_number)
+
   # converts x_subset to matrix - columns are vectors of values for each model iteration
   model_matrix <- hector_matrix(x_subset, columns = "value")
 
@@ -69,6 +72,6 @@ score_runs <- function(x, criterion, score_function, ...) {
 
   return(data.frame(
     weights = score_norm,
-    run_number = 1:length(scores)
+    run_number = run_numbers
   ))
 }
