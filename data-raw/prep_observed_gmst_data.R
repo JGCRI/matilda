@@ -1,11 +1,12 @@
-## code to prepare 'adjusted_gmst_data'
+## code to prepare 'observed_gmst_data'
 
 ## HADCRUT data as observed temperature anomaly values for scoring Hector runs.
-## Temperature anomaly data were downloaded on 05/22/2023 from
-## https://www.metoffice.gov.uk/hadobs/hadcrut5/data/current/download.html
+## Morice et al. 2021. An updated assessment of near-surface temperature change from 1850: the HadCRUT5 data set. Journal of Geophysical Research.
+## Downloaded 05/22/2023
+## Accessed from: https://www.metoffice.gov.uk/hadobs/hadcrut5/data/current/download.html
 
 # Reading in HADCRUT5 global temperature anomaly data
-observed_data_gmst <- read.csv("data-raw/temp_anomaly_annmean_hadcrut5.csv")
+observed_data_gmst <- read.csv("data-raw/gmst_hadcrut5_raw.csv")
 
 # rename 'anomaly' to anomaly_C' to give unit information
 colnames(observed_data_gmst)[colnames(observed_data_gmst) == "anomaly"] <- "temperature_C"
@@ -51,7 +52,4 @@ normalize_temperature <- function(observed_data, modeled_data, reference_start_y
 }
 
 # producing adjusted gmst values using a hector result
-adjusted_gmst_data <- normalize_temperature(subset_observed_gmst, matilda:::hector_result, 1961, 1990)
-
-# Add observed gmst data (adjusted) for internal use
-usethis::use_data(adjusted_gmst_data, observed_data_co2, overwrite = TRUE, internal = TRUE)
+observed_gmst_data <- normalize_temperature(subset_observed_gmst, matilda:::hector_result, 1961, 1990)
