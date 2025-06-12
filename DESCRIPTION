@@ -1,19 +1,27 @@
 Package: matilda
 Type: Package
 Title: A Probabilistic Framework for the Hector Simple Climate Model
-Version: 0.1.0
-Author: c(person("Joseph", "Brown",
-    email = "joseph.brown@pnnl.gov",
-    role = "aut",
-    comment = c(ORCID = "0000-0002-3828-4729")),
+Version: 1.0.0
+Author@R: c(
+    person("Joseph", "Brown",
+        email = "joseph.brown@pnnl.gov",
+        role = c("aut", "cre"),
+        comment = c(ORCID = "0000-0002-3828-4729")),
     person("Ben", "Bond-Lamberty",
-    email = "bondlamberty@pnnl.gov",
-    role = "aut",
-    comment = c(ORCID = "0000-0001-9525-4633")),
-    person("Leeya", "Pressburger")
-    email = "leeya.pressburger@pnnl.gov",
-    role = "aut",
-    comment = c(ORCID = "0000-0002-6850-2504")))
+        email = "bondlamberty@pnnl.gov",
+        role = "aut",
+        comment = c(ORCID = "0000-0001-9525-4633")),
+    person("Leeya", "Pressburger",
+        email = "leeya.pressburger@pnnl.gov",
+        role = "aut",
+        comment = c(ORCID = "0000-0002-6850-2504")),
+    person("Kalyn", "Dorheim",
+        email = "kalyn.dorheim@pnnl.gov",
+        role = "ctb",
+        comment = c(ORCID = "0000-0001-8093-8397")),
+    person("Melat", "Ghebreselassie",
+        role = "ctb")
+)
 Maintainer: Joseph Brown <joseph.brown@pnnl.gov>
 Description: Provides a probabilistic framework for climate variable projections
     using the Hector simple climate model. Using this framework you can change 
