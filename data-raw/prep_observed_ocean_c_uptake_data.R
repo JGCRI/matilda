@@ -14,7 +14,7 @@ names(observed_data_ocean)[names(observed_data_ocean) == "Year"] <- "year"
 names(observed_data_ocean)[names(observed_data_ocean) == "ocean_sink"] <- "ocean_uptake"
 
 # Subset to retain only relevant columns
-observed_data_ocean <- observed_data_ocean[,c("year", "ocean_uptake")]
+observed_ocean_c_uptake_data <- observed_data_ocean[,c("year", "ocean_uptake")]
 
 # Remove any rows with missing data
-observed_data_ocean <- na.omit(observed_data_ocean)
+observed_ocean_c_uptake_data <- na.omit(observed_ocean_c_uptake_data)
