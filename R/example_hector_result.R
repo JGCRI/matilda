@@ -4,7 +4,7 @@
 #' a single hector. The model results include the GMST() Hector variable for
 #' the years 1745:2300.
 #'
-#' @format \code{hector_result} {is a data frame with 556 rows and 5 columns:}
+#' @format hector_result is a data frame with 556 rows and 5 columns:
 #' \describe{
 #'   \item{scenario}{Scenario being used for the analysis}
 #'   \item{year}{Years}

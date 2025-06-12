@@ -5,7 +5,7 @@
 \alias{hector_result}
 \title{Example Hector result data}
 \format{
-\code{hector_result} {is a data frame with 556 rows and 5 columns:}
+hector_result is a data frame with 556 rows and 5 columns:
 \describe{
   \item{scenario}{Scenario being used for the analysis}
   \item{year}{Years}

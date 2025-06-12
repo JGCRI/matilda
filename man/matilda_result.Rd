@@ -5,7 +5,7 @@
 \alias{matilda_result}
 \title{Example Matilda result data}
 \format{
-\code{matilda_result} {is a data frame with 2820 rows and 6 columns:}
+matilda_result is a data frame with 2820 rows and 6 columns:
 \describe{
   \item{scenario}{Scenario being used for the analysis}
   \item{year}{Years}

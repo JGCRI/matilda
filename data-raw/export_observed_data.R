@@ -8,4 +8,3 @@ usethis::use_data(observed_gmst_data,
                   observed_co2_data,
                   observed_ocean_c_uptake_data,
                   overwrite = TRUE, internal = TRUE)
-
