@@ -84,9 +84,10 @@ is.criterion <- function(x) {
 #' @examples
 #' criterion_co2_obs()
 criterion_co2_obs <- function() {
+  get("observed_co2_data", envir = asNamespace("matilda"))
   new_criterion(CONCENTRATIONS_CO2(),
-    years = observed_data_co2$year,
-    obs_values = observed_data_co2$co2_ppm
+    years = observed_co2_data$year,
+    obs_values = observed_co2_data$co2_ppm
   )
 }
 
@@ -105,8 +106,30 @@ criterion_co2_obs <- function() {
 #' @examples
 #' criterion_gmst_obs()
 criterion_gmst_obs <- function() {
+  get("observed_gmst_data", envir = asNamespace("matilda"))
   new_criterion(GMST(),
-    years = adjusted_gmst_data$year,
-    obs_values = adjusted_gmst_data$anomaly_C
+    years = observed_gmst_data$year,
+    obs_values = observed_gmst_data$anomaly_C
+  )
+}
+
+
+#' Screening criterion using Global Carbon Project ocean carbon uptake
+#'
+#' @description This is a criterion identifier for screening Hector runs using
+#' observed ocean carbon uptake from the Global Carbon Project's 2023 Global Carbon Budget.
+#'
+#' @return A criterion identifier using GCP ocean carbon uptake
+#' @note This function uses ocean carbon uptake data from
+#' \href{ https://globalcarbonbudgetdata.org/latest-data.html}{ https://globalcarbonbudgetdata.org/latest-data.html}
+#' @export
+#'
+#' @examples
+#' criterion_ocean_c_uptake_obs()
+criterion_ocean_c_uptake_obs <- function() {
+  get("observed_ocean_c_uptake_data", envir = asNamespace("matilda"))
+  new_criterion(GMST(),
+                years = observed_ocean_c_uptake_data$year,
+                obs_values = observed_ocean_c_uptake_data$ocean_uptake
   )
 }
