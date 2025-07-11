@@ -7,7 +7,7 @@
 #' This ensures that data being saved from the core includes the data needed to
 #' score the Hector runs.
 #'
-#' @format \code{matilda_result} {is a data frame with 2820 rows and 6 columns:}
+#' @format matilda_result is a data frame with 2820 rows and 6 columns:
 #' \describe{
 #'   \item{scenario}{Scenario being used for the analysis}
 #'   \item{year}{Years}
