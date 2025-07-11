@@ -285,7 +285,7 @@ plot_co2 <- ggplot(subset(
   scale_color_gradient(high = "dodgerblue4", low = "lightblue1") +
   scale_alpha_continuous(range = c(0.1, 1)) +
   geom_line(
-    data = matilda:::observed_data_co2,
+    data = matilda:::observed_co2_data,
     aes(year, co2_ppm),
     color = "red",
     linewidth = 1
