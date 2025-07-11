@@ -128,7 +128,7 @@ criterion_gmst_obs <- function() {
 #' criterion_ocean_c_uptake_obs()
 criterion_ocean_c_uptake_obs <- function() {
   get("observed_ocean_c_uptake_data", envir = asNamespace("matilda"))
-  new_criterion(GMST(),
+  new_criterion(OCEAN_UPTAKE(),
                 years = observed_ocean_c_uptake_data$year,
                 obs_values = observed_ocean_c_uptake_data$ocean_uptake
   )
