@@ -1,7 +1,7 @@
 Package: matilda
 Type: Package
 Title: A Probabilistic Framework for the Hector Simple Climate Model
-Version: 1.0.0
+Version: 1.0.99999
 Authors@R: c(
     person("Joseph", "Brown",
         email = "joseph.brown@pnnl.gov",
